@@ -1,68 +1,179 @@
-# KisanSathi 🌱
+<div align="center">
 
-> **Har kisan ka saccha sathi.**
+# 🌱 KisanSathi
 
-An ultra-premium, AI-powered Agritech SaaS platform designed to empower farmers with real-time machine learning insights. KisanSathi bridges the gap between advanced agricultural science and everyday farming by offering instant crop disease diagnosis, dynamic fertilizer recommendations, and an intelligent voice-enabled AI assistant.
+### *Har kisan ka saccha sathi.*
+
+**An ultra-premium, AI-powered Agritech SaaS platform** bridging the gap between advanced agricultural science and everyday farming — offering instant crop disease diagnosis, dynamic fertilizer recommendations, and an intelligent voice-enabled AI assistant.
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-4CAF50?style=for-the-badge)](https://kisan-sathi-app-kappa.vercel.app/)
+[![Backend API](https://img.shields.io/badge/⚙️_Backend_API-Render-46E3B7?style=for-the-badge)](https://kisan-sathi-app-0lvb.onrender.com/)
+
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-Build-646CFF?style=flat-square&logo=vite&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=flat-square&logo=fastapi&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-DeepLearning-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
+![Scikit--Learn](https://img.shields.io/badge/Scikit--Learn-ML-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini-1.5_Pro-8E75B2?style=flat-square&logo=googlegemini&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-success?style=flat-square)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [About](#-about)
+- [Live Demo](#-live-demo)
+- [Screenshots](#-screenshots)
+- [Features](#-features)
+- [Technology Stack](#️-technology-stack)
+- [System Architecture](#️-system-architecture)
+- [Project Structure](#-project-structure)
+- [Setup & Installation](#-setup--installation)
+- [Environment Variables](#-environment-variables)
+- [API Endpoints](#-api-endpoints)
+- [Machine Learning Models](#-machine-learning-models)
+- [Roadmap](#️-roadmap)
+- [Known Limitations](#-known-limitations)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 📖 About
+
+**KisanSathi** is a full-stack Agritech platform built to put AI-powered crop intelligence directly into the hands of farmers. Instead of relying on guesswork or delayed expert visits, farmers get **instant, data-backed answers** — from diagnosing a diseased leaf photo in seconds to calculating the exact kilograms of fertilizer their soil needs.
+
+The platform combines **computer vision**, **classical ML**, and **generative AI** into a single, elegant interface — designed to feel less like a government portal and more like a premium consumer product.
+
+> Built as a demonstration of end-to-end AI product engineering: model training → API design → production deployment → polished UX.
+
+---
+
+## 🔗 Live Demo
+
+| Layer | URL | Status |
+|---|---|---|
+| 🌐 **Frontend** | [kisan-sathi-app-kappa.vercel.app](https://kisan-sathi-app-kappa.vercel.app/) | Deployed on Vercel |
+| ⚙️ **Backend API** | [kisan-sathi-app-0lvb.onrender.com](https://kisan-sathi-app-0lvb.onrender.com/) | Deployed on Render |
+
+> ⚠️ **Cold Start Notice:** The backend runs on Render's free tier, which spins down after periods of inactivity. If AI features (disease detection, fertilizer calculator, or chatbot) feel unresponsive on first load, wait **30–60 seconds** for the server to spin back up and try again.
 
 ---
 
 ## 📸 Screenshots
 
-*(Replace the placeholder URLs with actual image paths once uploaded to your repository)*
+<div align="center">
 
 ### Website Hero Section
-![Hero Section Placeholder](path/to/hero-screenshot.png)
+<img src="./assets/screenshots/hero-section.png" width="850"/>
 
-### Website Main Page (Dashboard)
-![Main Page Placeholder](path/to/main-screenshot.png)
+### Dashboard
+<img src="./assets/screenshots/dashboard.png" width="850"/>
 
-### Tech Used
-![Tech Stack Placeholder](path/to/tech-stack-screenshot.png)
+### Smart Fertilizer Calculator
+<img src="./assets/screenshots/fertilizer-calculator.png" width="850"/>
 
-### Workflow Diagram
-![Workflow Diagram Placeholder](path/to/workflow-diagram.png)
+### System Architecture
+<img src="./assets/screenshots/architecture-diagram.png" width="850"/>
+
+</div>
 
 ---
 
 ## ✨ Features
 
-* **Heal Your Crop (AI Diagnosis):** Upload a photo of a diseased leaf. Our PyTorch ResNet18 model will analyze the image, identify the exact disease, and provide both chemical and organic treatment plans instantly.
-* **Smart Fertilizer Calculator:** Input your soil type, crop stage, farm size, and current NPK (Nitrogen, Phosphorus, Potassium) levels. Our Scikit-Learn Random Forest model dynamically calculates the exact kg dosage of Urea, DAP, MOP, and Organic Compost required.
-* **Cultivation Guides:** Step-by-step lifecycle guides for major crops (Tomato, Cotton, Wheat, etc.) outlining sowing, irrigation, and pest control timelines.
-* **Floating AI Assistant:** A localized, context-aware AI chatbot powered by Google's Gemini 1.5 Pro. It understands the context of the page you are on and answers farming questions intelligently.
-* **Ultra-Premium UI:** A stunning, Apple-style "frosted glass" interface featuring a dynamic background, elegant typography, and seamless micro-animations.
+| Feature | Description |
+|---|---|
+| 🩺 **Heal Your Crop (AI Diagnosis)** | Upload a photo of a diseased leaf. A PyTorch ResNet18 model analyzes the image, identifies the exact disease, and returns both chemical and organic treatment plans instantly. |
+| 🧪 **Smart Fertilizer Calculator** | Input soil type, crop stage, farm size, and current NPK levels. A Scikit-Learn Random Forest model dynamically calculates exact kg dosage of Urea, DAP, MOP, and Organic Compost required. |
+| 🌾 **Cultivation Guides** | Step-by-step lifecycle guides for major crops (Tomato, Cotton, Wheat, etc.) covering sowing, irrigation, and pest control timelines. |
+| 💬 **Floating AI Assistant** | A localized, context-aware chatbot powered by Google's Gemini 1.5 Pro — understands the page context and answers farming questions intelligently. |
+| 🎨 **Ultra-Premium UI** | Apple-style "frosted glass" interface with a dynamic background, elegant typography, and seamless micro-animations. |
+| 📱 **Responsive Design** | Fully responsive across desktop, tablet, and mobile viewports for use directly in the field. |
 
 ---
 
 ## 🛠️ Technology Stack
 
-### Frontend
-* **Framework:** React.js (built with Vite)
-* **Styling:** Custom Vanilla CSS replicating utility-class architecture (Glassmorphism, backdrop-blur)
-* **Icons:** Lucide React
-* **Typography:** Cormorant Garamond (Serif), Inter (Sans-serif)
+<table>
+<tr>
+<td valign="top" width="33%">
 
-### Backend
-* **Framework:** FastAPI (Python)
-* **Server:** Uvicorn
-* **Environment Management:** python-dotenv
+**Frontend**
+- React.js (Vite)
+- Custom Vanilla CSS (Glassmorphism, backdrop-blur)
+- Lucide React (Icons)
+- Cormorant Garamond + Inter (Typography)
 
-### Machine Learning & AI
-* **Computer Vision:** PyTorch, TorchVision (ResNet18) for leaf disease classification.
-* **Data Science:** Scikit-Learn (RandomForestClassifier), Pandas, NumPy for fertilizer prediction.
-* **Generative AI:** Google Gemini SDK (`gemini-1.5-pro-latest`) for the floating assistant.
+</td>
+<td valign="top" width="33%">
+
+**Backend**
+- FastAPI (Python)
+- Uvicorn (ASGI server)
+- python-dotenv
+- Pydantic (validation)
+
+</td>
+<td valign="top" width="33%">
+
+**Machine Learning & AI**
+- PyTorch + TorchVision (ResNet18)
+- Scikit-Learn (Random Forest)
+- Pandas + NumPy
+- Google Gemini SDK (`gemini-1.5-pro-latest`)
+
+</td>
+</tr>
+</table>
+
+**Deployment:** Vercel (Frontend) · Render (Backend)
 
 ---
 
 ## ⚙️ System Architecture
 
-1. **Client Layer:** The React frontend captures user inputs (images, NPK slider values, chat messages) and sends them as `FormData` or JSON payloads via HTTP POST requests.
-2. **API Layer:** FastAPI intercepts these requests on port `8000`. Cross-Origin Resource Sharing (CORS) is enabled to securely connect with the frontend.
-3. **Inference Layer:** 
-    * `/api/predict/disease` passes the image to the loaded `.pth` PyTorch model.
-    * `/api/predict/fertilizer` formats the JSON into a NumPy array and passes it to the `.pkl` Scikit-Learn model.
-    * `/api/chat` securely connects to Google's Generative AI servers via an API key, handling rate-limit fallbacks automatically.
-4. **Response Layer:** The backend returns structured JSON containing confidence scores, exact fertilizer weights, or text responses, which the React UI instantly renders without requiring a page reload.
+<div align="center">
+<img src="./assets/screenshots/architecture-diagram.png" width="800"/>
+</div>
+
+1. **Client Layer** — The React frontend captures user inputs (images, NPK slider values, chat messages) and sends them as `FormData` or JSON payloads via HTTP POST requests.
+2. **API Layer** — FastAPI intercepts these requests on port `8000`. CORS is enabled to securely connect with the frontend.
+3. **Inference Layer**
+   - `/api/predict/disease` → passes the image to the loaded `.pth` PyTorch model.
+   - `/api/predict/fertilizer` → formats JSON into a NumPy array, passed to the `.pkl` Scikit-Learn model.
+   - `/api/chat` → securely connects to Google's Generative AI servers via API key, with automatic rate-limit fallbacks.
+4. **Response Layer** — The backend returns structured JSON (confidence scores, exact fertilizer weights, or text responses), rendered instantly by the React UI without a page reload.
+
+---
+
+## 📁 Project Structure
+
+```
+kisan-sathi-new/
+├── assets/
+│   └── screenshots/          # README images
+├── backend/
+│   ├── main.py                # FastAPI entry point
+│   ├── ml/
+│   │   ├── train_disease_model.py
+│   │   └── train_fertilizer_model.py
+│   ├── models/                 # Trained .pth / .pkl files
+│   ├── requirements.txt
+│   └── .env                    # API keys (not committed)
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── App.jsx
+│   ├── package.json
+│   └── vite.config.js
+├── .gitignore
+└── README.md
+```
 
 ---
 
@@ -71,15 +182,15 @@ An ultra-premium, AI-powered Agritech SaaS platform designed to empower farmers 
 ### Prerequisites
 * Node.js (v18+)
 * Python (v3.9+)
+* A Google Gemini API key ([Get one here](https://ai.google.dev/))
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/kisan-sathi-new.git
+git clone https://github.com/madhavzanwar/kisan-sathi-new.git
 cd kisan-sathi-new
 ```
 
 ### 2. Backend Setup
-Navigate to the backend folder and create a virtual environment:
 ```powershell
 cd backend
 python -m venv venv
@@ -87,52 +198,128 @@ python -m venv venv
 # Activate Virtual Environment (Windows)
 .\venv\Scripts\activate
 
+# Activate Virtual Environment (macOS/Linux)
+source venv/bin/activate
+
 # Install Dependencies
 pip install fastapi uvicorn pydantic torch torchvision scikit-learn pandas numpy pillow python-dotenv google-generativeai
 ```
 
-### 3. Environment Variables
-Create a `.env` file in the `backend` directory and add your Google Gemini API keys:
+### 3. Train/Mock the ML Models
+Generate the required `.pkl` and `.pth` model files for the backend to start:
+```powershell
+python ml/train_fertilizer_model.py
+python ml/train_disease_model.py
+```
+
+### 4. Start the Backend
+```powershell
+uvicorn main:app --reload
+```
+Backend runs at `http://localhost:8000`
+
+### 5. Frontend Setup
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+Visit `http://localhost:5173` (or the port specified by Vite) to view the app.
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file inside the `backend/` directory:
+
 ```env
 GEMINI_API_KEY_1="your_first_gemini_api_key_here"
 GEMINI_API_KEY_2="your_second_gemini_api_key_here"
 GEMINI_MODEL="gemini-1.5-pro-latest"
 ```
 
-### 4. Train/Mock the ML Models
-To generate the required `.pkl` and `.pth` model files for the backend to start:
-```powershell
-python ml/train_fertilizer_model.py
-python ml/train_disease_model.py
-```
-
-### 5. Start the Application
-You will need two terminal windows.
-
-**Terminal 1 (Backend):**
-```powershell
-cd backend
-.\venv\Scripts\activate
-uvicorn main:app --reload
-```
-
-**Terminal 2 (Frontend):**
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Visit `http://localhost:5173` (or the port specified by Vite) in your browser to experience KisanSathi!
+> 💡 Two API keys are supported for automatic fallback if one hits a rate limit.
 
 ---
 
 ## 📡 API Endpoints
 
-* `GET /` - Root health check
-* `POST /api/predict/disease` - Accepts multipart `UploadFile`. Returns disease name, severity, and treatments.
-* `POST /api/predict/fertilizer` - Accepts JSON (n, p, k, ph, soil, crop, farm size). Returns precise fertilizer dosages.
-* `POST /api/chat` - Accepts JSON (message, context). Returns Gemini AI response.
+| Method | Endpoint | Description | Payload |
+|---|---|---|---|
+| `GET` | `/` | Root health check | — |
+| `POST` | `/api/predict/disease` | Diagnose crop disease from a leaf image | `multipart/form-data` (image file) |
+| `POST` | `/api/predict/fertilizer` | Calculate exact fertilizer dosage | `JSON` (n, p, k, ph, soil, crop, farm size) |
+| `POST` | `/api/chat` | Chat with the Gemini-powered AI assistant | `JSON` (message, context) |
+
+**Example — Fertilizer Prediction Request:**
+```json
+POST /api/predict/fertilizer
+{
+  "nitrogen": 45,
+  "phosphorus": 30,
+  "potassium": 20,
+  "ph": 6.5,
+  "soil_type": "loamy",
+  "crop": "wheat",
+  "farm_size_acres": 2
+}
+```
+
+**Example Response:**
+```json
+{
+  "urea_kg": 12.5,
+  "dap_kg": 8.2,
+  "mop_kg": 5.0,
+  "organic_compost_kg": 40.0,
+  "confidence": 0.94
+}
+```
 
 ---
+
+## 🧠 Machine Learning Models
+
+| Model | Type | Purpose | Framework |
+|---|---|---|---|
+| **Disease Classifier** | CNN (ResNet18, transfer learning) | Classifies leaf images into disease categories | PyTorch / TorchVision |
+| **Fertilizer Predictor** | Random Forest Regressor | Predicts optimal NPK + compost dosage from soil/crop inputs | Scikit-Learn |
+| **AI Assistant** | Gemini 1.5 Pro (LLM) | Context-aware conversational farming guidance | Google Generative AI |
+
+---
+
+## ⚠️ Known Limitations
+
+- Backend cold-starts on Render's free tier (30–60s delay after inactivity).
+- Disease classifier is trained on a limited crop/disease dataset — accuracy may vary for unseen crop varieties.
+- Gemini API calls are subject to Google's free-tier rate limits.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please ensure your code follows the existing style conventions and includes relevant tests where applicable.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
+
+---
+
+<div align="center">
+
 *Developed with a focus on modern design and scalable AI integration.*
+
+**🌱 Empowering farmers, one prediction at a time.**
+
+</div>

@@ -13,8 +13,14 @@ __pycache__/
 *.db
 *.sqlite3
 
+# Build Outputs
+dist/
+dist-ssr/
+frontend/dist/
+
 # Node modules
 node_modules/
+frontend/node_modules/
 
 # OS Files
 .DS_Store
