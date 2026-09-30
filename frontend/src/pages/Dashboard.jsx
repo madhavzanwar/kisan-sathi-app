@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, User, Globe, Leaf } from 'lucide-react';
 import HealCrop from '../tabs/HealCrop';
 import FertilizerCalc from '../tabs/FertilizerCalc';
+import YieldPestForecaster from '../tabs/YieldPestForecaster';
 import CultivationGuide from '../tabs/CultivationGuide';
 import WeatherIrrigation from '../tabs/WeatherIrrigation';
 import FloatingAssistant from '../components/FloatingAssistant';
@@ -9,6 +10,7 @@ import FloatingAssistant from '../components/FloatingAssistant';
 const tabs = [
   { id: 'heal', name: 'Heal Your Crop' },
   { id: 'fertilizer', name: 'Fertilizer Calc' },
+  { id: 'yield-pest', name: 'Yield & Pest Forecast' },
   { id: 'guide', name: 'Cultivation Guide' },
   { id: 'weather', name: 'Live Weather' }
 ];
@@ -21,6 +23,7 @@ const Dashboard = () => {
     switch(activeTab) {
       case 'heal': return <HealCrop />;
       case 'fertilizer': return <FertilizerCalc />;
+      case 'yield-pest': return <YieldPestForecaster />;
       case 'guide': return <CultivationGuide />;
       case 'weather': return <WeatherIrrigation />;
       default: return null;

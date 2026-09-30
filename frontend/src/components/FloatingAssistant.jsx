@@ -18,11 +18,42 @@ const FloatingAssistant = ({ activeTab }) => {
   const langCode = 'en';
   const sttLang = 'en-IN';
   const greeting = "Hello! I am your KisanSathi. How can I help you today?";
-  const chips = [
-    'Why are my tomato leaves turning yellow?', 
-    'Will it rain today?', 
-    'What fertilizer for cotton?'
-  ];
+  const getChips = () => {
+    switch (activeTab) {
+      case 'yield-pest':
+        return [
+          'How does satellite NDVI predict yield?',
+          'What triggers Fall Armyworm outbreaks?',
+          'When should I irrigate based on soil moisture?'
+        ];
+      case 'fertilizer':
+        return [
+          'What fertilizer for cotton?',
+          'How much DAP for 2 acres?',
+          'Organic alternatives to urea?'
+        ];
+      case 'weather':
+        return [
+          'Will it rain today?',
+          'Is weather optimal for spraying?',
+          'How to prevent heat stress?'
+        ];
+      case 'guide':
+        return [
+          'Best sowing window for wheat?',
+          'Pest cycle in sugarcane?',
+          'Ideal tomato plant spacing?'
+        ];
+      case 'heal':
+      default:
+        return [
+          'Why are my tomato leaves turning yellow?', 
+          'How to treat fungal blight?', 
+          'Organic cure for powdery mildew?'
+        ];
+    }
+  };
+  const chips = getChips();
 
   useEffect(() => {
     // Initial greeting
