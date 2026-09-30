@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import Lenis from 'lenis';
 
 /**
- * SmoothScroll — Lenis smooth scrolling wrapper.
- * Disabled automatically on touch devices and when prefers-reduced-motion is requested.
+ * SmoothScroll — Dynamically loads Lenis on desktop pointer devices only.
+ * Completely bypassed on touch / mobile devices (< 768px) and when prefers-reduced-motion is requested.
  */
 export const SmoothScroll = ({ children }) => {
   const lenisRef = useRef(null);
@@ -15,36 +14,51 @@ export const SmoothScroll = ({ children }) => {
       window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Mobile / Touch device check (touch handles native momentum better)
-    const isTouchDevice =
+    // Mobile / Touch device check
+    const isTouchOrMobile =
       typeof window !== 'undefined' &&
-      ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768);
 
-    if (prefersReducedMotion || isTouchDevice) {
+    if (prefersReducedMotion || isTouchOrMobile) {
       return;
     }
 
-    const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.5,
-    });
-
-    lenisRef.current = lenis;
-
+    let active = true;
     let animationFrameId;
-    function raf(time) {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
-    }
 
-    animationFrameId = requestAnimationFrame(raf);
+    // Dynamic import to avoid loading Lenis bundle on mobile
+    import('lenis')
+      .then(({ default: Lenis }) => {
+        if (!active) return;
+        const lenis = new Lenis({
+          duration: 1.15,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          touchMultiplier: 1.5,
+        });
+
+        lenisRef.current = lenis;
+
+        function raf(time) {
+          lenis.raf(time);
+          if (active) {
+            animationFrameId = requestAnimationFrame(raf);
+          }
+        }
+
+        animationFrameId = requestAnimationFrame(raf);
+      })
+      .catch((err) => {
+        console.warn('Failed to load Lenis smooth scroll:', err);
+      });
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      lenis.destroy();
-      lenisRef.current = null;
+      active = false;
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
     };
   }, []);
 

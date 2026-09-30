@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Drawer, Button, Tag, Tooltip, Spin } from 'antd';
-
+import { Drawer, Button, Tag, Tooltip, Spin, ConfigProvider, App as AntdApp } from 'antd';
+import { kisanSathiTheme } from '../design-system/theme.js';
 import { MenuOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
 import {
   Camera,
@@ -100,7 +100,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div
+    <ConfigProvider theme={kisanSathiTheme}>
+      <AntdApp className="ant-app">
+        <div
       style={{
         minHeight: '100vh',
         backgroundColor: '#F4F5F3',
@@ -671,6 +673,8 @@ const Dashboard = () => {
       {/* Floating AI Assistant */}
       <FloatingAssistant activeTab={activeTab} />
     </div>
+      </AntdApp>
+    </ConfigProvider>
   );
 };
 

@@ -1,7 +1,5 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ConfigProvider, App as AntdApp, Spin } from 'antd';
-import { kisanSathiTheme } from './design-system/theme.js';
 import { SmoothScroll } from './design-system/components/SmoothScroll.jsx';
 
 // Route code-splitting
@@ -18,7 +16,17 @@ const RouteLoadingFallback = () => (
       backgroundColor: '#F4F5F3',
     }}
   >
-    <Spin size="large" />
+    <div
+      style={{
+        width: '36px',
+        height: '36px',
+        borderRadius: '50%',
+        border: '3px solid rgba(46, 107, 52, 0.2)',
+        borderTopColor: '#2E6B34',
+        animation: 'spin 0.8s linear infinite',
+      }}
+    />
+    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
   </div>
 );
 
@@ -37,15 +45,11 @@ function AppRoutes() {
 
 function App() {
   return (
-    <ConfigProvider theme={kisanSathiTheme}>
-      <AntdApp className="ant-app">
-        <SmoothScroll>
-          <Router>
-            <AppRoutes />
-          </Router>
-        </SmoothScroll>
-      </AntdApp>
-    </ConfigProvider>
+    <SmoothScroll>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </SmoothScroll>
   );
 }
 

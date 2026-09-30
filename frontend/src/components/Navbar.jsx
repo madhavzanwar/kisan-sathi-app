@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Drawer, Button } from 'antd';
-import { MenuOutlined, CloseOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Leaf } from 'lucide-react';
 import { LANDING_CONTENT } from '../content/landing.js';
+
+const MobileNavDrawer = lazy(() => import('./MobileNavDrawer'));
 
 /**
  * Navbar — Floating translucent glass pill navigation.
@@ -208,84 +208,35 @@ export const Navbar = ({ onOpenAuth }) => {
               cursor: 'pointer',
             }}
           >
-            <MenuOutlined style={{ fontSize: '18px' }} />
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#0E2A12"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Navigation */}
-      <Drawer
-        placement="right"
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        closeIcon={<CloseOutlined style={{ fontSize: '18px', color: '#0E2A12' }} />}
-        title={
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div
-              style={{
-                width: '28px',
-                height: '28px',
-                borderRadius: '8px',
-                backgroundColor: 'var(--color-lime-accent, #D5F145)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Leaf size={15} color="#0E2A12" />
-            </div>
-            <span style={{ fontWeight: 700, color: '#0E2A12' }}>{LANDING_CONTENT.brand.name}</span>
-          </div>
-        }
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '12px' }}>
-          {LANDING_CONTENT.nav.map((item) => {
-            const active = isLinkActive(item);
-            return (
-              <Link
-                key={item.label}
-                to={item.path}
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '14px 16px',
-                  borderRadius: '12px',
-                  backgroundColor: active ? 'rgba(46, 107, 52, 0.1)' : '#F9FAF8',
-                  color: active ? '#2E6B34' : '#0E2A12',
-                  fontSize: '15px',
-                  fontWeight: active ? 600 : 500,
-                  textDecoration: 'none',
-                }}
-              >
-                <span>{item.label}</span>
-                <ArrowRightOutlined style={{ fontSize: '12px', opacity: 0.6 }} />
-              </Link>
-            );
-          })}
-
-          <div style={{ marginTop: '24px' }}>
-            <Button
-              type="primary"
-              size="large"
-              block
-              onClick={() => {
-                setMobileOpen(false);
-                handleActionClick();
-              }}
-              style={{
-                backgroundColor: 'var(--color-cta-green, #2E6B34)',
-                borderRadius: '999px',
-                height: '48px',
-                fontWeight: 600,
-              }}
-            >
-              Open Farmer Dashboard
-            </Button>
-          </div>
-        </div>
-      </Drawer>
+      {/* Lazy Mobile Drawer Navigation (loads only when opened) */}
+      {mobileOpen && (
+        <Suspense fallback={null}>
+          <MobileNavDrawer
+            open={mobileOpen}
+            onClose={() => setMobileOpen(false)}
+            isLinkActive={isLinkActive}
+            onActionClick={handleActionClick}
+          />
+        </Suspense>
+      )}
 
       {/* Media query styling for responsive toggling */}
       <style>{`

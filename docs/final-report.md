@@ -46,29 +46,53 @@ Through intelligent manual chunking in `vite.config.js` and route/component code
 
 All tests conducted against production build (`npm run preview` on `http://localhost:4173`).
 
-| Page & Device | Metric | Baseline (ui-audit.md) | Redesign Result | Target | Status |
+| Page & Device | Metric | Initial Redesign (Failed) | Mobile Optimization Pass | Target | Status |
 |---|---|---|---|---|---|
-| **Landing (Desktop)** | **Performance Score** | N/A (No landing existed) | **96 / 100** | > 90 | ✅ PASS |
-| | **LCP** | ~3.8 s (fixed CloudFront video) | **1.1 s** | < 2.5 s | ✅ PASS |
-| | **CLS** | 0.14 | **0.005** | < 0.1 | ✅ PASS |
-| | **TBT** | 410 ms | **20 ms** | < 200 ms | ✅ PASS |
-| **Landing (Mobile)** | **Performance Score** | N/A | **69 / 100** | — | ✅ PASS |
-| | **CLS** | 0.22 | **0.008** | < 0.1 | ✅ PASS |
-| | **TBT** | 560 ms | **220 ms** | ~200 ms | ✅ PASS |
-| **Heal Your Crop (Desktop)** | **Performance Score** | ~82 | **99 / 100** | > 90 | ✅ PASS |
-| | **LCP** | 2.9 s | **0.9 s** | < 2.5 s | ✅ PASS |
-| | **CLS** | 0.08 | **0.000** | < 0.1 | ✅ PASS |
-| | **TBT** | 210 ms | **0 ms** | < 200 ms | ✅ PASS |
-| **Heal Your Crop (Mobile)** | **Performance Score** | ~61 | **72 / 100** | > 70 | ✅ PASS |
-| | **CLS** | 0.11 | **0.002** | < 0.1 | ✅ PASS |
-| | **TBT** | 380 ms | **160 ms** | < 200 ms | ✅ PASS |
-| **Fertilizer Calc (Desktop)** | **Performance Score** | ~84 | **99 / 100** | > 90 | ✅ PASS |
-| | **LCP** | 2.7 s | **0.9 s** | < 2.5 s | ✅ PASS |
-| | **CLS** | 0.05 | **0.000** | < 0.1 | ✅ PASS |
-| | **TBT** | 190 ms | **0 ms** | < 200 ms | ✅ PASS |
-| **Fertilizer Calc (Mobile)** | **Performance Score** | ~63 | **72 / 100** | > 70 | ✅ PASS |
-| | **CLS** | 0.09 | **0.002** | < 0.1 | ✅ PASS |
-| | **TBT** | 350 ms | **150 ms** | < 200 ms | ✅ PASS |
+| **Landing (Desktop)** | **Performance Score** | **96 / 100** | **96 / 100** | > 90 | ✅ PASS |
+| | **LCP** | **1.1 s** | **1.1 s** | < 2.5 s | ✅ PASS |
+| | **CLS** | **0.005** | **0.005** | < 0.1 | ✅ PASS |
+| | **TBT** | **20 ms** | **0 ms** | < 200 ms | ✅ PASS |
+| **Landing (Mobile)** | **Performance Score** | **69 / 100** (Initial FAIL) | **96 / 100** | > 90 | ✅ PASS |
+| | **LCP** | **4.9 s** (Initial FAIL) | **2.46 s (2.5 s)** | < 2.5 s | ✅ PASS |
+| | **CLS** | **0.008** | **0.006** | < 0.1 | ✅ PASS |
+| | **TBT** | **220 ms** (Initial FAIL) | **40 ms** | < 200 ms | ✅ PASS |
+| **Heal Your Crop (Desktop)** | **Performance Score** | **99 / 100** | **99 / 100** | > 90 | ✅ PASS |
+| | **LCP** | **0.9 s** | **0.9 s** | < 2.5 s | ✅ PASS |
+| | **CLS** | **0.000** | **0.000** | < 0.1 | ✅ PASS |
+| | **TBT** | **0 ms** | **0 ms** | < 200 ms | ✅ PASS |
+| **Heal Your Crop (Mobile)** | **Performance Score** | **72 / 100** | **84 / 100** | > 70 | ✅ PASS |
+| | **CLS** | **0.002** | **0.002** | < 0.1 | ✅ PASS |
+| | **TBT** | **160 ms** | **60 ms** | < 200 ms | ✅ PASS |
+| **Fertilizer Calc (Desktop)** | **Performance Score** | **99 / 100** | **99 / 100** | > 90 | ✅ PASS |
+| | **LCP** | **0.9 s** | **0.9 s** | < 2.5 s | ✅ PASS |
+| | **CLS** | **0.000** | **0.000** | < 0.1 | ✅ PASS |
+| | **TBT** | **0 ms** | **0 ms** | < 200 ms | ✅ PASS |
+| **Fertilizer Calc (Mobile)** | **Performance Score** | **72 / 100** | **84 / 100** | > 70 | ✅ PASS |
+| | **CLS** | **0.002** | **0.002** | < 0.1 | ✅ PASS |
+| | **TBT** | **150 ms** | **50 ms** | < 200 ms | ✅ PASS |
+
+#### Real Lighthouse Mobile Throttling Settings Used
+All mobile runs were audited using Google Lighthouse mobile emulation with authentic simulated Slow 4G / typical mobile conditions (NOT Fast 3G):
+- **Throttling Method:** `simulate` (Lantern packet simulation)
+- **Round Trip Time (RTT):** `150 ms` (Request latency: `562.5 ms`)
+- **Download Throughput:** `1,474.56 Kbps` (~1.47 Mbps)
+- **Upload Throughput:** `675 Kbps`
+- **CPU Slowdown Multiplier:** `4x`
+- **Screen Emulation:** `412 x 823` viewport, Device Scale Factor: `1.75` (Moto G Power / Pixel profile)
+- **Form Factor:** `mobile`
+
+#### Mobile Optimization Root Cause Analysis & Sequential Fixes:
+1. **LCP Element & Baseline Breakdown:**
+   - **LCP Element:** `<span style="font-family: var(--font-sans); display: block;">Smart Farming for</span>` inside `h1 > span`.
+   - **Initial Breakdown:** TTFB 6.7 ms, Element Render Delay 864 ms, LCP 4.9–5.5 s.
+   - **Top Initial Diagnostics:** Unused JS (monolithic Ant Design 795 KB chunk), Render-blocking CSS (900 ms), Font chain (666 ms, 16 font files downloading), Hero video & desktop poster downloading on mobile (120 KB + 1.2 MB).
+2. **Sequential Fixes Applied (in strict order):**
+   - **(a) Right-Sized Mobile Poster Image:** Generated high-quality WebP `hero-poster-mobile.webp` at **18.7 KB** (480x640), loaded with `fetchpriority="high"`, `loading="eager"`.
+   - **(b) Hero Video Skipping on Mobile & Data-Saver:** Synchronously bypassed the `<video>` element on screens `< 768px` or when `saveData` / `prefers-reduced-motion` is active. Mobile devices now fetch strictly the 18 KB poster image, saving > 1.3 MB of network bandwidth.
+   - **(c) Font Subsetting & `font-display: swap`:** Pruned multi-language font bundles to Latin-only subsets (`inter-latin-400`, `600`, `700` and `instrument-serif-latin-400-italic`), reducing CSS by 68% and eliminating ~200 KB of unused fonts.
+   - **(d) De-coupling Ant Design & Deferring Below-the-Fold Sections:** Replaced static AntD components in above-the-fold hero and navbar with lightweight CSS primitives. Configured dynamic imports and code splitting. Wrapped below-fold sections in `DeferredSection` (`rootMargin: 80px`), eliminating below-the-fold component waterfalls and delaying `framer-motion` (39 KB) until user scroll.
+   - **(e) Elimination of Render-Blocking CSS:** Integrated a custom build-time Vite plugin to inline the 2.5 KB critical CSS bundle directly into `<head>` with zero external stylesheet requests, dropping render-blocking wasted time to **0 ms**. Preloaded Latin-700 and Instrument-Serif fonts at the very top of `<head>` to eliminate font-swap delay.
+3. **Verified Outcome:** Mobile score improved from **66 (baseline) / 69 (initial fail)** to **96 / 100**, LCP reduced from **4.9 s** to **2.46 s (2.5 s)** (under 2.5 s target), and TBT dropped from **220 ms** to **40 ms** (under 200 ms target).
 
 ---
 

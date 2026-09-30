@@ -2,31 +2,50 @@ import React, { useRef, useEffect, useState } from 'react';
 
 /**
  * BgVideo — High-performance background video component.
- * - Autoplays, loops, muted, playsInline.
- * - Uses IntersectionObserver to pause playback when out of viewport.
- * - Falls back to poster if prefers-reduced-motion or saveData is enabled.
+ * - Skips video loading entirely on mobile (< 768px), saveData, or prefers-reduced-motion.
+ * - Always renders a right-sized high-priority poster image (< 60 KB on mobile) as the LCP element.
+ * - Autoplays, loops, muted, playsInline on desktop when visible.
  */
 export const BgVideo = ({
   src,
   webmSrc,
-  poster,
+  poster = '/videos/hero-poster.webp',
+  mobilePoster = '/videos/hero-poster-mobile.webp',
   className = '',
   style = {},
   overlay = null,
+  forcePoster = false,
   ...props
 }) => {
   const videoRef = useRef(null);
-  const [shouldPlayVideo, setShouldPlayVideo] = useState(true);
+
+  const [isMobileScreen, setIsMobileScreen] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) || forcePoster;
+  });
+
+  // Check initial constraints synchronously to prevent video request on mobile initial paint
+  const [shouldPlayVideo, setShouldPlayVideo] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const isMobile = window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+    const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return !isMobile && !saveData && !prefersReducedMotion && !forcePoster;
+  });
 
   useEffect(() => {
-    // Check user accessibility & data constraints
-    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
     const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (prefersReducedMotion || saveData) {
+    setIsMobileScreen(isMobile || forcePoster);
+
+    if (isMobile || saveData || prefersReducedMotion || forcePoster) {
       setShouldPlayVideo(false);
       return;
     }
+
+    setShouldPlayVideo(true);
 
     const videoEl = videoRef.current;
     if (!videoEl) return;
@@ -37,9 +56,7 @@ export const BgVideo = ({
         if (entry.isIntersecting) {
           const playPromise = videoEl.play();
           if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // Ignore autoplay rejection
-            });
+            playPromise.catch(() => {});
           }
         } else {
           videoEl.pause();
@@ -53,7 +70,7 @@ export const BgVideo = ({
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [forcePoster]);
 
   const mp4Url = typeof src === 'string' ? src : src?.mp4;
   const webmUrl = webmSrc || (typeof src === 'object' ? src?.webm : null);
@@ -69,7 +86,49 @@ export const BgVideo = ({
         ...style,
       }}
     >
-      {shouldPlayVideo ? (
+      {/* 1. Instant LCP Poster Layer (Responsive Picture, Eager, High Priority) */}
+      {isMobileScreen ? (
+        <img
+          src={mobilePoster}
+          alt="KisanSathi Hero Crop Field"
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            pointerEvents: 'none',
+          }}
+        />
+      ) : (
+        <picture style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+          <source media="(max-width: 768px)" srcSet={mobilePoster} type="image/webp" />
+          <source media="(min-width: 769px)" srcSet={poster} type="image/webp" />
+          <img
+            src={poster}
+            alt="KisanSathi Hero Crop Field"
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              pointerEvents: 'none',
+            }}
+          />
+        </picture>
+      )}
+
+      {/* 2. Desktop Video Layer (only rendered and loaded on desktop non-saveData screens) */}
+      {shouldPlayVideo && (
         <video
           ref={videoRef}
           autoPlay
@@ -86,6 +145,7 @@ export const BgVideo = ({
             height: '100%',
             objectFit: 'cover',
             pointerEvents: 'none',
+            zIndex: 1,
           }}
           {...props}
         >
@@ -93,29 +153,15 @@ export const BgVideo = ({
           {mp4Url && <source src={mp4Url} type="video/mp4" />}
           Your browser does not support the video tag.
         </video>
-      ) : (
-        poster && (
-          <img
-            src={poster}
-            alt="Background fallback"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              pointerEvents: 'none',
-            }}
-          />
-        )
       )}
+
       {overlay && (
         <div
           style={{
             position: 'absolute',
             inset: 0,
             pointerEvents: 'none',
+            zIndex: 2,
           }}
         >
           {overlay}

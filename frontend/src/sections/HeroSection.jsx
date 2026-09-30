@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar } from 'antd';
 import { ArrowUpRight } from 'lucide-react';
 import { BgVideo } from '../design-system/components/BgVideo.jsx';
 import { LANDING_CONTENT } from '../content/landing.js';
@@ -12,11 +11,14 @@ import { LANDING_CONTENT } from '../content/landing.js';
  */
 export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
   const navigate = useNavigate();
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+  });
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches));
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -285,23 +287,61 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
             </span>
 
             {/* Model & System Avatars */}
-            <Avatar.Group size="small" max={{ count: 3 }}>
-              <Avatar
-                style={{ backgroundColor: '#2E6B34', fontSize: '11px', fontWeight: 600 }}
+            <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <div
+                style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  backgroundColor: '#2E6B34',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1.5px solid rgba(255, 255, 255, 0.9)',
+                }}
               >
                 AI
-              </Avatar>
-              <Avatar
-                style={{ backgroundColor: '#059669', fontSize: '11px', fontWeight: 600 }}
+              </div>
+              <div
+                style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  backgroundColor: '#059669',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1.5px solid rgba(255, 255, 255, 0.9)',
+                  marginLeft: '-6px',
+                }}
               >
                 CV
-              </Avatar>
-              <Avatar
-                style={{ backgroundColor: '#F59E0B', fontSize: '11px', fontWeight: 600 }}
+              </div>
+              <div
+                style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  backgroundColor: '#F59E0B',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1.5px solid rgba(255, 255, 255, 0.9)',
+                  marginLeft: '-6px',
+                }}
               >
                 ML
-              </Avatar>
-            </Avatar.Group>
+              </div>
+            </div>
 
             <span
               style={{
