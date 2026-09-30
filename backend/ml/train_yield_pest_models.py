@@ -139,8 +139,9 @@ def train_and_export_models():
 
     X_train_y, X_test_y, y_train_y, y_test_y = train_test_split(X_yield, y_yield, test_size=0.2, random_state=42)
 
-    print("[2/4] Training Crop Yield Random Forest Regressor...")
-    yield_model = RandomForestRegressor(n_estimators=150, max_depth=12, random_state=42, n_jobs=-1)
+    print("[2/4] Training Crop Yield GradientBoostingRegressor (Ultra-lightweight for cloud deployment)...")
+    from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier
+    yield_model = GradientBoostingRegressor(n_estimators=45, max_depth=4, random_state=42)
     yield_model.fit(X_train_y, y_train_y)
     y_pred_y = yield_model.predict(X_test_y)
 
@@ -159,8 +160,8 @@ def train_and_export_models():
 
     X_train_p, X_test_p, y_train_p, y_test_p = train_test_split(X_pest, y_pest, test_size=0.2, random_state=42)
 
-    print("[3/4] Training Pest Outbreak Risk Classifier...")
-    pest_model = RandomForestClassifier(n_estimators=150, max_depth=10, random_state=42, n_jobs=-1)
+    print("[3/4] Training Pest Outbreak Risk Classifier (GradientBoosting)...")
+    pest_model = GradientBoostingClassifier(n_estimators=45, max_depth=3, random_state=42)
     pest_model.fit(X_train_p, y_train_p)
     y_pred_p = pest_model.predict(X_test_p)
 
