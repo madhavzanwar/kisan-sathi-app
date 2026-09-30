@@ -1,9 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ConfigProvider, App as AntdApp } from 'antd';
+import { kisanSathiTheme } from './design-system/theme.js';
+import { SmoothScroll } from './design-system/components/SmoothScroll.jsx';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 
-// Global Video Background Component
+// Global Video Background Component (preserved for existing page views)
 const VideoBackground = () => (
   <div className="video-bg-container">
     <video autoPlay loop muted playsInline>
@@ -14,13 +17,21 @@ const VideoBackground = () => (
 
 function App() {
   return (
-    <Router>
-      <VideoBackground />
-      <Routes>
-        <Route path="/" element={<Auth />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
+    <ConfigProvider theme={kisanSathiTheme}>
+      <AntdApp className="ant-app">
+        <SmoothScroll>
+          <Router>
+            <div className="legacy-app">
+              <VideoBackground />
+              <Routes>
+                <Route path="/" element={<Auth />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Routes>
+            </div>
+          </Router>
+        </SmoothScroll>
+      </AntdApp>
+    </ConfigProvider>
   );
 }
 
