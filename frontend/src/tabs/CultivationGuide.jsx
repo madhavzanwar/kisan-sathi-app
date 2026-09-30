@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, CheckCircle, Droplet, Bug, Tractor, Sprout, Leaf, Sun, Wheat } from 'lucide-react';
+import { Tag, Timeline, Button } from 'antd';
+import { CheckCircleOutlined, ClockCircleOutlined, DownOutlined, UpOutlined, CalendarOutlined } from '@ant-design/icons';
+import { ChevronDown, ChevronUp, CheckCircle, Droplet, Bug, Tractor, Sprout, Leaf, Sun, Wheat, Calendar, Layers, Sparkles } from 'lucide-react';
 
 const crops = ['Tomato', 'Cotton', 'Wheat', 'Rice', 'Sugarcane', 'Maize'];
 
@@ -416,84 +418,384 @@ const CROP_GUIDE_DATA = {
 
 const CultivationGuide = () => {
   const [selectedCrop, setSelectedCrop] = useState('Tomato');
-  const [expandedStage, setExpandedStage] = useState(0);
+  const [expandedStages, setExpandedStages] = useState({ 0: true, 1: true });
+
+  const cropEmojis = {
+    Tomato: '🍅',
+    Cotton: '☁️',
+    Wheat: '🌾',
+    Rice: '🍚',
+    Sugarcane: '🎋',
+    Maize: '🌽',
+  };
 
   const getIcon = (type) => {
-    switch(type) {
-      case 'tractor': return <Tractor size={18} style={{ color: '#a3a8b4' }} />;
-      case 'sprout': return <Sprout size={18} style={{ color: '#4ade80' }} />;
-      case 'leaf': return <Leaf size={18} style={{ color: '#22c55e' }} />;
-      case 'sun': return <Sun size={18} style={{ color: '#fbbf24' }} />;
-      case 'pest': return <Bug size={18} style={{ color: '#ef4444' }} />;
-      case 'wheat': return <Wheat size={18} style={{ color: '#f59e0b' }} />;
-      default: return <CheckCircle size={18} style={{ color: 'var(--primary-light)' }} />;
+    switch (type) {
+      case 'tractor':
+        return <Tractor size={18} style={{ color: '#2E6B34' }} />;
+      case 'sprout':
+        return <Sprout size={18} style={{ color: '#2E6B34' }} />;
+      case 'leaf':
+        return <Leaf size={18} style={{ color: '#15803d' }} />;
+      case 'sun':
+        return <Sun size={18} style={{ color: '#d97706' }} />;
+      case 'pest':
+        return <Bug size={18} style={{ color: '#dc2626' }} />;
+      case 'wheat':
+        return <Wheat size={18} style={{ color: '#d97706' }} />;
+      default:
+        return <CheckCircle size={18} style={{ color: '#2E6B34' }} />;
     }
   };
 
+  const toggleStage = (idx) => {
+    setExpandedStages((prev) => ({
+      ...prev,
+      [idx]: !prev[idx],
+    }));
+  };
+
+  const stages = CROP_GUIDE_DATA[selectedCrop] || CROP_GUIDE_DATA['Tomato'];
+
+  const toggleAll = () => {
+    const allExpanded = stages.every((_, i) => expandedStages[i]);
+    const newState = {};
+    stages.forEach((_, i) => {
+      newState[i] = !allExpanded;
+    });
+    setExpandedStages(newState);
+  };
+
+  const allAreExpanded = stages.every((_, i) => expandedStages[i]);
+
   return (
-    <div className="glass-panel animate-fade-in" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
-      
-      <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '8px' }}>
-        {crops.map(crop => (
-          <button
-            key={crop}
-            onClick={() => { setSelectedCrop(crop); setExpandedStage(0); }}
-            style={{
-              background: selectedCrop === crop ? '#ffffff' : 'rgba(255,255,255,0.15)',
-              color: selectedCrop === crop ? '#0f172a' : '#ffffff',
-              border: '1px solid rgba(255,255,255,0.1)',
-              whiteSpace: 'nowrap',
-              padding: '10px 20px',
-              borderRadius: '100px',
-              fontSize: '0.95rem',
-              fontWeight: selectedCrop === crop ? 600 : 500,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              boxShadow: selectedCrop === crop ? '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)' : 'none'
-            }}
-            onMouseOver={e => !selectedCrop === crop && (e.currentTarget.style.background = '#ffffff', e.currentTarget.style.color = '#0f172a')}
-            onMouseOut={e => !selectedCrop === crop && (e.currentTarget.style.background = 'rgba(255,255,255,0.15)', e.currentTarget.style.color = '#ffffff')}
-          >
-            {crop}
-          </button>
-        ))}
+    <div
+      style={{
+        backgroundColor: '#FFFFFF',
+        borderRadius: '24px',
+        padding: 'clamp(20px, 4vw, 36px)',
+        boxShadow: '0 10px 30px rgba(14, 42, 18, 0.04)',
+        border: '1px solid rgba(14, 42, 18, 0.06)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '24px',
+        width: '100%',
+        maxWidth: '1000px',
+        margin: '0 auto',
+      }}
+    >
+      {/* Header */}
+      <div>
+        <span className="eyebrow-tag" style={{ marginBottom: '12px' }}>
+          Agronomic Protocols
+        </span>
+        <h2
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(24px, 3vw, 32px)',
+            fontWeight: 700,
+            color: 'var(--color-forest-ink, #0E2A12)',
+            margin: '0 0 8px 0',
+            letterSpacing: '-0.02em',
+          }}
+        >
+          Cultivation <span className="heading-accent">Guides</span>
+        </h2>
+        <p
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '14.5px',
+            color: 'var(--color-text-muted, #7C8B7E)',
+            margin: 0,
+            lineHeight: 1.5,
+          }}
+        >
+          Standardized crop lifecycle manuals, field operations, irrigation schedules, and integrated pest management recommendations.
+        </p>
       </div>
 
+      {/* Crop Selector Chips */}
       <div>
-        <h2 style={{ color: 'var(--accent)', marginBottom: '16px' }}>{selectedCrop} Lifecycle Guide</h2>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {(CROP_GUIDE_DATA[selectedCrop] || CROP_GUIDE_DATA['Tomato']).map((item, index) => (
-            <div key={index} style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
-              <div 
-                onClick={() => setExpandedStage(expandedStage === index ? null : index)}
-                style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', background: expandedStage === index ? 'rgba(255,255,255,0.05)' : 'transparent' }}
+        <label
+          style={{
+            display: 'block',
+            fontSize: '12px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            fontWeight: 700,
+            color: '#7C8B7E',
+            marginBottom: '10px',
+          }}
+        >
+          Select Crop
+        </label>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
+            alignItems: 'center',
+          }}
+        >
+          {crops.map((crop) => {
+            const isSelected = selectedCrop === crop;
+            return (
+              <button
+                key={crop}
+                type="button"
+                onClick={() => {
+                  setSelectedCrop(crop);
+                  setExpandedStages({ 0: true, 1: true });
+                }}
+                style={{
+                  minHeight: '44px',
+                  padding: '8px 20px',
+                  borderRadius: '999px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '14px',
+                  fontWeight: isSelected ? 600 : 500,
+                  cursor: 'pointer',
+                  border: isSelected ? '1px solid #2E6B34' : '1px solid rgba(14, 42, 18, 0.12)',
+                  backgroundColor: isSelected ? '#2E6B34' : '#F9FAF8',
+                  color: isSelected ? '#FFFFFF' : '#0E2A12',
+                  transition: 'all 0.2s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  boxShadow: isSelected ? '0 4px 12px rgba(46, 107, 52, 0.18)' : 'none',
+                }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  {getIcon(item.type)}
-                  <div>
-                    <h3 style={{ fontSize: '1.1rem', margin: 0 }}>{item.stage}</h3>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{item.duration}</span>
-                  </div>
-                </div>
-                {expandedStage === index ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-              </div>
-              
-              {expandedStage === index && (
-                <div style={{ padding: '20px', borderTop: '1px solid var(--glass-border)', background: 'rgba(0,0,0,0.3)', color: 'var(--text-muted)', lineHeight: '1.6' }} className="animate-fade-in">
-                  <ul className="list-disc pl-5 space-y-2 m-0" style={{ marginLeft: '20px' }}>
-                    {item.details.map((point, ptIndex) => (
-                      <li key={ptIndex} dangerouslySetInnerHTML={{ __html: point }} style={{ marginBottom: '8px' }}></li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
+                <span>{cropEmojis[crop] || '🌱'}</span>
+                <span>{crop}</span>
+              </button>
+            );
+          })}
         </div>
+      </div>
+
+      {/* Active Crop Summary Bar */}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '12px',
+          padding: '16px 20px',
+          backgroundColor: '#F9FAF8',
+          borderRadius: '16px',
+          border: '1px solid rgba(14, 42, 18, 0.06)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontSize: '24px' }}>{cropEmojis[selectedCrop] || '🌱'}</span>
+          <div>
+            <h3
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '16px',
+                fontWeight: 700,
+                color: '#0E2A12',
+                margin: 0,
+              }}
+            >
+              {selectedCrop} Complete Lifecycle
+            </h3>
+            <span style={{ fontSize: '13px', color: '#7C8B7E' }}>
+              {stages.length} comprehensive agronomic stages from land preparation to harvest
+            </span>
+          </div>
+        </div>
+
+        <Button
+          type="default"
+          size="small"
+          onClick={toggleAll}
+          style={{
+            borderRadius: '999px',
+            fontSize: '12px',
+            fontWeight: 600,
+            color: '#2E6B34',
+            borderColor: 'rgba(46, 107, 52, 0.3)',
+          }}
+        >
+          {allAreExpanded ? 'Collapse All' : 'Expand All'}
+        </Button>
+      </div>
+
+      {/* Ant Design Timeline of Stages */}
+      <div style={{ marginTop: '8px', paddingLeft: '8px' }}>
+        <Timeline
+          items={stages.map((item, index) => {
+            const isExpanded = !!expandedStages[index];
+            return {
+              dot: (
+                <div
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    backgroundColor: '#FFFFFF',
+                    border: '2px solid #2E6B34',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(46, 107, 52, 0.15)',
+                    marginTop: '-2px',
+                  }}
+                >
+                  {getIcon(item.type)}
+                </div>
+              ),
+              children: (
+                <div
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(14, 42, 18, 0.08)',
+                    boxShadow: '0 2px 10px rgba(14, 42, 18, 0.03)',
+                    overflow: 'hidden',
+                    marginBottom: '22px',
+                    marginLeft: '8px',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  {/* Stage Card Header */}
+                  <div
+                    onClick={() => toggleStage(index)}
+                    style={{
+                      padding: '16px 20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      backgroundColor: isExpanded ? 'rgba(46, 107, 52, 0.03)' : '#FFFFFF',
+                      userSelect: 'none',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                      <Tag
+                        style={{
+                          borderRadius: '999px',
+                          padding: '2px 10px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          backgroundColor: 'rgba(46, 107, 52, 0.08)',
+                          color: '#2E6B34',
+                          border: 'none',
+                        }}
+                      >
+                        STAGE {String(index + 1).padStart(2, '0')}
+                      </Tag>
+                      <h4
+                        style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '16px',
+                          fontWeight: 700,
+                          color: '#0E2A12',
+                          margin: 0,
+                        }}
+                      >
+                        {item.stage}
+                      </h4>
+                      <Tag
+                        icon={<ClockCircleOutlined />}
+                        style={{
+                          borderRadius: '999px',
+                          fontSize: '12px',
+                          color: '#7C8B7E',
+                          backgroundColor: '#F4F5F3',
+                          border: 'none',
+                        }}
+                      >
+                        {item.duration}
+                      </Tag>
+                    </div>
+
+                    <div
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        backgroundColor: '#F4F5F3',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#2E6B34',
+                        transition: 'transform 0.2s ease',
+                      }}
+                    >
+                      {isExpanded ? <UpOutlined style={{ fontSize: '12px' }} /> : <DownOutlined style={{ fontSize: '12px' }} />}
+                    </div>
+                  </div>
+
+                  {/* Stage Card Details */}
+                  {isExpanded && (
+                    <div
+                      style={{
+                        padding: '18px 20px',
+                        borderTop: '1px solid rgba(14, 42, 18, 0.06)',
+                        backgroundColor: '#FFFFFF',
+                      }}
+                    >
+                      <ul
+                        style={{
+                          listStyle: 'none',
+                          padding: 0,
+                          margin: 0,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '12px',
+                        }}
+                      >
+                        {item.details.map((point, ptIndex) => (
+                          <li
+                            key={ptIndex}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: '10px',
+                              fontSize: '14px',
+                              lineHeight: '1.6',
+                              color: '#334155',
+                            }}
+                          >
+                            <span
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '20px',
+                                height: '20px',
+                                borderRadius: '50%',
+                                backgroundColor: 'rgba(46, 107, 52, 0.1)',
+                                color: '#2E6B34',
+                                flexShrink: 0,
+                                marginTop: '2px',
+                                fontSize: '11px',
+                                fontWeight: 700,
+                              }}
+                            >
+                              ✓
+                            </span>
+                            <span
+                              dangerouslySetInnerHTML={{ __html: point }}
+                              style={{ flex: 1 }}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ),
+            };
+          })}
+        />
       </div>
     </div>
   );
 };
 
 export default CultivationGuide;
+
