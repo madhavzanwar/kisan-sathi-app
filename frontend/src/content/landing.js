@@ -30,7 +30,7 @@ export const LANDING_CONTENT = {
     stats: {
       rating: '4.9',
       reviewText: 'AI Precision Score',
-      farmerCountPlaceholder: '38 Crop Disease Models',
+      farmerCountPlaceholder: '38 Disease Models',
       isPlaceholder: true,
       modelsCount: '38 Disease Classes',
       cropsCount: '6 Guided Crops',

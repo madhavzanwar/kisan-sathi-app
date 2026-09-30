@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
 import { ScrollRevealText } from '../design-system/components/ScrollRevealText.jsx';
 import { LANDING_CONTENT } from '../content/landing.js';
@@ -6,8 +6,40 @@ import { LANDING_CONTENT } from '../content/landing.js';
 /**
  * StatementSection — Scroll-driven word reveal with embedded looping video pill.
  * Transitions words from muted sage to dark forest ink on scroll.
+ * Uses IntersectionObserver so video starts only near viewport and pauses off-screen.
  */
 export const StatementSection = () => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Respect reduced motion
+    const prefersReducedMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+          }
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: '100px 0px 100px 0px', threshold: 0.1 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
   const inlinePill = (
     <span
       style={{
@@ -25,10 +57,11 @@ export const StatementSection = () => {
       }}
     >
       <video
-        autoPlay
+        ref={videoRef}
         loop
         muted
         playsInline
+        preload="none"
         poster={LANDING_CONTENT.statement.videoThumbnail}
         style={{
           width: '100%',

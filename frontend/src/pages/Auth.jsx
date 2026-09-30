@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Drawer, Button, Input, Alert } from 'antd';
 import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 import Navbar from '../components/Navbar';
 import HeroSection from '../sections/HeroSection';
 import PoweredByStrip from '../sections/PoweredByStrip';
-import StatementSection from '../sections/StatementSection';
-import FeaturesAccordion from '../sections/FeaturesAccordion';
-import HowItWorks from '../sections/HowItWorks';
-import SolutionsCarousel from '../sections/SolutionsCarousel';
-import TestimonialsSection from '../sections/TestimonialsSection';
-import FAQSection from '../sections/FAQSection';
-import FinalCtaSection from '../sections/FinalCtaSection';
-import Footer from '../components/Footer';
+
+// Lazy-load below-the-fold sections for optimal LCP and TBT
+const StatementSection = lazy(() => import('../sections/StatementSection'));
+const FeaturesAccordion = lazy(() => import('../sections/FeaturesAccordion'));
+const HowItWorks = lazy(() => import('../sections/HowItWorks'));
+const SolutionsCarousel = lazy(() => import('../sections/SolutionsCarousel'));
+const TestimonialsSection = lazy(() => import('../sections/TestimonialsSection'));
+const FAQSection = lazy(() => import('../sections/FAQSection'));
+const FinalCtaSection = lazy(() => import('../sections/FinalCtaSection'));
+const Footer = lazy(() => import('../components/Footer'));
 
 /**
  * Auth / Landing Page — Complete Kisan Sakhi landing experience.
@@ -106,31 +108,34 @@ const Auth = () => {
       {/* 3. Below Hero: Real Tech Powered By Strip */}
       <PoweredByStrip />
 
-      {/* 4. Statement: Scroll-Driven Word Reveal with Looping Video Pill */}
-      <div id="statement">
-        <StatementSection />
-      </div>
+      {/* Below-the-fold sections wrapped in Suspense */}
+      <Suspense fallback={<div style={{ minHeight: '200px' }} />}>
+        {/* 4. Statement: Scroll-Driven Word Reveal with Looping Video Pill */}
+        <div id="statement">
+          <StatementSection />
+        </div>
 
-      {/* 5. Features Accordion with 4 Real Tools & Side Crossfade */}
-      <FeaturesAccordion />
+        {/* 5. Features Accordion with 4 Real Tools & Side Crossfade */}
+        <FeaturesAccordion />
 
-      {/* 6. How It Works: Interactive Tab Panel & Floating Glass Diagnosis Cards */}
-      <HowItWorks />
+        {/* 6. How It Works: Interactive Tab Panel & Floating Glass Diagnosis Cards */}
+        <HowItWorks />
 
-      {/* 7. Smart Solutions: Staggered Crop Guidance Carousel */}
-      <SolutionsCarousel />
+        {/* 7. Smart Solutions: Staggered Crop Guidance Carousel */}
+        <SolutionsCarousel />
 
-      {/* 8. Sample Workflows & Farmer Scenarios */}
-      <TestimonialsSection />
+        {/* 8. Sample Workflows & Farmer Scenarios */}
+        <TestimonialsSection />
 
-      {/* 9. FAQ: 5 Accurate Code-Grounded Q&As with Custom Accordion */}
-      <FAQSection />
+        {/* 9. FAQ: 5 Accurate Code-Grounded Q&As with Custom Accordion */}
+        <FAQSection />
 
-      {/* 10. Final CTA: White Fading into Field Landscape */}
-      <FinalCtaSection onActionClick={() => setShowPanel(true)} />
+        {/* 10. Final CTA: White Fading into Field Landscape */}
+        <FinalCtaSection onActionClick={() => setShowPanel(true)} />
 
-      {/* 11. Editorial Dark Green Footer */}
-      <Footer />
+        {/* 11. Editorial Dark Green Footer */}
+        <Footer />
+      </Suspense>
 
       {/* 12. Accessible Sliding Auth Drawer (preserves all login/register API calls) */}
       <Drawer

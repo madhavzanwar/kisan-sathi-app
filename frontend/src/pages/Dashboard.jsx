@@ -1,17 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Drawer, Button, Tag, Tooltip } from 'antd';
-import {
-  MenuOutlined,
-  HomeOutlined,
-  LogoutOutlined,
-  CheckCircleOutlined,
-  SafetyCertificateOutlined,
-  ThunderboltOutlined,
-  CloudOutlined,
-  BookOutlined,
-  RightOutlined
-} from '@ant-design/icons';
+import { Drawer, Button, Tag, Tooltip, Spin } from 'antd';
+
+import { MenuOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
 import {
   Camera,
   FlaskConical,
@@ -19,16 +10,14 @@ import {
   Sprout,
   Droplets,
   Leaf,
-  Sparkles,
-  ExternalLink,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 
-import HealCrop from '../tabs/HealCrop';
-import FertilizerCalc from '../tabs/FertilizerCalc';
-import YieldPestForecaster from '../tabs/YieldPestForecaster';
-import CultivationGuide from '../tabs/CultivationGuide';
-import WeatherIrrigation from '../tabs/WeatherIrrigation';
+const HealCrop = lazy(() => import('../tabs/HealCrop'));
+const FertilizerCalc = lazy(() => import('../tabs/FertilizerCalc'));
+const YieldPestForecaster = lazy(() => import('../tabs/YieldPestForecaster'));
+const CultivationGuide = lazy(() => import('../tabs/CultivationGuide'));
+const WeatherIrrigation = lazy(() => import('../tabs/WeatherIrrigation'));
 import FloatingAssistant from '../components/FloatingAssistant';
 
 const tabs = [
@@ -240,6 +229,7 @@ const Dashboard = () => {
 
           <button
             onClick={() => navigate('/')}
+            className="hide-on-mobile"
             style={{
               padding: '8px 18px',
               borderRadius: '999px',
@@ -529,7 +519,22 @@ const Dashboard = () => {
             width: '100%',
           }}
         >
-          {renderTabContent()}
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '80px 0',
+                }}
+              >
+                <Spin size="large" />
+              </div>
+            }
+          >
+            {renderTabContent()}
+          </Suspense>
         </main>
       </div>
 
