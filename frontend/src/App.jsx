@@ -1,9 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ConfigProvider, App as AntdApp } from 'antd';
+import { kisanSathiTheme } from './design-system/theme.js';
+import { SmoothScroll } from './design-system/components/SmoothScroll.jsx';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 
-// Global Video Background Component
+// Global Video Background Component (rendered only for dashboard routes)
 const VideoBackground = () => (
   <div className="video-bg-container">
     <video autoPlay loop muted playsInline>
@@ -12,15 +15,32 @@ const VideoBackground = () => (
   </div>
 );
 
-function App() {
+function AppRoutes() {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
+
   return (
-    <Router>
-      <VideoBackground />
+    <div className="legacy-app">
+      {isDashboard && <VideoBackground />}
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-    </Router>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <ConfigProvider theme={kisanSathiTheme}>
+      <AntdApp className="ant-app">
+        <SmoothScroll>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </SmoothScroll>
+      </AntdApp>
+    </ConfigProvider>
   );
 }
 

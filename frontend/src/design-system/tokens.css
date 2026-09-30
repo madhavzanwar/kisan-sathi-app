@@ -1,0 +1,139 @@
+/* ==========================================================================
+   KisanSathi Design System — Core Design Tokens & Utility Classes
+   ========================================================================== */
+
+:root {
+  /* --- Primary Brand & Agricultural Palette --- */
+  --color-forest-ink: #0E2A12;      /* Deep dark agricultural green for headings */
+  --color-forest-ink-rgb: 14, 42, 18;
+  --color-text-body: #1E2D20;       /* High-contrast body text */
+  --color-text-muted: #7C8B7E;      /* Muted sage body text */
+  --color-page-bg: #F4F5F3;         /* Soft warm agricultural paper background */
+  --color-surface: #FFFFFF;         /* Pure white container / card background */
+  --color-surface-subtle: #F9FAF8;  /* Elevated subtle surface */
+  --color-lime-accent: #D5F145;     /* High-energy lime accent for badges and active states */
+  --color-lime-hover: #C5E135;
+  --color-cta-green: #2E6B34;       /* Balanced natural CTA green */
+  --color-cta-hover: #245729;
+  --color-danger: #EF4444;          /* Pest alerts / error states */
+  --color-warning: #F59E0B;         /* Warnings and star ratings */
+  --color-info: #059669;            /* Secondary emerald info */
+
+  /* --- Legacy Compatibility Variables (Prevents breaking existing tabs) --- */
+  --primary: #059669;
+  --primary-dark: #047857;
+  --primary-light: #10B981;
+  --accent: #D5F145;
+  --slate-dark: #0F172A;
+  --text-main: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* --- Radii Scale --- */
+  --radius-pill: 999px;
+  --radius-card: 24px;
+  --radius-card-sm: 14px;
+  --radius-input: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 4px;
+
+  /* --- Spacing Scale --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* --- Glass Tokens --- */
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(14px) saturate(140%);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.25);
+  --glass-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.18);
+
+  --glass-light-bg: rgba(255, 255, 255, 0.75);
+  --glass-light-blur: blur(16px) saturate(150%);
+  --glass-light-border: 1px solid rgba(255, 255, 255, 0.6);
+  --glass-light-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 2px 8px rgba(14, 42, 18, 0.04);
+  --shadow-md: 0 6px 20px rgba(14, 42, 18, 0.08);
+  --shadow-lg: 0 16px 40px rgba(14, 42, 18, 0.12);
+  --shadow-cta: 0 8px 24px rgba(46, 107, 52, 0.25);
+}
+
+/* ==========================================================================
+   Design System Utility Classes
+   ========================================================================== */
+
+/* Dark frosted glass (ideal over hero video and dark surfaces) */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-card);
+}
+
+/* Light frosted glass (ideal over light sections and photography) */
+.glass-light {
+  background: var(--glass-light-bg);
+  backdrop-filter: var(--glass-light-blur);
+  -webkit-backdrop-filter: var(--glass-light-blur);
+  border: var(--glass-light-border);
+  box-shadow: var(--glass-light-shadow);
+  border-radius: var(--radius-card);
+}
+
+/* Small section pill badge with pulsing or solid green dot */
+.eyebrow-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(46, 107, 52, 0.08);
+  border: 1px solid rgba(46, 107, 52, 0.15);
+  color: var(--color-forest-ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: capitalize;
+  user-select: none;
+}
+
+.eyebrow-tag::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-cta-green);
+  box-shadow: 0 0 0 2px rgba(46, 107, 52, 0.2);
+}
+
+/* Serif italic accent typography inside modern sans headings */
+.heading-accent {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: normal;
+  padding-left: 2px;
+}
+
+/* Tight tracking for modern bold editorial headings */
+.heading-editorial {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-forest-ink);
+  line-height: 1.15;
+}
