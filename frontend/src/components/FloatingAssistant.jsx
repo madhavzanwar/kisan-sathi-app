@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mic, X, Bot, Loader, Send } from 'lucide-react';
+import { Mic, X, Bot, Loader, Send, Volume2, Sparkles, Trash2 } from 'lucide-react';
+import { Tooltip } from 'antd';
 
+/**
+ * FloatingAssistant — AI Agronomist Chatbot.
+ * Context-aware chat wired to POST /api/chat.
+ * Preserves speech recognition (Web Speech API) and speech synthesis.
+ */
 const FloatingAssistant = ({ activeTab }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', text: 'Namaste! Main KisanSathi AI hoon. Aapki kheti me kya madad kar sakta hoon?' }
+    { sender: 'bot', text: 'Namaste! Main KisanSathi AI hoon. Aapki kheti me kya madad kar sakta hoon?' }
   ]);
-  const [inputText, setInputText] = useState("");
-  
+  const [inputText, setInputText] = useState('');
+
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -17,7 +23,8 @@ const FloatingAssistant = ({ activeTab }) => {
   // Hardcoded to English
   const langCode = 'en';
   const sttLang = 'en-IN';
-  const greeting = "Hello! I am your KisanSathi. How can I help you today?";
+  const greeting = 'Hello! I am your KisanSathi AI assistant. How can I help you in your farm today?';
+
   const getChips = () => {
     switch (activeTab) {
       case 'yield-pest':
@@ -47,16 +54,16 @@ const FloatingAssistant = ({ activeTab }) => {
       case 'heal':
       default:
         return [
-          'Why are my tomato leaves turning yellow?', 
-          'How to treat fungal blight?', 
+          'Why are my tomato leaves turning yellow?',
+          'How to treat fungal blight?',
           'Organic cure for powdery mildew?'
         ];
     }
   };
+
   const chips = getChips();
 
   useEffect(() => {
-    // Initial greeting
     if (messages.length === 0) {
       setMessages([{ sender: 'bot', text: greeting }]);
     }
@@ -76,19 +83,19 @@ const FloatingAssistant = ({ activeTab }) => {
       recognition.lang = sttLang;
 
       recognition.onstart = () => setIsListening(true);
-      
+
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         handleSendMessage(transcript);
       };
 
       recognition.onerror = (event) => {
-        console.error("Speech recognition error", event.error);
+        console.error('Speech recognition error', event.error);
         setIsListening(false);
       };
 
       recognition.onend = () => setIsListening(false);
-      
+
       recognitionRef.current = recognition;
     }
   }, []);
@@ -106,11 +113,11 @@ const FloatingAssistant = ({ activeTab }) => {
 
   const handleSendMessage = async (text) => {
     if (!text.trim()) return;
-    
+
     // Add user message
     const newMessages = [...messages, { sender: 'user', text }];
     setMessages(newMessages);
-    setInputText("");
+    setInputText('');
     setIsThinking(true);
 
     try {
@@ -120,16 +127,19 @@ const FloatingAssistant = ({ activeTab }) => {
         body: JSON.stringify({
           message: text,
           language: langCode,
-          context: activeTab
-        })
+          context: activeTab,
+        }),
       });
       const data = await res.json();
-      
+
       setMessages([...newMessages, { sender: 'bot', text: data.response }]);
       speakText(data.response);
     } catch (err) {
       console.error(err);
-      setMessages([...newMessages, { sender: 'bot', text: 'Error connecting to server.' }]);
+      setMessages([
+        ...newMessages,
+        { sender: 'bot', text: 'Unable to reach the assistant server. If Render is waking up, please retry in 30 seconds.' },
+      ]);
     } finally {
       setIsThinking(false);
     }
@@ -139,7 +149,11 @@ const FloatingAssistant = ({ activeTab }) => {
     if (isListening) {
       recognitionRef.current?.stop();
     } else {
-      recognitionRef.current?.start();
+      try {
+        recognitionRef.current?.start();
+      } catch (e) {
+        console.error('Mic error:', e);
+      }
     }
   };
 
@@ -152,193 +166,509 @@ const FloatingAssistant = ({ activeTab }) => {
     <>
       {/* Floating Action Button */}
       {!isOpen && (
-        <div style={{ position: 'fixed', bottom: '32px', right: '32px', zIndex: 1000 }}>
-          {/* Pulsing ring behind the button */}
-          <div style={{
-            position: 'absolute',
-            top: '-4px', left: '-4px', right: '-4px', bottom: '-4px',
-            borderRadius: '50%',
-            background: 'rgba(5, 150, 105, 0.4)',
-            animation: 'pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite'
-          }}></div>
-          <button
-            onClick={() => setIsOpen(true)}
-            className="animate-fade-in"
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '28px',
+            right: '28px',
+            zIndex: 1000,
+          }}
+        >
+          {/* Subtle pulse ring */}
+          <div
             style={{
-              position: 'relative',
-              width: '64px',
-              height: '64px',
+              position: 'absolute',
+              top: '-4px',
+              left: '-4px',
+              right: '-4px',
+              bottom: '-4px',
               borderRadius: '50%',
-              background: '#ffffff',
-              border: '1px solid rgba(0,0,0,0.05)',
-              color: '#059669', /* Emerald 600 */
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 10
+              background: 'rgba(46, 107, 52, 0.25)',
+              animation: 'pulse-ring 2.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite',
             }}
-          >
-            <Bot size={32} strokeWidth={1.5} />
-          </button>
+          />
+          <Tooltip title="Ask KisanSathi AI" placement="left">
+            <button
+              onClick={() => setIsOpen(true)}
+              className="animate-fade-in"
+              style={{
+                position: 'relative',
+                height: '56px',
+                padding: '0 20px',
+                borderRadius: '999px',
+                background: '#0E2A12',
+                border: '1px solid rgba(213, 241, 69, 0.3)',
+                color: '#FFFFFF',
+                boxShadow: '0 10px 25px rgba(14, 42, 18, 0.25)',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                zIndex: 10,
+                transition: 'all 0.2s ease',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 14px 28px rgba(14, 42, 18, 0.32)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(14, 42, 18, 0.25)';
+              }}
+            >
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: '#D5F145',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#0E2A12',
+                }}
+              >
+                <Bot size={18} strokeWidth={2.2} />
+              </div>
+              <span
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                Kisan AI
+              </span>
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: '#D5F145',
+                  boxShadow: '0 0 8px #D5F145',
+                }}
+              />
+            </button>
+          </Tooltip>
+
           <style>{`
             @keyframes pulse-ring {
-              0% { transform: scale(0.9); opacity: 1; }
-              100% { transform: scale(1.4); opacity: 0; }
+              0% { transform: scale(0.95); opacity: 0.9; }
+              100% { transform: scale(1.35); opacity: 0; }
             }
           `}</style>
         </div>
       )}
 
-      {/* Chat Window */}
+      {/* Floating Chat Panel */}
       {isOpen && (
-        <div 
-          className="glass-panel animate-fade-in"
+        <div
+          className="animate-fade-in"
           style={{
             position: 'fixed',
-            bottom: '32px',
-            right: '32px',
-            width: '380px',
-            height: '600px',
-            maxHeight: '80vh',
-            maxWidth: 'calc(100vw - 64px)',
+            bottom: '24px',
+            right: '24px',
+            width: '400px',
+            height: '620px',
+            maxHeight: 'calc(100vh - 48px)',
+            maxWidth: 'calc(100vw - 32px)',
             zIndex: 1000,
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            background: 'rgba(0,0,0,0.6)',
-            backdropFilter: 'blur(40px)',
-            WebkitBackdropFilter: 'blur(40px)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 24px 48px -12px rgba(0,0,0,0.5)',
-            borderRadius: '24px'
+            backgroundColor: '#FFFFFF',
+            borderRadius: '24px',
+            border: '1px solid rgba(14, 42, 18, 0.12)',
+            boxShadow: '0 24px 60px rgba(14, 42, 18, 0.22)',
+            fontFamily: 'var(--font-sans)',
           }}
         >
           {/* Header */}
-          <div style={{ padding: '20px', background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            style={{
+              padding: '16px 20px',
+              backgroundColor: '#0E2A12',
+              color: '#FFFFFF',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Bot size={20} color="#059669" />
+              <div
+                style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  backgroundColor: '#D5F145',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#0E2A12',
+                }}
+              >
+                <Bot size={20} strokeWidth={2.2} />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '1rem', color: '#fff', fontWeight: 600 }}>AI Assistant</h3>
-                <span style={{ fontSize: '0.75rem', color: '#059669', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#059669' }}></div> Online
+                <h3
+                  style={{
+                    margin: 0,
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    color: '#FFFFFF',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  KisanSathi AI
+                </h3>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    color: '#D5F145',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      backgroundColor: '#D5F145',
+                      boxShadow: '0 0 6px #D5F145',
+                    }}
+                  />
+                  Online • {activeTab ? `${activeTab} mode` : 'General agronomy'}
                 </span>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <button onClick={clearHistory} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.8rem', transition: 'color 0.2s' }} onMouseOver={e=>e.currentTarget.style.color='#fff'} onMouseOut={e=>e.currentTarget.style.color='rgba(255,255,255,0.4)'}>Clear</button>
-              <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', padding: '4px' }}>
-                <X size={20} />
+
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <Tooltip title="Clear chat history">
+                <button
+                  onClick={clearHistory}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: 'none',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    cursor: 'pointer',
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                    e.currentTarget.style.color = '#FFFFFF';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
+                  }}
+                >
+                  <Trash2 size={15} />
+                </button>
+              </Tooltip>
+
+              <button
+                onClick={() => setIsOpen(false)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: '#FFFFFF',
+                  cursor: 'pointer',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                }}
+              >
+                <X size={16} />
               </button>
             </div>
           </div>
 
           {/* Chat History */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {messages.map((msg, i) => (
-              <div key={i} style={{ alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start', maxWidth: '85%' }}>
-                <div style={{ 
-                  background: msg.sender === 'user' ? '#059669' : 'rgba(255,255,255,0.05)', 
-                  padding: '14px 18px', 
-                  borderRadius: msg.sender === 'user' ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
-                  color: '#fff',
-                  border: msg.sender === 'user' ? 'none' : '1px solid rgba(255,255,255,0.1)',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                }}>
-                  <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.5' }}>{msg.text}</p>
+          <div
+            style={{
+              flex: 1,
+              overflowY: 'auto',
+              padding: '18px 16px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              backgroundColor: '#F9FAF8',
+            }}
+          >
+            {messages.map((msg, i) => {
+              const isUser = msg.sender === 'user';
+              return (
+                <div
+                  key={i}
+                  style={{
+                    alignSelf: isUser ? 'flex-end' : 'flex-start',
+                    maxWidth: '85%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: isUser ? 'flex-end' : 'flex-start',
+                  }}
+                >
+                  <div
+                    style={{
+                      background: isUser ? '#2E6B34' : '#FFFFFF',
+                      padding: '12px 16px',
+                      borderRadius: isUser ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                      color: isUser ? '#FFFFFF' : '#0E2A12',
+                      border: isUser ? 'none' : '1px solid rgba(14, 42, 18, 0.08)',
+                      boxShadow: isUser
+                        ? '0 3px 10px rgba(46, 107, 52, 0.2)'
+                        : '0 2px 8px rgba(14, 42, 18, 0.04)',
+                      fontSize: '13.5px',
+                      lineHeight: '1.5',
+                    }}
+                  >
+                    <p style={{ margin: 0 }}>{msg.text}</p>
+                  </div>
+
+                  {!isUser && (
+                    <button
+                      onClick={() => speakText(msg.text)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#7C8B7E',
+                        cursor: 'pointer',
+                        padding: '4px 6px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '11px',
+                        marginTop: '3px',
+                      }}
+                      title="Read aloud"
+                    >
+                      <Volume2 size={12} /> Listen
+                    </button>
+                  )}
                 </div>
-              </div>
-            ))}
-            
+              );
+            })}
+
             {isThinking && (
               <div style={{ alignSelf: 'flex-start', maxWidth: '85%' }}>
-                <div style={{ background: 'rgba(255,255,255,0.05)', padding: '14px 18px', borderRadius: '20px 20px 20px 4px', display: 'flex', gap: '8px', alignItems: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
-                  <Loader size={16} className="lucide-icon" style={{ animation: 'spin 2s linear infinite', color: '#059669' }} />
-                  <span style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>
-                    Thinking...
+                <div
+                  style={{
+                    background: '#FFFFFF',
+                    padding: '12px 16px',
+                    borderRadius: '18px 18px 18px 4px',
+                    display: 'flex',
+                    gap: '8px',
+                    alignItems: 'center',
+                    border: '1px solid rgba(14, 42, 18, 0.08)',
+                    boxShadow: '0 2px 8px rgba(14, 42, 18, 0.04)',
+                  }}
+                >
+                  <Loader
+                    size={15}
+                    style={{
+                      animation: 'assistant-spin 1.5s linear infinite',
+                      color: '#2E6B34',
+                    }}
+                  />
+                  <span style={{ fontSize: '13px', color: '#7C8B7E' }}>
+                    Consulting agronomy models...
                   </span>
                 </div>
-                <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+                <style>{`@keyframes assistant-spin { 100% { transform: rotate(360deg); } }`}</style>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Area */}
-          <div style={{ padding: '20px', background: 'rgba(0,0,0,0.4)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-            
-            {/* Quick Chips */}
-            <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '16px', scrollbarWidth: 'none' }}>
+          {/* Quick Context Chips */}
+          <div
+            style={{
+              padding: '10px 16px 6px',
+              backgroundColor: '#FFFFFF',
+              borderTop: '1px solid rgba(14, 42, 18, 0.06)',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                gap: '8px',
+                overflowX: 'auto',
+                paddingBottom: '4px',
+                scrollbarWidth: 'none',
+              }}
+            >
               {chips.map((chip, i) => (
-                <button 
-                  key={i} 
+                <button
+                  key={i}
                   onClick={() => handleSendMessage(chip)}
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)', padding: '8px 16px', borderRadius: '100px', fontSize: '0.85rem', whiteSpace: 'nowrap', cursor: 'pointer', transition: 'all 0.2s' }}
-                  onMouseOver={(e) => e.target.style.background = 'rgba(255,255,255,0.15)'}
-                  onMouseOut={(e) => e.target.style.background = 'rgba(255,255,255,0.05)'}
+                  style={{
+                    background: '#F4F5F3',
+                    border: '1px solid rgba(14, 42, 18, 0.08)',
+                    color: '#0E2A12',
+                    padding: '6px 12px',
+                    borderRadius: '999px',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    whiteSpace: 'nowrap',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    flexShrink: 0,
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(46, 107, 52, 0.08)';
+                    e.currentTarget.style.borderColor = '#2E6B34';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F4F5F3';
+                    e.currentTarget.style.borderColor = 'rgba(14, 42, 18, 0.08)';
+                  }}
                 >
                   {chip}
                 </button>
               ))}
             </div>
+          </div>
 
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <input 
-                type="text" 
+          {/* Input Area */}
+          <div
+            style={{
+              padding: '12px 16px 16px',
+              backgroundColor: '#FFFFFF',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                gap: '8px',
+                alignItems: 'center',
+                backgroundColor: '#F4F5F3',
+                borderRadius: '999px',
+                padding: '4px 6px 4px 16px',
+                border: '1px solid rgba(14, 42, 18, 0.1)',
+              }}
+            >
+              <input
+                type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputText)}
-                placeholder="Ask me anything..."
-                style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '14px 20px', borderRadius: '100px', outline: 'none', fontSize: '0.95rem', transition: 'border 0.2s' }}
-                onFocus={e => e.target.style.borderColor = 'rgba(255,255,255,0.3)'}
-                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                placeholder="Ask about fertilizer, disease, sowing..."
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#0E2A12',
+                  padding: '8px 0',
+                  outline: 'none',
+                  fontSize: '13.5px',
+                  fontFamily: 'var(--font-sans)',
+                }}
               />
-              
+
               {!inputText ? (
-                <button 
-                  onClick={toggleListen}
-                  style={{ 
-                    background: isListening ? '#ef4444' : '#ffffff', 
-                    border: 'none', 
-                    color: isListening ? '#fff' : '#0f172a', 
-                    width: '48px', 
-                    height: '48px', 
-                    borderRadius: '50%', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
+                <Tooltip title={isListening ? 'Stop listening' : 'Speak your question'}>
+                  <button
+                    onClick={toggleListen}
+                    style={{
+                      background: isListening ? '#DC2626' : '#FFFFFF',
+                      border: '1px solid rgba(14, 42, 18, 0.08)',
+                      color: isListening ? '#FFFFFF' : '#2E6B34',
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      boxShadow: isListening
+                        ? '0 0 14px rgba(220, 38, 38, 0.6)'
+                        : '0 2px 6px rgba(14, 42, 18, 0.08)',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <Mic size={17} />
+                  </button>
+                </Tooltip>
+              ) : (
+                <button
+                  onClick={() => handleSendMessage(inputText)}
+                  style={{
+                    background: '#2E6B34',
+                    border: 'none',
+                    color: '#FFFFFF',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     cursor: 'pointer',
-                    boxShadow: isListening ? '0 0 16px rgba(239, 68, 68, 0.6)' : '0 4px 12px rgba(0,0,0,0.15)',
-                    animation: isListening ? 'pulse-red 1.5s infinite' : 'none',
-                    transition: 'all 0.3s'
+                    boxShadow: '0 3px 10px rgba(46, 107, 52, 0.25)',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0E2A12';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = '#2E6B34';
                   }}
                 >
-                  <Mic size={20} />
-                  <style>{`
-                    @keyframes pulse-red {
-                      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-                      70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-                      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-                    }
-                  `}</style>
-                </button>
-              ) : (
-                <button 
-                  onClick={() => handleSendMessage(inputText)}
-                  style={{ background: '#059669', border: 'none', color: '#fff', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(5, 150, 105, 0.3)' }}
-                >
-                  <Send size={18} style={{ marginLeft: '2px' }} />
+                  <Send size={16} />
                 </button>
               )}
             </div>
-            
+
             {isListening && (
-              <div style={{ textAlign: 'center', marginTop: '12px', fontSize: '0.8rem', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                <div style={{ width: '6px', height: '6px', background: '#ef4444', borderRadius: '50%', animation: 'pulse-red 1s infinite' }}></div>
-                Listening...
+              <div
+                style={{
+                  textAlign: 'center',
+                  marginTop: '8px',
+                  fontSize: '12px',
+                  color: '#DC2626',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  fontWeight: 600,
+                }}
+              >
+                <span
+                  style={{
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: '#DC2626',
+                    borderRadius: '50%',
+                    animation: 'pulse-mic 1s infinite',
+                  }}
+                />
+                Listening to speech in en-IN... Speak now
+                <style>{`
+                  @keyframes pulse-mic {
+                    0% { transform: scale(0.9); opacity: 1; }
+                    50% { transform: scale(1.4); opacity: 0.5; }
+                    100% { transform: scale(0.9); opacity: 1; }
+                  }
+                `}</style>
               </div>
             )}
           </div>
