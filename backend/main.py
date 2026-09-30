@@ -208,6 +208,30 @@ def get_weather(lat: float, lon: float):
             "advisory": "Could not fetch live weather. Showing standard baseline data."
         }
 
+# --- 3.5 AI-Based Crop Yield & Pest Outbreak Forecaster ---
+class YieldPestRequest(BaseModel):
+    latitude: float
+    longitude: float
+    crop: str = "Wheat"
+    sowing_date: str = "2026-07-01"
+    farm_size_acres: float = 2.5
+
+@app.post("/api/predict/yield-pest")
+def predict_yield_and_pest(req: YieldPestRequest):
+    try:
+        from services.yield_pest_service import run_yield_and_pest_prediction
+        result = run_yield_and_pest_prediction(
+            lat=req.latitude,
+            lon=req.longitude,
+            crop=req.crop,
+            sowing_date=req.sowing_date,
+            farm_size_acres=req.farm_size_acres
+        )
+        return result
+    except Exception as e:
+        print(f"Yield/Pest Prediction Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # --- 4. Voice Assistant LLM Endpoint ---
 class ChatRequest(BaseModel):
     message: str
