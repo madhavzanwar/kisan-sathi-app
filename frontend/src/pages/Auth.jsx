@@ -5,8 +5,20 @@ import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 import Navbar from '../components/Navbar';
 import HeroSection from '../sections/HeroSection';
 import PoweredByStrip from '../sections/PoweredByStrip';
+import StatementSection from '../sections/StatementSection';
+import FeaturesAccordion from '../sections/FeaturesAccordion';
+import HowItWorks from '../sections/HowItWorks';
+import SolutionsCarousel from '../sections/SolutionsCarousel';
+import TestimonialsSection from '../sections/TestimonialsSection';
+import FAQSection from '../sections/FAQSection';
+import FinalCtaSection from '../sections/FinalCtaSection';
 import Footer from '../components/Footer';
 
+/**
+ * Auth / Landing Page — Complete Kisan Sakhi landing experience.
+ * Assembles all 7 sections matching the reference design while keeping
+ * the authentication business logic and protected API calls intact.
+ */
 const Auth = () => {
   const navigate = useNavigate();
   const [showPanel, setShowPanel] = useState(false);
@@ -79,14 +91,14 @@ const Auth = () => {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF' }}>
-      {/* 1. Fixed Top Glass Pill Navbar */}
+      {/* 1. Fixed Translucent Glass Pill Navbar */}
       <Navbar onOpenAuth={() => setShowPanel(true)} />
 
-      {/* 2. 100vh Hero Section */}
+      {/* 2. 100vh Video Hero Section */}
       <HeroSection
         onPrimaryAction={() => setShowPanel(true)}
         onSecondaryAction={() => {
-          const target = document.getElementById('powered-by-strip');
+          const target = document.getElementById('statement');
           if (target) target.scrollIntoView({ behavior: 'smooth' });
         }}
       />
@@ -94,10 +106,33 @@ const Auth = () => {
       {/* 3. Below Hero: Real Tech Powered By Strip */}
       <PoweredByStrip />
 
-      {/* 4. Footer with Real Routes */}
+      {/* 4. Statement: Scroll-Driven Word Reveal with Looping Video Pill */}
+      <div id="statement">
+        <StatementSection />
+      </div>
+
+      {/* 5. Features Accordion with 4 Real Tools & Side Crossfade */}
+      <FeaturesAccordion />
+
+      {/* 6. How It Works: Interactive Tab Panel & Floating Glass Diagnosis Cards */}
+      <HowItWorks />
+
+      {/* 7. Smart Solutions: Staggered Crop Guidance Carousel */}
+      <SolutionsCarousel />
+
+      {/* 8. Sample Workflows & Farmer Scenarios */}
+      <TestimonialsSection />
+
+      {/* 9. FAQ: 5 Accurate Code-Grounded Q&As with Custom Accordion */}
+      <FAQSection />
+
+      {/* 10. Final CTA: White Fading into Field Landscape */}
+      <FinalCtaSection onActionClick={() => setShowPanel(true)} />
+
+      {/* 11. Editorial Dark Green Footer */}
       <Footer />
 
-      {/* 5. Accessible Sliding Auth Drawer (keeps all login/register business logic) */}
+      {/* 12. Accessible Sliding Auth Drawer (preserves all login/register API calls) */}
       <Drawer
         open={showPanel}
         onClose={() => setShowPanel(false)}
