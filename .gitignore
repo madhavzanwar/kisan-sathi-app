@@ -24,3 +24,9 @@ frontend/node_modules/
 
 # OS Files
 .DS_Store
+Thumbs.db
+
+# Logs & Testing Caches
+*.log
+.pytest_cache/
+.coverage

@@ -35,7 +35,11 @@ current_key_idx = 0
 if API_KEYS:
     genai.configure(api_key=API_KEYS[current_key_idx])
 
-app = FastAPI(title="KisanSathi API")
+app = FastAPI(
+    title="KisanSathi API",
+    version="2.0.0",
+    description="AI-Powered Agritech SaaS Platform for Precision Farming & Crop Intelligence"
+)
 
 # Initialize Database Tables
 db_models.Base.metadata.create_all(bind=database.engine)
