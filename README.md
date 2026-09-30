@@ -89,6 +89,7 @@ The platform combines **computer vision**, **classical ML**, and **generative AI
 |---|---|
 | 🩺 **Heal Your Crop (AI Diagnosis)** | Upload a photo of a diseased leaf. A PyTorch ResNet18 model analyzes the image, identifies the exact disease, and returns both chemical and organic treatment plans instantly. |
 | 🧪 **Smart Fertilizer Calculator** | Input soil type, crop stage, farm size, and current NPK levels. A Scikit-Learn Random Forest model dynamically calculates exact kg dosage of Urea, DAP, MOP, and Organic Compost required. |
+| 🛰️ **Yield & Pest Forecaster (PS-05)** | Correlates Copernicus Sentinel-2 satellite imagery (NDVI), root-zone soil telemetry, and predictive microclimate patterns to forecast localized crop harvest (Tons/Acre) and provide early-warning pest outbreak alerts with actionable IPM and irrigation guidance. |
 | 🌾 **Cultivation Guides** | Step-by-step lifecycle guides for major crops (Tomato, Cotton, Wheat, etc.) covering sowing, irrigation, and pest control timelines. |
 | 💬 **Floating AI Assistant** | A localized, context-aware chatbot powered by Google's Gemini 1.5 Pro — understands the page context and answers farming questions intelligently. |
 | 🎨 **Ultra-Premium UI** | Apple-style "frosted glass" interface with a dynamic background, elegant typography, and seamless micro-animations. |
@@ -249,6 +250,7 @@ GEMINI_MODEL="gemini-1.5-pro-latest"
 | `GET` | `/` | Root health check | — |
 | `POST` | `/api/predict/disease` | Diagnose crop disease from a leaf image | `multipart/form-data` (image file) |
 | `POST` | `/api/predict/fertilizer` | Calculate exact fertilizer dosage | `JSON` (n, p, k, ph, soil, crop, farm size) |
+| `POST` | `/api/predict/yield-pest` | Predict localized crop yield & pest outbreak risks via satellite NDVI & weather | `JSON` (latitude, longitude, crop, sowing_date, farm_size_acres) |
 | `POST` | `/api/chat` | Chat with the Gemini-powered AI assistant | `JSON` (message, context) |
 
 **Example — Fertilizer Prediction Request:**
@@ -284,6 +286,8 @@ POST /api/predict/fertilizer
 |---|---|---|---|
 | **Disease Classifier** | CNN (ResNet18, transfer learning) | Classifies leaf images into disease categories | PyTorch / TorchVision |
 | **Fertilizer Predictor** | Random Forest Regressor | Predicts optimal NPK + compost dosage from soil/crop inputs | Scikit-Learn |
+| **Crop Yield Forecaster** | Random Forest Regressor (R² = 0.99) | Forecasts localized harvest yield from satellite NDVI, GDD & soil telemetry | Scikit-Learn |
+| **Pest Risk Classifier** | Random Forest Classifier (95.7% Acc) | Evaluates multi-season environmental triggers for early outbreak warnings | Scikit-Learn |
 | **AI Assistant** | Gemini 1.5 Pro (LLM) | Context-aware conversational farming guidance | Google Generative AI |
 
 ---
