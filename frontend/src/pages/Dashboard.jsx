@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Menu, User, Globe, Leaf } from 'lucide-react';
 import HealCrop from '../tabs/HealCrop';
 import FertilizerCalc from '../tabs/FertilizerCalc';
@@ -16,8 +17,16 @@ const tabs = [
 ];
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('heal');
+  const [searchParams] = useSearchParams();
+  const urlTab = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState(urlTab || 'heal');
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    if (urlTab && tabs.some(t => t.id === urlTab)) {
+      setActiveTab(urlTab);
+    }
+  }, [urlTab]);
 
   const renderTabContent = () => {
     switch(activeTab) {

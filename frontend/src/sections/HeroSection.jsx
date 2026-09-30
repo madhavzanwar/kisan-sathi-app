@@ -1,0 +1,322 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Avatar } from 'antd';
+import { ArrowUpRight } from 'lucide-react';
+import { BgVideo } from '../design-system/components/BgVideo.jsx';
+import { LANDING_CONTENT } from '../content/landing.js';
+
+/**
+ * HeroSection — 100vh Full-Bleed Wheat Video Hero
+ * Matches the reference design with editorial serif accent, lime CTA pill,
+ * hairline bottom divider, SCROLL indicator, and truthful stats badge.
+ */
+export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
+  const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handlePrimary = () => {
+    if (onPrimaryAction) {
+      onPrimaryAction();
+    } else {
+      navigate('/dashboard?tab=heal');
+    }
+  };
+
+  const handleSecondary = () => {
+    if (onSecondaryAction) {
+      onSecondaryAction();
+    } else {
+      const target = document.getElementById('powered-by-strip') || document.getElementById('features');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  return (
+    <section
+      style={{
+        position: 'relative',
+        width: '100%',
+        minHeight: '100vh',
+        height: '100vh',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        color: '#FFFFFF',
+      }}
+    >
+      {/* 1. Background Video Layer */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+        }}
+      >
+        <BgVideo
+          src="/videos/hero.mp4"
+          webmSrc="/videos/hero.webm"
+          poster="/videos/hero-poster.webp"
+          forcePoster={isMobile}
+        />
+      </div>
+
+      {/* 2. Legibility Gradient Overlay (darkening bottom-left for crisp text) */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 1,
+          background: `
+            linear-gradient(
+              to top,
+              rgba(14, 42, 18, 0.88) 0%,
+              rgba(14, 42, 18, 0.6) 28%,
+              rgba(0, 0, 0, 0.25) 55%,
+              transparent 100%
+            ),
+            linear-gradient(
+              to right,
+              rgba(14, 42, 18, 0.72) 0%,
+              rgba(14, 42, 18, 0.35) 45%,
+              transparent 80%
+            )
+          `,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* 3. Hero Content Container */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          width: '100%',
+          maxWidth: '1240px',
+          margin: '0 auto',
+          padding: '0 clamp(20px, 4vw, 48px) clamp(24px, 3vh, 36px)',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* Main Headline & Subtext Column */}
+        <div style={{ maxWidth: '640px' }}>
+          <h1
+            style={{
+              margin: 0,
+              lineHeight: 1.08,
+              letterSpacing: '-0.03em',
+              fontWeight: 700,
+              fontSize: 'clamp(42px, 5.5vw, 68px)',
+              textShadow: '0 4px 20px rgba(0, 0, 0, 0.35)',
+            }}
+          >
+            <span style={{ fontFamily: 'var(--font-sans)', display: 'block' }}>
+              {LANDING_CONTENT.hero.headlineLine1}
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-serif-accent)',
+                fontStyle: 'italic',
+                fontWeight: 400,
+                color: '#FFFFFF',
+              }}
+            >
+              {LANDING_CONTENT.hero.headlineAccent}
+            </span>
+          </h1>
+
+          {/* Subtext */}
+          <p
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'clamp(14px, 1.15vw, 16px)',
+              lineHeight: 1.6,
+              color: 'rgba(255, 255, 255, 0.9)',
+              margin: '18px 0 28px 0',
+              maxWidth: '520px',
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+            }}
+          >
+            {LANDING_CONTENT.hero.subtext}
+          </p>
+
+          {/* CTAs Row */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '14px',
+              alignItems: 'center',
+            }}
+          >
+            {/* Primary Lime Pill Button */}
+            <button
+              onClick={handlePrimary}
+              style={{
+                backgroundColor: 'var(--color-lime-accent, #D5F145)',
+                color: '#0E2A12',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14.5px',
+                fontWeight: 600,
+                padding: '13px 28px',
+                borderRadius: '999px',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 8px 24px rgba(213, 241, 69, 0.32)',
+                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 10px 28px rgba(213, 241, 69, 0.45)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(213, 241, 69, 0.32)';
+              }}
+            >
+              <span>{LANDING_CONTENT.hero.primaryCta}</span>
+              <ArrowUpRight size={17} strokeWidth={2.5} />
+            </button>
+
+            {/* Secondary Glass Outline Pill */}
+            <button
+              onClick={handleSecondary}
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
+                border: '1px solid rgba(255, 255, 255, 0.35)',
+                color: '#FFFFFF',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14.5px',
+                fontWeight: 600,
+                padding: '13px 26px',
+                borderRadius: '999px',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s ease, border-color 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.22)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+              }}
+            >
+              {LANDING_CONTENT.hero.secondaryCta}
+            </button>
+          </div>
+        </div>
+
+        {/* 4. Bottom Divider & Social Proof Bar */}
+        <div
+          style={{
+            marginTop: 'clamp(28px, 4vh, 48px)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.22)',
+            paddingTop: '18px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '16px',
+          }}
+        >
+          {/* Left: Scroll indicator */}
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '12px',
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'rgba(255, 255, 255, 0.85)',
+            }}
+          >
+            <span>SCROLL</span>
+            <span style={{ fontSize: '13px' }}>↓</span>
+          </div>
+
+          {/* Right: Truthful Stats Glass Pill */}
+          <div
+            style={{
+              background: 'rgba(255, 255, 255, 0.14)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(255, 255, 255, 0.28)',
+              borderRadius: '999px',
+              padding: '6px 14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            }}
+          >
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontSize: '13px',
+                fontWeight: 600,
+                color: '#FFFFFF',
+              }}
+            >
+              <span style={{ color: '#F59E0B' }}>★</span>
+              <span>{LANDING_CONTENT.hero.stats.rating}</span>
+            </span>
+
+            {/* Model & System Avatars */}
+            <Avatar.Group size="small" max={{ count: 3 }}>
+              <Avatar
+                style={{ backgroundColor: '#2E6B34', fontSize: '11px', fontWeight: 600 }}
+              >
+                AI
+              </Avatar>
+              <Avatar
+                style={{ backgroundColor: '#059669', fontSize: '11px', fontWeight: 600 }}
+              >
+                CV
+              </Avatar>
+              <Avatar
+                style={{ backgroundColor: '#F59E0B', fontSize: '11px', fontWeight: 600 }}
+              >
+                ML
+              </Avatar>
+            </Avatar.Group>
+
+            <span
+              style={{
+                fontSize: '12.5px',
+                color: 'rgba(255, 255, 255, 0.95)',
+                fontWeight: 500,
+              }}
+            >
+              {LANDING_CONTENT.hero.stats.farmerCountPlaceholder}
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;

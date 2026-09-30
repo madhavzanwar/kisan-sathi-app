@@ -44,3 +44,12 @@ The compression automation script is located at:
 - ✅ Video assets serve as static assets from Vite `public/videos/`.
 - ✅ IntersectionObserver pauses playback whenever videos scroll outside the viewport.
 - ✅ Autoplay is strictly limited to 1 primary video at any time.
+
+---
+
+## 5. Truthful Stats & Pre-Launch Review Checklist
+
+- ⚠️ **Hero Bottom Bar Stat (`src/content/landing.js`)**:
+  - The hero social proof pill uses verified machine learning data (`38 Disease Classes` and `6 Guided Crops`).
+  - Any user count metric is clearly flagged: `isPlaceholder: true` with notice **"replace before launch"** once live analytics are aggregated. No fake "10k+ farmers" or fabricated reviews are rendered.
+
