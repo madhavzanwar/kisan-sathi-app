@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Select, Slider, Tag, Button, Progress, Tooltip } from 'antd';
 import { 
   MapPin, 
   TrendingUp, 
@@ -12,6 +13,7 @@ import {
   AlertTriangle, 
   RefreshCw 
 } from 'lucide-react';
+import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
 
 const PRESET_REGIONS = [
   { name: 'Maharashtra (Western Agro Zone)', lat: 19.076, lon: 72.877, crop: 'Cotton' },
@@ -176,270 +178,527 @@ const YieldPestForecaster = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '1000px', margin: '0 auto' }}>
-      
-      {/* 1. Header & Configuration Control Glass Panel */}
-      <div className="glass-panel animate-fade-in" style={{ padding: '28px 24px', position: 'relative' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '24px' }}>
+    <div
+      style={{
+        backgroundColor: '#FFFFFF',
+        borderRadius: '24px',
+        padding: 'clamp(20px, 4vw, 36px)',
+        boxShadow: '0 10px 30px rgba(14, 42, 18, 0.04)',
+        border: '1px solid rgba(14, 42, 18, 0.06)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '28px',
+        width: '100%',
+        maxWidth: '1000px',
+        margin: '0 auto',
+      }}
+    >
+      {/* 1. Header & Configuration Control Section */}
+      <div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '20px' }}>
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '4px 12px', borderRadius: '100px', fontSize: '0.8rem', color: '#10B981', fontWeight: 600, marginBottom: '8px' }}>
-              <Satellite size={14} /> AI AGRI-INTELLIGENCE • PS-05
-            </div>
-            <h2 style={{ fontSize: '1.6rem', color: '#fff', marginBottom: '6px' }}>Yield & Pest Forecaster</h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: '650px', lineHeight: 1.5 }}>
+            <Tag
+              style={{
+                borderRadius: '999px',
+                padding: '4px 12px',
+                fontSize: '11px',
+                fontWeight: 700,
+                backgroundColor: 'rgba(46, 107, 52, 0.08)',
+                color: '#2E6B34',
+                border: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                marginBottom: '8px',
+              }}
+            >
+              <Satellite size={13} />
+              <span>AI AGRI-INTELLIGENCE • PS-05</span>
+            </Tag>
+            <h2
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(22px, 3vw, 28px)',
+                fontWeight: 700,
+                color: '#0E2A12',
+                margin: '0 0 6px 0',
+                letterSpacing: '-0.02em',
+              }}
+            >
+              Yield &amp; Pest Forecaster
+            </h2>
+            <p
+              style={{
+                fontSize: '14px',
+                color: '#7C8B7E',
+                margin: 0,
+                maxWidth: '680px',
+                lineHeight: 1.5,
+              }}
+            >
               Correlating Copernicus Sentinel-2 satellite imagery, root-zone soil telemetry, and predictive microclimate patterns to forecast harvest and disease outbreaks.
             </p>
           </div>
 
-          <button 
-            className="glass-button"
+          <Button
+            type="primary"
+            icon={<RefreshCw size={15} className={loading ? 'animate-spin' : ''} />}
             onClick={() => fetchForecast(location.latitude, location.longitude, crop, farmSize, sowingDate)}
-            disabled={loading}
-            style={{ minWidth: '150px' }}
+            loading={loading}
+            style={{
+              borderRadius: '999px',
+              backgroundColor: 'var(--color-cta-green, #2E6B34)',
+              height: '42px',
+              fontWeight: 600,
+              padding: '0 22px',
+              boxShadow: '0 4px 12px rgba(46, 107, 52, 0.2)',
+            }}
           >
-            <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
             {loading ? 'Running AI...' : 'Recalculate'}
-          </button>
+          </Button>
         </div>
 
-        {/* Input Parameters Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-          {/* Crop Selector */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 500 }}>
-              Crop Variety
-            </label>
-            <select 
-              className="glass-input"
-              value={crop}
-              onChange={(e) => setCrop(e.target.value)}
-              style={{ background: 'rgba(255,255,255,0.08)', cursor: 'pointer' }}
-            >
-              {CROPS.map(c => (
-                <option key={c} value={c} style={{ background: '#0f172a', color: '#fff' }}>{c}</option>
-              ))}
-            </select>
+        {/* Input Parameters Box */}
+        <div
+          style={{
+            backgroundColor: '#F9FAF8',
+            borderRadius: '20px',
+            border: '1px solid rgba(14, 42, 18, 0.06)',
+            padding: '20px',
+          }}
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+              gap: '16px',
+              alignItems: 'flex-start',
+            }}
+          >
+            {/* Crop Selector */}
+            <div>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#0E2A12',
+                  marginBottom: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                Crop Variety
+              </label>
+              <Select
+                value={crop}
+                onChange={(val) => setCrop(val)}
+                options={CROPS.map((c) => ({ label: c, value: c }))}
+                style={{ width: '100%', height: '42px' }}
+              />
+            </div>
+
+            {/* Farm Size Slider */}
+            <div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '4px',
+                }}
+              >
+                <label
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: '#0E2A12',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  Farm Size
+                </label>
+                <span
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    color: '#2E6B34',
+                    backgroundColor: 'rgba(46, 107, 52, 0.08)',
+                    padding: '2px 8px',
+                    borderRadius: '6px',
+                  }}
+                >
+                  {farmSize} Acres
+                </span>
+              </div>
+              <Slider
+                min={0.5}
+                max={20}
+                step={0.5}
+                value={farmSize}
+                onChange={(val) => setFarmSize(val)}
+                trackStyle={{ backgroundColor: '#2E6B34' }}
+                handleStyle={{ borderColor: '#2E6B34' }}
+                style={{ margin: '10px 0 0 0' }}
+              />
+            </div>
+
+            {/* Sowing Date */}
+            <div>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#0E2A12',
+                  marginBottom: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                Sowing Date
+              </label>
+              <input
+                type="date"
+                value={sowingDate}
+                onChange={(e) => setSowingDate(e.target.value)}
+                style={{
+                  width: '100%',
+                  height: '42px',
+                  padding: '8px 12px',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(14, 42, 18, 0.15)',
+                  backgroundColor: '#FFFFFF',
+                  color: '#0E2A12',
+                  fontSize: '13px',
+                  fontWeight: 500,
+                  fontFamily: 'inherit',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
+
+            {/* Location / GPS */}
+            <div>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#0E2A12',
+                  marginBottom: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                Location &amp; Coordinates
+              </label>
+              <button
+                type="button"
+                onClick={handleDetectGPS}
+                disabled={detectingGps}
+                style={{
+                  width: '100%',
+                  height: '42px',
+                  padding: '8px 14px',
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid rgba(14, 42, 18, 0.15)',
+                  borderRadius: '10px',
+                  color: '#0E2A12',
+                  fontSize: '12.5px',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  boxSizing: 'border-box',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.borderColor = '#2E6B34';
+                  e.currentTarget.style.backgroundColor = 'rgba(46, 107, 52, 0.04)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(14, 42, 18, 0.15)';
+                  e.currentTarget.style.backgroundColor = '#FFFFFF';
+                }}
+              >
+                <MapPin size={15} color="#2E6B34" />
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {detectingGps ? 'Detecting GPS...' : location.name}
+                </span>
+              </button>
+            </div>
           </div>
 
-          {/* Farm Size */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 500 }}>
-              Farm Size: <span style={{ color: '#fff', fontWeight: 600 }}>{farmSize} Acres</span>
-            </label>
-            <input 
-              type="range"
-              min="0.5"
-              max="20"
-              step="0.5"
-              value={farmSize}
-              onChange={(e) => setFarmSize(parseFloat(e.target.value))}
-              style={{ width: '100%', accentColor: 'var(--primary)', height: '8px', cursor: 'pointer', marginTop: '12px' }}
-            />
+          {/* Quick Zones Chips */}
+          <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E' }}>Quick Zones:</span>
+            {PRESET_REGIONS.map((reg) => {
+              const isSelected = location.name === reg.name;
+              return (
+                <button
+                  key={reg.name}
+                  type="button"
+                  onClick={() => handleRegionSelect(reg)}
+                  style={{
+                    backgroundColor: isSelected ? '#2E6B34' : '#FFFFFF',
+                    border: `1px solid ${isSelected ? '#2E6B34' : 'rgba(14, 42, 18, 0.12)'}`,
+                    color: isSelected ? '#FFFFFF' : '#0E2A12',
+                    padding: '4px 12px',
+                    borderRadius: '999px',
+                    fontSize: '12px',
+                    fontWeight: isSelected ? 600 : 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxShadow: isSelected ? '0 2px 6px rgba(46, 107, 52, 0.2)' : 'none',
+                  }}
+                  onMouseOver={(e) => {
+                    if (!isSelected) {
+                      e.currentTarget.style.backgroundColor = 'rgba(46, 107, 52, 0.06)';
+                      e.currentTarget.style.borderColor = '#2E6B34';
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    if (!isSelected) {
+                      e.currentTarget.style.backgroundColor = '#FFFFFF';
+                      e.currentTarget.style.borderColor = 'rgba(14, 42, 18, 0.12)';
+                    }
+                  }}
+                >
+                  {reg.name.split(' ')[0]} ({reg.crop})
+                </button>
+              );
+            })}
           </div>
-
-          {/* Sowing Date */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 500 }}>
-              Sowing Date
-            </label>
-            <input 
-              type="date"
-              className="glass-input"
-              value={sowingDate}
-              onChange={(e) => setSowingDate(e.target.value)}
-              style={{ background: 'rgba(255,255,255,0.08)' }}
-            />
-          </div>
-
-          {/* Location / GPS */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 500 }}>
-              Location & Coordinates
-            </label>
-            <button
-              onClick={handleDetectGPS}
-              disabled={detectingGps}
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                borderRadius: '12px',
-                color: '#fff',
-                fontSize: '0.85rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-            >
-              <MapPin size={16} color="var(--primary)" />
-              {detectingGps ? 'Detecting GPS...' : location.name}
-            </button>
-          </div>
-        </div>
-
-        {/* Preset Regions Quick Chips */}
-        <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Quick Zones:</span>
-          {PRESET_REGIONS.map(reg => (
-            <button
-              key={reg.name}
-              onClick={() => handleRegionSelect(reg)}
-              style={{
-                background: location.name === reg.name ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                padding: '4px 10px',
-                borderRadius: '8px',
-                fontSize: '0.75rem',
-                color: location.name === reg.name ? '#fff' : 'var(--text-muted)',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-            >
-              {reg.name.split(' ')[0]} ({reg.crop})
-            </button>
-          ))}
         </div>
       </div>
 
+      {/* Loading State Overlay */}
+      {loading && (
+        <AiLoadingState
+          message="Computing satellite &amp; agro-telemetry..."
+          subtext="Analyzing Copernicus Sentinel-2 MSI bands &amp; predictive microclimates"
+        />
+      )}
+
       {/* 2. Top-Level Metrics Grid (Yield Forecast + Satellite + Pest Radar) */}
-      {data && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-          
+      {!loading && data && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '18px',
+          }}
+        >
           {/* Card A: Yield Forecast */}
-          <div className="glass-panel animate-fade-in" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '20px',
+              border: '1px solid rgba(14, 42, 18, 0.08)',
+              boxShadow: '0 4px 20px rgba(14, 42, 18, 0.04)',
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10B981' }}>
-                  <TrendingUp size={20} />
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>CROP YIELD FORECAST</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#2E6B34' }}>
+                  <TrendingUp size={18} />
+                  <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>CROP YIELD FORECAST</span>
                 </div>
-                <span style={{ fontSize: '0.75rem', background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '6px' }}>
+                <Tag
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    backgroundColor: 'rgba(46, 107, 52, 0.08)',
+                    color: '#2E6B34',
+                    border: 'none',
+                    borderRadius: '6px',
+                    margin: 0,
+                  }}
+                >
                   R² 0.99 RF
-                </span>
+                </Tag>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '2.5rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.03em' }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: 700, color: '#0E2A12', letterSpacing: '-0.03em' }}>
                   {data.yield_prediction.predicted_tons_per_acre}
                 </span>
-                <span style={{ fontSize: '1.05rem', color: 'var(--text-muted)' }}>Tons / Acre</span>
+                <span style={{ fontSize: '1rem', color: '#7C8B7E', fontWeight: 500 }}>Tons / Acre</span>
               </div>
 
-              <div style={{ display: 'inline-block', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '4px 10px', borderRadius: '8px', fontSize: '0.82rem', color: '#10B981', fontWeight: 500, marginBottom: '16px' }}>
-                {data.yield_prediction.comparison_summary}
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: 'rgba(46, 107, 52, 0.08)',
+                  padding: '4px 10px',
+                  borderRadius: '999px',
+                  fontSize: '12px',
+                  color: '#2E6B34',
+                  fontWeight: 600,
+                  marginBottom: '16px',
+                }}
+              >
+                <span>✓</span>
+                <span>{data.yield_prediction.comparison_summary}</span>
               </div>
             </div>
 
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ borderTop: '1px solid rgba(14, 42, 18, 0.06)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Total Farm Harvest</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: '#fff' }}>
-                  {data.yield_prediction.total_harvest_tons} <span style={{ fontSize: '0.85rem' }}>Tons</span>
+                <div style={{ fontSize: '12px', color: '#7C8B7E' }}>Total Farm Harvest</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0E2A12' }}>
+                  {data.yield_prediction.total_harvest_tons} <span style={{ fontSize: '13px', fontWeight: 500, color: '#7C8B7E' }}>Tons</span>
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Estimated Quintals</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: '#48dbfb' }}>
-                  {data.yield_prediction.total_harvest_quintals} <span style={{ fontSize: '0.85rem' }}>Qtl</span>
+                <div style={{ fontSize: '12px', color: '#7C8B7E' }}>Estimated Quintals</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#2E6B34' }}>
+                  {data.yield_prediction.total_harvest_quintals} <span style={{ fontSize: '13px', fontWeight: 500, color: '#7C8B7E' }}>Qtl</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Card B: Copernicus Sentinel-2 Satellite Health */}
-          <div className="glass-panel animate-fade-in" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '20px',
+              border: '1px solid rgba(14, 42, 18, 0.08)',
+              boxShadow: '0 4px 20px rgba(14, 42, 18, 0.04)',
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#48dbfb' }}>
-                  <Satellite size={20} />
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>SATELLITE CANOPY HEALTH</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0284C7' }}>
+                  <Satellite size={18} />
+                  <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>SATELLITE CANOPY HEALTH</span>
                 </div>
-                <span style={{ fontSize: '0.75rem', background: 'rgba(72, 219, 251, 0.15)', color: '#48dbfb', padding: '2px 8px', borderRadius: '6px' }}>
+                <Tag
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    backgroundColor: 'rgba(2, 132, 199, 0.08)',
+                    color: '#0284C7',
+                    border: 'none',
+                    borderRadius: '6px',
+                    margin: 0,
+                  }}
+                >
                   Sentinel-2 10m
-                </span>
+                </Tag>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '2.5rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.03em' }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: 700, color: '#0E2A12', letterSpacing: '-0.03em' }}>
                   {data.satellite_telemetry.ndvi}
                 </span>
-                <span style={{ fontSize: '1.05rem', color: 'var(--text-muted)' }}>NDVI Index</span>
+                <span style={{ fontSize: '1rem', color: '#7C8B7E', fontWeight: 500 }}>NDVI Index</span>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: data.satellite_telemetry.indicator_color }}></span>
-                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: data.satellite_telemetry.indicator_color }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: data.satellite_telemetry.indicator_color }}></span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: data.satellite_telemetry.indicator_color }}>
                   {data.satellite_telemetry.canopy_vigor}
                 </span>
               </div>
 
               {/* Canopy Cover Bar */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#7C8B7E', marginBottom: '6px' }}>
                   <span>Canopy Cover Density</span>
-                  <span style={{ color: '#fff', fontWeight: 600 }}>{data.satellite_telemetry.canopy_cover_percent}%</span>
+                  <span style={{ color: '#0E2A12', fontWeight: 700 }}>{data.satellite_telemetry.canopy_cover_percent}%</span>
                 </div>
-                <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
-                  <div style={{ width: `${data.satellite_telemetry.canopy_cover_percent}%`, height: '100%', background: data.satellite_telemetry.indicator_color, transition: 'width 0.5s ease' }}></div>
-                </div>
+                <Progress
+                  percent={data.satellite_telemetry.canopy_cover_percent}
+                  showInfo={false}
+                  strokeColor={data.satellite_telemetry.indicator_color || '#2E6B34'}
+                  trailColor="#F4F5F3"
+                  style={{ margin: 0 }}
+                />
               </div>
             </div>
 
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Days After Sowing</span>
-              <span style={{ color: '#fff', fontWeight: 600 }}>{data.satellite_telemetry.days_after_sowing} Days (Vegetative)</span>
+            <div style={{ borderTop: '1px solid rgba(14, 42, 18, 0.06)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
+              <span style={{ color: '#7C8B7E' }}>Days After Sowing</span>
+              <span style={{ color: '#0E2A12', fontWeight: 600 }}>{data.satellite_telemetry.days_after_sowing} Days (Vegetative)</span>
             </div>
           </div>
 
           {/* Card C: Pest & Outbreak Risk Assessment */}
-          <div className="glass-panel animate-fade-in" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '20px',
+              border: '1px solid rgba(14, 42, 18, 0.08)',
+              boxShadow: '0 4px 20px rgba(14, 42, 18, 0.04)',
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: data.pest_risk_assessment.risk_color }}>
-                  <Bug size={20} />
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>PEST OUTBREAK RISK</span>
+                  <Bug size={18} />
+                  <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>PEST OUTBREAK RISK</span>
                 </div>
-                <span style={{ 
-                  fontSize: '0.75rem', 
-                  background: data.pest_risk_assessment.risk_level === 'Low' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)', 
-                  color: data.pest_risk_assessment.risk_color, 
-                  padding: '2px 8px', 
-                  borderRadius: '6px',
-                  fontWeight: 600
-                }}>
+                <Tag
+                  style={{ 
+                    fontSize: '11px', 
+                    backgroundColor: data.pest_risk_assessment.risk_level === 'Low' ? 'rgba(46, 107, 52, 0.08)' : 'rgba(239, 68, 68, 0.08)', 
+                    color: data.pest_risk_assessment.risk_color, 
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontWeight: 700,
+                    margin: 0,
+                  }}
+                >
                   {data.pest_risk_assessment.risk_level.toUpperCase()} RISK
-                </span>
+                </Tag>
               </div>
 
-              <div style={{ fontSize: '1.25rem', fontWeight: 600, color: '#fff', marginBottom: '6px' }}>
+              <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0E2A12', marginBottom: '6px' }}>
                 {data.pest_risk_assessment.primary_threat}
               </div>
 
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '14px' }}>
-                <span style={{ fontSize: '1.8rem', fontWeight: 700, color: data.pest_risk_assessment.risk_color }}>
+                <span style={{ fontSize: '2rem', fontWeight: 700, color: data.pest_risk_assessment.risk_color }}>
                   {data.pest_risk_assessment.risk_probability_percent}%
                 </span>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>probability threshold</span>
+                <span style={{ fontSize: '12px', color: '#7C8B7E' }}>probability threshold</span>
               </div>
 
               {/* Environmental Drivers */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {data.pest_risk_assessment.contributing_triggers.slice(0, 2).map((trig, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                    <span style={{ color: data.pest_risk_assessment.risk_color, marginTop: '2px' }}>•</span>
+                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '12.5px', color: '#64748B' }}>
+                    <span style={{ color: data.pest_risk_assessment.risk_color, marginTop: '2px', fontWeight: 700 }}>•</span>
                     <span>{trig}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Classifier Accuracy</span>
-              <span style={{ color: '#fff', fontWeight: 600 }}>95.7% Precision</span>
+            <div style={{ borderTop: '1px solid rgba(14, 42, 18, 0.06)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
+              <span style={{ color: '#7C8B7E' }}>Classifier Accuracy</span>
+              <span style={{ color: '#0E2A12', fontWeight: 600 }}>95.7% Precision</span>
             </div>
           </div>
 
@@ -447,70 +706,146 @@ const YieldPestForecaster = () => {
       )}
 
       {/* 3. Actionable Localized Recommendations (Irrigation, Pest Management, Resources) */}
-      {data && (
+      {!loading && data && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <h3 style={{ fontSize: '1.2rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
-            <Sprout size={20} color="var(--primary)" /> Localized Field Action Plan
+          <h3 style={{ fontSize: '17px', color: '#0E2A12', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px', margin: '4px 0 0 0' }}>
+            <Sprout size={18} color="#2E6B34" />
+            <span>Localized Field Action Plan</span>
           </h3>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             
             {/* Irrigation Advisory Card */}
-            <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div
+              style={{
+                backgroundColor: '#F9FAF8',
+                borderRadius: '16px',
+                border: '1px solid rgba(14, 42, 18, 0.06)',
+                padding: '20px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+            >
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(72, 219, 251, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#48dbfb' }}>
+                <div
+                  style={{
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#0284C7',
+                    flexShrink: 0,
+                  }}
+                >
                   <Droplets size={20} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1rem', color: '#fff', margin: 0 }}>Smart Irrigation Advisory</h4>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                  <h4 style={{ fontSize: '14.5px', fontWeight: 700, color: '#0E2A12', margin: 0 }}>Smart Irrigation Advisory</h4>
+                  <span style={{ fontSize: '12px', color: '#7C8B7E' }}>
                     Root-Zone Moisture: {data.weather_and_soil.soil_moisture_pct}%
                   </span>
                 </div>
               </div>
-              <p style={{ fontSize: '0.88rem', color: '#cbd5e1', lineHeight: 1.5, margin: 0 }}>
+              <p style={{ fontSize: '13.5px', color: '#334155', lineHeight: 1.5, margin: 0 }}>
                 {data.localized_advisories.irrigation.action}
               </p>
             </div>
 
             {/* Integrated Pest Management (IPM) Card */}
-            <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div
+              style={{
+                backgroundColor: '#F9FAF8',
+                borderRadius: '16px',
+                border: '1px solid rgba(14, 42, 18, 0.06)',
+                padding: '20px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+            >
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(255, 107, 107, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ff6b6b' }}>
+                <div
+                  style={{
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#EF4444',
+                    flexShrink: 0,
+                  }}
+                >
                   <ShieldAlert size={20} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1rem', color: '#fff', margin: 0 }}>Integrated Pest Plan</h4>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Biological & Chemical Defense</span>
+                  <h4 style={{ fontSize: '14.5px', fontWeight: 700, color: '#0E2A12', margin: 0 }}>Integrated Pest Plan</h4>
+                  <span style={{ fontSize: '12px', color: '#7C8B7E' }}>Biological &amp; Chemical Defense</span>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.85rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
                 <div>
-                  <span style={{ color: '#10B981', fontWeight: 600 }}>Bio Action: </span>
-                  <span style={{ color: '#cbd5e1' }}>{data.localized_advisories.pest_prevention.bio_action}</span>
+                  <span style={{ color: '#2E6B34', fontWeight: 700 }}>Bio Action: </span>
+                  <span style={{ color: '#334155' }}>{data.localized_advisories.pest_prevention.bio_action}</span>
                 </div>
                 <div>
-                  <span style={{ color: '#ff9f43', fontWeight: 600 }}>Chemical Backup: </span>
-                  <span style={{ color: '#cbd5e1' }}>{data.localized_advisories.pest_prevention.chemical_backup}</span>
+                  <span style={{ color: '#D97706', fontWeight: 700 }}>Chemical Backup: </span>
+                  <span style={{ color: '#334155' }}>{data.localized_advisories.pest_prevention.chemical_backup}</span>
                 </div>
               </div>
             </div>
 
             {/* Resource & Nitrogen Allocation Card */}
-            <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div
+              style={{
+                backgroundColor: '#F9FAF8',
+                borderRadius: '16px',
+                border: '1px solid rgba(14, 42, 18, 0.06)',
+                padding: '20px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+            >
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10B981' }}>
+                <div
+                  style={{
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(46, 107, 52, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#2E6B34',
+                    flexShrink: 0,
+                  }}
+                >
                   <Sprout size={20} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1rem', color: '#fff', margin: 0 }}>Resource Allocation</h4>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Soil pH: {data.weather_and_soil.soil_ph} • SOC: {data.weather_and_soil.organic_carbon_pct}%</span>
+                  <h4 style={{ fontSize: '14.5px', fontWeight: 700, color: '#0E2A12', margin: 0 }}>Resource Allocation</h4>
+                  <span style={{ fontSize: '12px', color: '#7C8B7E' }}>Soil pH: {data.weather_and_soil.soil_ph} • SOC: {data.weather_and_soil.organic_carbon_pct}%</span>
                 </div>
               </div>
-              <p style={{ fontSize: '0.88rem', color: '#cbd5e1', lineHeight: 1.5, margin: 0 }}>
+              <p style={{ fontSize: '13.5px', color: '#334155', lineHeight: 1.5, margin: 0 }}>
                 {data.localized_advisories.resource_allocation.nitrogen_timing}
               </p>
-              <div style={{ fontSize: '0.78rem', color: '#10B981', background: 'rgba(16, 185, 129, 0.1)', padding: '6px 10px', borderRadius: '6px' }}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: '#2E6B34',
+                  backgroundColor: 'rgba(46, 107, 52, 0.08)',
+                  padding: '6px 10px',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                }}
+              >
                 💡 {data.localized_advisories.resource_allocation.water_saving_potential}
               </div>
             </div>

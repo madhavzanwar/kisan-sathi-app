@@ -93,19 +93,19 @@ export const Navbar = ({ onOpenAuth }) => {
           </span>
         </Link>
 
-        {/* Center: Frosted Glass Pill Links (Desktop) */}
+        {/* Center: High-Contrast Opaque Glass Pill Links (Desktop) */}
         <div
           className="desktop-nav-pill"
           style={{
             display: 'flex',
             alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.12)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255, 255, 255, 0.22)',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(14, 42, 18, 0.12)',
             borderRadius: '999px',
-            padding: '4px 6px',
-            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.14)',
+            padding: '5px 7px',
+            boxShadow: '0 8px 30px rgba(14, 42, 18, 0.14)',
           }}
         >
           {LANDING_CONTENT.nav.map((item) => {
@@ -120,24 +120,24 @@ export const Navbar = ({ onOpenAuth }) => {
                   gap: '6px',
                   padding: active ? '6px 16px' : '6px 14px',
                   borderRadius: '999px',
-                  backgroundColor: active ? '#FFFFFF' : 'transparent',
-                  color: active ? '#0E2A12' : 'rgba(255, 255, 255, 0.85)',
+                  backgroundColor: active ? '#2E6B34' : 'transparent',
+                  color: active ? '#FFFFFF' : '#0E2A12',
                   fontSize: '13.5px',
-                  fontWeight: active ? 600 : 500,
+                  fontWeight: active ? 700 : 600,
                   textDecoration: 'none',
                   transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                  boxShadow: active ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'none',
+                  boxShadow: active ? '0 2px 8px rgba(46, 107, 52, 0.25)' : 'none',
                 }}
                 onMouseEnter={(e) => {
                   if (!active) {
-                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                    e.currentTarget.style.color = '#FFFFFF';
+                    e.currentTarget.style.backgroundColor = 'rgba(46, 107, 52, 0.08)';
+                    e.currentTarget.style.color = '#2E6B34';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!active) {
                     e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)';
+                    e.currentTarget.style.color = '#0E2A12';
                   }
                 }}
               >
@@ -147,7 +147,7 @@ export const Navbar = ({ onOpenAuth }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '50%',
-                      backgroundColor: 'var(--color-cta-green, #2E6B34)',
+                      backgroundColor: '#D5F145',
                     }}
                   />
                 )}
