@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { SmoothScroll } from './design-system/components/SmoothScroll.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 
@@ -38,6 +38,8 @@ function AppRoutes() {
         <Routes>
           <Route path="/" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          {/* Catch-all route to prevent blank page on unknown paths */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </div>
