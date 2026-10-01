@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mic, X, Bot, Loader, Send, Volume2, Sparkles, Trash2 } from 'lucide-react';
+import { Mic, X, Bot, Loader, Send, Volume2, Trash2 } from 'lucide-react';
 import { Tooltip } from 'antd';
 
 /**
@@ -19,6 +19,7 @@ const FloatingAssistant = ({ activeTab }) => {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
+  const latestSendMessageRef = useRef(null);
 
   // Hardcoded to English
   const langCode = 'en';
@@ -73,6 +74,15 @@ const FloatingAssistant = ({ activeTab }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isThinking]);
 
+  // Cancel speech synthesis on component unmount
+  useEffect(() => {
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
   // Setup Web Speech API for Recognition
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -86,7 +96,7 @@ const FloatingAssistant = ({ activeTab }) => {
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        handleSendMessage(transcript);
+        latestSendMessageRef.current?.(transcript);
       };
 
       recognition.onerror = (event) => {
@@ -112,11 +122,11 @@ const FloatingAssistant = ({ activeTab }) => {
   };
 
   const handleSendMessage = async (text) => {
-    if (!text.trim()) return;
+    if (!text || !text.trim() || isThinking) return;
 
-    // Add user message
-    const newMessages = [...messages, { sender: 'user', text }];
-    setMessages(newMessages);
+    const trimmed = text.trim();
+    // Add user message via functional update to prevent stale state overwrites
+    setMessages(prev => [...prev, { sender: 'user', text: trimmed }]);
     setInputText('');
     setIsThinking(true);
 
@@ -125,25 +135,27 @@ const FloatingAssistant = ({ activeTab }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: text,
+          message: trimmed,
           language: langCode,
           context: activeTab,
         }),
       });
       const data = await res.json();
 
-      setMessages([...newMessages, { sender: 'bot', text: data.response }]);
+      setMessages(prev => [...prev, { sender: 'bot', text: data.response }]);
       speakText(data.response);
     } catch (err) {
       console.error(err);
-      setMessages([
-        ...newMessages,
+      setMessages(prev => [
+        ...prev,
         { sender: 'bot', text: 'Unable to reach the assistant server. If Render is waking up, please retry in 30 seconds.' },
       ]);
     } finally {
       setIsThinking(false);
     }
   };
+
+  latestSendMessageRef.current = handleSendMessage;
 
   const toggleListen = () => {
     if (isListening) {
@@ -190,6 +202,7 @@ const FloatingAssistant = ({ activeTab }) => {
           <Tooltip title="Ask KisanSathi AI" placement="left">
             <button
               onClick={() => setIsOpen(true)}
+              aria-label="Open AI Assistant"
               className="animate-fade-in"
               style={{
                 position: 'relative',
@@ -612,6 +625,7 @@ const FloatingAssistant = ({ activeTab }) => {
               ) : (
                 <button
                   onClick={() => handleSendMessage(inputText)}
+                  aria-label="Send message"
                   style={{
                     background: '#2E6B34',
                     border: 'none',
