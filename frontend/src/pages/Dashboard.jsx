@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Drawer, Button, Tag, Tooltip, Spin, ConfigProvider, App as AntdApp } from 'antd';
+import { Drawer, Button, Tag, Spin, ConfigProvider, App as AntdApp } from 'antd';
 import { kisanSathiTheme } from '../design-system/theme.js';
 import { MenuOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
 import {
@@ -67,14 +67,22 @@ const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const urlTab = searchParams.get('tab');
-  const [activeTab, setActiveTab] = useState(urlTab || 'heal');
+  const initialTab = urlTab && tabs.some((t) => t.id === urlTab) ? urlTab : 'heal';
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (urlTab && tabs.some((t) => t.id === urlTab)) {
       setActiveTab(urlTab);
+    } else if (urlTab) {
+      setActiveTab('heal');
     }
   }, [urlTab]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('kisan_token');
+    navigate('/');
+  };
 
   useEffect(() => {
     const cur = tabs.find((t) => t.id === activeTab);
@@ -263,7 +271,7 @@ const Dashboard = () => {
           </button>
 
           <button
-            onClick={() => navigate('/')}
+            onClick={handleLogout}
             className="hide-on-mobile"
             style={{
               padding: '8px 18px',
@@ -689,7 +697,7 @@ const Dashboard = () => {
             block
             icon={<HomeOutlined />}
             onClick={() => {
-              navigate('/');
+              handleLogout();
               setDrawerOpen(false);
             }}
             style={{
