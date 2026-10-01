@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Select, Slider, InputNumber, Button, Alert, Tag } from 'antd';
-import { CalculatorOutlined, CheckCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { Sprout, Scale, Sparkles, RefreshCw } from 'lucide-react';
+import { Select, Slider, InputNumber, Button, Alert, Tag } from 'antd';
+import { CalculatorOutlined } from '@ant-design/icons';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
 
 /**
@@ -28,18 +27,40 @@ const FertilizerCalc = () => {
 
   const handleCalculate = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
+
+    const farmSizeNum = parseFloat(formData.farmSize);
+    const nNum = parseFloat(formData.n);
+    const pNum = parseFloat(formData.p);
+    const kNum = parseFloat(formData.k);
+    const phNum = parseFloat(formData.ph);
+
+    if (isNaN(farmSizeNum) || farmSizeNum <= 0) {
+      setErrorMessage('Please enter a valid farm size greater than 0 acres.');
+      return;
+    }
+
+    if (isNaN(phNum) || phNum < 3.0 || phNum > 10.0) {
+      setErrorMessage('Please enter a valid soil pH level between 3.0 and 10.0.');
+      return;
+    }
+
+    if (isNaN(nNum) || isNaN(pNum) || isNaN(kNum) || nNum < 0 || pNum < 0 || kNum < 0) {
+      setErrorMessage('Please ensure Nitrogen, Phosphorus, and Potassium values are non-negative numbers.');
+      return;
+    }
+
     setLoading(true);
     setErrorMessage(null);
 
     try {
       const payload = {
-        n: parseFloat(formData.n),
-        p: parseFloat(formData.p),
-        k: parseFloat(formData.k),
-        ph: parseFloat(formData.ph),
+        n: nNum,
+        p: pNum,
+        k: kNum,
+        ph: phNum,
         soil_type: formData.soilType,
         crop_type: formData.cropStage,
-        farm_size: parseFloat(formData.farmSize),
+        farm_size: farmSizeNum,
       };
 
       const response = await fetch(`${API_URL}/api/predict/fertilizer`, {
@@ -126,7 +147,7 @@ const FertilizerCalc = () => {
       )}
 
       {/* Input Form */}
-      <form onSubmit={handleCalculate} style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+      <form onSubmit={handleCalculate} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
         {/* Plot Details Grid */}
         <div
           style={{
@@ -154,7 +175,7 @@ const FertilizerCalc = () => {
               min={0.1}
               step={0.1}
               value={formData.farmSize}
-              onChange={(val) => setFormData({ ...formData, farmSize: val ?? 1 })}
+              onChange={(val) => setFormData({ ...formData, farmSize: val })}
               style={{ width: '100%', borderRadius: '12px', height: '44px' }}
             />
           </div>
@@ -239,7 +260,7 @@ const FertilizerCalc = () => {
               max={9.0}
               step={0.1}
               value={formData.ph}
-              onChange={(val) => setFormData({ ...formData, ph: val ?? 6.5 })}
+              onChange={(val) => setFormData({ ...formData, ph: val })}
               style={{ width: '100%', borderRadius: '12px', height: '44px' }}
             />
           </div>
@@ -344,6 +365,7 @@ const FertilizerCalc = () => {
           <Button
             type="primary"
             htmlType="submit"
+            onClick={handleCalculate}
             size="large"
             disabled={loading}
             icon={<CalculatorOutlined />}
