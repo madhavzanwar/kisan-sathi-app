@@ -1,4 +1,4 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../sections/HeroSection';
 import PoweredByStrip from '../sections/PoweredByStrip';
