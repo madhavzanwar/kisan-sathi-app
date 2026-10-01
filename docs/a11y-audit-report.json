@@ -1,0 +1,44 @@
+[
+  {
+    "page": "Landing Page",
+    "url": "http://localhost:4173/",
+    "passes": 23,
+    "violationsCount": 0,
+    "violations": []
+  },
+  {
+    "page": "Dashboard — Heal Your Crop",
+    "url": "http://localhost:4173/dashboard?tab=heal",
+    "passes": 33,
+    "violationsCount": 0,
+    "violations": []
+  },
+  {
+    "page": "Dashboard — Fertilizer Calculator",
+    "url": "http://localhost:4173/dashboard?tab=fertilizer",
+    "passes": 39,
+    "violationsCount": 0,
+    "violations": []
+  },
+  {
+    "page": "Dashboard — Cultivation Guides",
+    "url": "http://localhost:4173/dashboard?tab=guide",
+    "passes": 35,
+    "violationsCount": 0,
+    "violations": []
+  },
+  {
+    "page": "Dashboard — Weather & Irrigation",
+    "url": "http://localhost:4173/dashboard?tab=weather",
+    "passes": 33,
+    "violationsCount": 0,
+    "violations": []
+  },
+  {
+    "page": "Dashboard — Yield & Pest Forecaster",
+    "url": "http://localhost:4173/dashboard?tab=yield-pest",
+    "passes": 39,
+    "violationsCount": 0,
+    "violations": []
+  }
+]

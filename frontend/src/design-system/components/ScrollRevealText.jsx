@@ -6,8 +6,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
  * Runs completely via framer-motion transforms without re-rendering the React tree.
  */
 const RevealWord = ({ word, progress, range }) => {
-  const color = useTransform(progress, range, ['#7C8B7E', '#0E2A12']);
-  const opacity = useTransform(progress, range, [0.35, 1]);
+  const color = useTransform(progress, range, ['#5C6E5F', '#0E2A12']);
+  const opacity = useTransform(progress, range, [0.55, 1]);
 
   return (
     <motion.span

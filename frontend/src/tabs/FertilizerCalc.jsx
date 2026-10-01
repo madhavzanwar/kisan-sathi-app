@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Select, Slider, InputNumber, Button, Alert, Tag } from 'antd';
-import { CalculatorOutlined, CheckCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { Sprout, Scale, Sparkles, RefreshCw } from 'lucide-react';
+import { Select, Slider, InputNumber, Button, Alert, Tag } from 'antd';
+import { CalculatorOutlined } from '@ant-design/icons';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
 
 /**
@@ -28,18 +27,40 @@ const FertilizerCalc = () => {
 
   const handleCalculate = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
+
+    const farmSizeNum = parseFloat(formData.farmSize);
+    const nNum = parseFloat(formData.n);
+    const pNum = parseFloat(formData.p);
+    const kNum = parseFloat(formData.k);
+    const phNum = parseFloat(formData.ph);
+
+    if (isNaN(farmSizeNum) || farmSizeNum <= 0) {
+      setErrorMessage('Please enter a valid farm size greater than 0 acres.');
+      return;
+    }
+
+    if (isNaN(phNum) || phNum < 3.0 || phNum > 10.0) {
+      setErrorMessage('Please enter a valid soil pH level between 3.0 and 10.0.');
+      return;
+    }
+
+    if (isNaN(nNum) || isNaN(pNum) || isNaN(kNum) || nNum < 0 || pNum < 0 || kNum < 0) {
+      setErrorMessage('Please ensure Nitrogen, Phosphorus, and Potassium values are non-negative numbers.');
+      return;
+    }
+
     setLoading(true);
     setErrorMessage(null);
 
     try {
       const payload = {
-        n: parseFloat(formData.n),
-        p: parseFloat(formData.p),
-        k: parseFloat(formData.k),
-        ph: parseFloat(formData.ph),
+        n: nNum,
+        p: pNum,
+        k: kNum,
+        ph: phNum,
         soil_type: formData.soilType,
         crop_type: formData.cropStage,
-        farm_size: parseFloat(formData.farmSize),
+        farm_size: farmSizeNum,
       };
 
       const response = await fetch(`${API_URL}/api/predict/fertilizer`, {
@@ -105,7 +126,7 @@ const FertilizerCalc = () => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '14.5px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
             lineHeight: 1.5,
           }}
@@ -126,7 +147,7 @@ const FertilizerCalc = () => {
       )}
 
       {/* Input Form */}
-      <form onSubmit={handleCalculate} style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+      <form onSubmit={handleCalculate} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
         {/* Plot Details Grid */}
         <div
           style={{
@@ -149,16 +170,19 @@ const FertilizerCalc = () => {
               Farm Size (Acres)
             </label>
             <InputNumber
+              id="farm-size-input"
+              aria-label="Farm Size in Acres"
               min={0.1}
               step={0.1}
               value={formData.farmSize}
-              onChange={(val) => setFormData({ ...formData, farmSize: val ?? 1 })}
+              onChange={(val) => setFormData({ ...formData, farmSize: val })}
               style={{ width: '100%', borderRadius: '12px', height: '44px' }}
             />
           </div>
 
           <div>
             <label
+              htmlFor="soil-type-select"
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-sans)',
@@ -171,6 +195,8 @@ const FertilizerCalc = () => {
               Soil Type
             </label>
             <Select
+              id="soil-type-select"
+              aria-label="Soil Type"
               value={formData.soilType}
               onChange={(val) => setFormData({ ...formData, soilType: val })}
               style={{ width: '100%', height: '44px' }}
@@ -186,6 +212,7 @@ const FertilizerCalc = () => {
 
           <div>
             <label
+              htmlFor="crop-stage-select"
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-sans)',
@@ -198,6 +225,8 @@ const FertilizerCalc = () => {
               Crop Growth Stage
             </label>
             <Select
+              id="crop-stage-select"
+              aria-label="Crop Growth Stage"
               value={formData.cropStage}
               onChange={(val) => setFormData({ ...formData, cropStage: val })}
               style={{ width: '100%', height: '44px' }}
@@ -212,6 +241,7 @@ const FertilizerCalc = () => {
 
           <div>
             <label
+              htmlFor="soil-ph-input"
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-sans)',
@@ -224,11 +254,13 @@ const FertilizerCalc = () => {
               Soil pH Level
             </label>
             <InputNumber
+              id="soil-ph-input"
+              aria-label="Soil pH Level"
               min={4.0}
               max={9.0}
               step={0.1}
               value={formData.ph}
-              onChange={(val) => setFormData({ ...formData, ph: val ?? 6.5 })}
+              onChange={(val) => setFormData({ ...formData, ph: val })}
               style={{ width: '100%', borderRadius: '12px', height: '44px' }}
             />
           </div>
@@ -257,10 +289,17 @@ const FertilizerCalc = () => {
               </span>
             </div>
             <Slider
+              aria-label="Nitrogen (N) Content in kg per hectare"
               min={0}
               max={100}
               value={formData.n}
               onChange={(val) => setFormData({ ...formData, n: val })}
+              handleRender={(originNode) =>
+                React.cloneElement(originNode, {
+                  'aria-label': 'Nitrogen (N) Content in kg per hectare',
+                  title: 'Nitrogen (N) Content in kg per hectare',
+                })
+              }
               trackStyle={{ backgroundColor: '#2E6B34' }}
               handleStyle={{ borderColor: '#2E6B34' }}
             />
@@ -277,10 +316,17 @@ const FertilizerCalc = () => {
               </span>
             </div>
             <Slider
+              aria-label="Phosphorus (P) Content in kg per hectare"
               min={0}
               max={100}
               value={formData.p}
               onChange={(val) => setFormData({ ...formData, p: val })}
+              handleRender={(originNode) =>
+                React.cloneElement(originNode, {
+                  'aria-label': 'Phosphorus (P) Content in kg per hectare',
+                  title: 'Phosphorus (P) Content in kg per hectare',
+                })
+              }
               trackStyle={{ backgroundColor: '#2E6B34' }}
               handleStyle={{ borderColor: '#2E6B34' }}
             />
@@ -297,10 +343,17 @@ const FertilizerCalc = () => {
               </span>
             </div>
             <Slider
+              aria-label="Potassium (K) Content in kg per hectare"
               min={0}
               max={100}
               value={formData.k}
               onChange={(val) => setFormData({ ...formData, k: val })}
+              handleRender={(originNode) =>
+                React.cloneElement(originNode, {
+                  'aria-label': 'Potassium (K) Content in kg per hectare',
+                  title: 'Potassium (K) Content in kg per hectare',
+                })
+              }
               trackStyle={{ backgroundColor: '#2E6B34' }}
               handleStyle={{ borderColor: '#2E6B34' }}
             />
@@ -312,6 +365,7 @@ const FertilizerCalc = () => {
           <Button
             type="primary"
             htmlType="submit"
+            onClick={handleCalculate}
             size="large"
             disabled={loading}
             icon={<CalculatorOutlined />}
@@ -352,7 +406,7 @@ const FertilizerCalc = () => {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', textTransform: 'uppercase' }}>
                 Formulation Match
               </span>
               <h3
@@ -400,7 +454,7 @@ const FertilizerCalc = () => {
               <div style={{ fontSize: '24px', fontWeight: 700, color: '#0E2A12' }}>
                 {result.urea} <span style={{ fontSize: '14px', fontWeight: 500 }}>kg</span>
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', marginTop: '4px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', marginTop: '4px' }}>
                 Urea (46-0-0)
               </div>
             </div>
@@ -419,7 +473,7 @@ const FertilizerCalc = () => {
               <div style={{ fontSize: '24px', fontWeight: 700, color: '#0E2A12' }}>
                 {result.dap} <span style={{ fontSize: '14px', fontWeight: 500 }}>kg</span>
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', marginTop: '4px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', marginTop: '4px' }}>
                 DAP (18-46-0)
               </div>
             </div>
@@ -438,7 +492,7 @@ const FertilizerCalc = () => {
               <div style={{ fontSize: '24px', fontWeight: 700, color: '#0E2A12' }}>
                 {result.mop} <span style={{ fontSize: '14px', fontWeight: 500 }}>kg</span>
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', marginTop: '4px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', marginTop: '4px' }}>
                 MOP / Potash
               </div>
             </div>

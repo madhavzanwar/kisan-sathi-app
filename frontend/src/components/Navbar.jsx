@@ -53,40 +53,57 @@ export const Navbar = ({ onOpenAuth }) => {
           pointerEvents: 'auto',
         }}
       >
-        {/* Left: Brand Logo & Wordmark */}
+        {/* Left: Brand Logo & Wordmark in High-Contrast Glass Pill */}
         <Link
           to="/"
           style={{
-            display: 'flex',
+            display: 'inline-flex',
             alignItems: 'center',
             gap: '10px',
             textDecoration: 'none',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(14, 42, 18, 0.12)',
+            borderRadius: '999px',
+            padding: '5px 16px 5px 6px',
+            boxShadow: '0 8px 30px rgba(14, 42, 18, 0.14)',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = '0 12px 36px rgba(14, 42, 18, 0.18)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 8px 30px rgba(14, 42, 18, 0.14)';
           }}
         >
           {/* Lime rounded-square leaf badge */}
           <div
             style={{
-              width: '34px',
-              height: '34px',
-              borderRadius: '9px',
+              width: '32px',
+              height: '32px',
+              borderRadius: '999px',
               backgroundColor: 'var(--color-lime-accent, #D5F145)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(213, 241, 69, 0.35)',
+              boxShadow: '0 2px 8px rgba(213, 241, 69, 0.4)',
+              flexShrink: 0,
             }}
           >
-            <Leaf size={18} color="#0E2A12" strokeWidth={2.5} />
+            <Leaf size={16} color="#0E2A12" strokeWidth={2.5} />
           </div>
 
           <span
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: '19px',
+              fontSize: '16.5px',
               fontWeight: 700,
-              color: '#FFFFFF',
+              color: '#0E2A12',
               letterSpacing: '-0.02em',
-              textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+              whiteSpace: 'nowrap',
             }}
           >
             {LANDING_CONTENT.brand.name}
@@ -195,17 +212,19 @@ export const Navbar = ({ onOpenAuth }) => {
             onClick={() => setMobileOpen(true)}
             aria-label="Open mobile menu"
             style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(14, 42, 18, 0.12)',
               borderRadius: '50%',
-              width: '40px',
-              height: '40px',
+              width: '42px',
+              height: '42px',
               display: 'none', // Controlled via media queries below
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#FFFFFF',
+              boxShadow: '0 4px 16px rgba(14, 42, 18, 0.12)',
               cursor: 'pointer',
+              transition: 'transform 0.15s ease',
             }}
           >
             <svg

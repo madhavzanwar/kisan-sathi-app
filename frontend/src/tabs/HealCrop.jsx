@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, Steps, Progress, Tag, Alert, Button } from 'antd';
-import { CameraOutlined, CheckCircleOutlined, SyncOutlined, ExperimentOutlined } from '@ant-design/icons';
-import { Leaf, AlertTriangle, ShieldCheck, RefreshCw } from 'lucide-react';
+import { CameraOutlined } from '@ant-design/icons';
+import { Leaf, AlertTriangle, RefreshCw } from 'lucide-react';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
 
 const { Dragger } = Upload;
@@ -28,7 +28,25 @@ const HealCrop = () => {
   }, [selectedImage]);
 
   const executeUpload = async (file) => {
-    if (!file) return;
+    if (!file || step === 2) return;
+
+    // Validate file type before API call
+    if (!file.type || !file.type.startsWith('image/')) {
+      setErrorMessage(
+        'Invalid file type. Please upload a valid crop leaf image (JPG, PNG, or WEBP).'
+      );
+      setStep(1);
+      return;
+    }
+
+    // Validate file size limit (15 MB)
+    if (file.size > 15 * 1024 * 1024) {
+      setErrorMessage(
+        'File size exceeds the 15 MB limit. Please upload a standard photo.'
+      );
+      setStep(1);
+      return;
+    }
 
     if (selectedImage && selectedImage.startsWith('blob:')) {
       URL.revokeObjectURL(selectedImage);
@@ -111,7 +129,7 @@ const HealCrop = () => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '14.5px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
             lineHeight: 1.5,
           }}
@@ -191,26 +209,30 @@ const HealCrop = () => {
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '13px',
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 marginBottom: '20px',
               }}
             >
               Supports JPG, PNG, WEBP • Max file size 10MB
             </p>
 
-            <Button
-              type="primary"
-              size="large"
+            <div
               style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 borderRadius: '999px',
                 backgroundColor: 'var(--color-cta-green, #2E6B34)',
+                color: '#FFFFFF',
                 fontWeight: 600,
                 padding: '0 28px',
                 height: '44px',
+                fontSize: '15px',
+                pointerEvents: 'none',
               }}
             >
               Browse Files
-            </Button>
+            </div>
           </Dragger>
 
           {/* Hidden native input for testing flexibility */}
@@ -218,6 +240,7 @@ const HealCrop = () => {
             type="file"
             id="native-leaf-file"
             accept="image/*"
+            aria-label="Upload leaf image"
             style={{ display: 'none' }}
             onChange={handleNativeChange}
           />

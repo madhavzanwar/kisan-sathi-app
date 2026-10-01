@@ -68,16 +68,70 @@ The platform combines **computer vision**, **classical ML**, and **generative AI
 <div align="center">
 
 ### Website Hero Section
-<img src="./assets/screenshots/hero-section.png" width="850"/>
+*Modern agro-ecological hero with glassmorphism navbar and brand identity.*
+<br/>
+<img src="./docs/screenshots/readme/01-landing-hero.webp" width="800" alt="KisanSathi Website Hero Section"/>
 
-### Dashboard
-<img src="./assets/screenshots/dashboard.png" width="850"/>
+<br/><br/>
+
+### Core Capabilities & Features
+*Interactive capability accordion highlighting disease diagnosis, NPK calculations, and yield forecasting.*
+<br/>
+<img src="./docs/screenshots/readme/02-landing-features.webp" width="800" alt="Core Capabilities and Features Accordion"/>
+
+<br/><br/>
+
+### Interactive Workflow — From Field to Forecast
+*Tabbed workflow system with floating microclimate and AI model telemetry cards.*
+<br/>
+<img src="./docs/screenshots/readme/03-landing-how-it-works.webp" width="800" alt="From Field to Forecast Workflow"/>
+
+<br/><br/>
+
+### AI Diagnosis in Action (Heal Your Crop)
+*Initial leaf upload dropzone and real-time PyTorch ResNet18 diagnosis with dual chemical and organic treatment plans.*
+<br/>
+<img src="./docs/screenshots/readme/04-dashboard-heal-your-crop.webp" width="800" alt="Heal Your Crop - Upload State"/>
+<br/><br/>
+<img src="./docs/screenshots/readme/05-dashboard-heal-result.webp" width="800" alt="Heal Your Crop - Real Diagnostic Result"/>
+
+<br/><br/>
 
 ### Smart Fertilizer Calculator
-<img src="./assets/screenshots/fertilizer-calculator.png" width="850"/>
+*Precision soil chemistry parameters and dynamic NPK dosage balancing.*
+<br/>
+<img src="./docs/screenshots/readme/06-dashboard-fertilizer.webp" width="800" alt="Smart Fertilizer Calculator"/>
 
-### System Architecture
-<img src="./assets/screenshots/architecture-diagram.png" width="850"/>
+<br/><br/>
+
+### Cultivation Lifecycle Protocols
+*Structured stage-by-stage agronomic guides across major Indian crops.*
+<br/>
+<img src="./docs/screenshots/readme/07-dashboard-cultivation-guide.webp" width="800" alt="Cultivation Lifecycle Protocols"/>
+
+<br/><br/>
+
+### Voice-Enabled Agronomy AI Assistant
+*Floating assistant powered by Google Gemini with contextual agronomy intelligence and speech input.*
+<br/>
+<img src="./docs/screenshots/readme/08-ai-assistant-open.webp" width="800" alt="KisanSathi AI Assistant"/>
+
+<br/><br/>
+
+### Responsive Mobile Experience
+*Complete responsive parity on mobile devices (390px viewport).*
+<br/><br/>
+
+<table>
+  <tr>
+    <td align="center"><b>Mobile Landing Experience</b></td>
+    <td align="center"><b>Mobile Agronomy Dashboard</b></td>
+  </tr>
+  <tr>
+    <td><img src="./docs/screenshots/readme/09-mobile-landing.webp" width="375" alt="Mobile Landing Experience"/></td>
+    <td><img src="./docs/screenshots/readme/10-mobile-dashboard.webp" width="375" alt="Mobile Agronomy Dashboard"/></td>
+  </tr>
+</table>
 
 </div>
 
@@ -92,7 +146,7 @@ The platform combines **computer vision**, **classical ML**, and **generative AI
 | 🛰️ **Yield & Pest Forecaster (PS-05)** | Correlates Copernicus Sentinel-2 satellite imagery (NDVI), root-zone soil telemetry, and predictive microclimate patterns to forecast localized crop harvest (Tons/Acre) and provide early-warning pest outbreak alerts with actionable IPM and irrigation guidance. |
 | 🌾 **Cultivation Guides** | Step-by-step lifecycle guides for major crops (Tomato, Cotton, Wheat, etc.) covering sowing, irrigation, and pest control timelines. |
 | 💬 **Floating AI Assistant** | A localized, context-aware chatbot powered by Google's Gemini 1.5 Pro — understands the page context and answers farming questions intelligently. |
-| 🎨 **Ultra-Premium UI** | Apple-style "frosted glass" interface with a dynamic background, elegant typography, and seamless micro-animations. |
+| 🎨 **Ultra-Premium UI** | Modern agro-ecological glassmorphism interface built with Ant Design 6, featuring accessible contrast and smooth micro-animations. |
 | 📱 **Responsive Design** | Fully responsive across desktop, tablet, and mobile viewports for use directly in the field. |
 
 ---
@@ -104,10 +158,10 @@ The platform combines **computer vision**, **classical ML**, and **generative AI
 <td valign="top" width="33%">
 
 **Frontend**
-- React.js (Vite)
-- Custom Vanilla CSS (Glassmorphism, backdrop-blur)
-- Lucide React (Icons)
-- Cormorant Garamond + Inter (Typography)
+- React 19 (Vite)
+- Ant Design 6 & Custom CSS
+- Framer Motion & Lucide React / Ant Design Icons
+- Instrument Serif & Inter (Typography)
 
 </td>
 <td valign="top" width="33%">

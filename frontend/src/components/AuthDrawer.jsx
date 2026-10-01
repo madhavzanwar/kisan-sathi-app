@@ -47,7 +47,6 @@ export const AuthDrawer = ({ open, onClose }) => {
           body: JSON.stringify({
             email,
             password,
-            full_name: email.split('@')[0],
           })
         });
 
@@ -101,14 +100,14 @@ export const AuthDrawer = ({ open, onClose }) => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '14px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
             lineHeight: 1.5,
           }}
         >
           {isLogin
             ? 'Enter your credentials to access your agricultural dashboard.'
-            : 'Join Kisan Sakhi to access AI crop diagnosis and fertilizer planning.'}
+            : 'Join KisanSathi to access AI crop diagnosis and fertilizer planning.'}
         </p>
       </div>
 
@@ -139,7 +138,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             type="email"
             required
             size="large"
-            prefix={<MailOutlined style={{ color: '#7C8B7E', marginRight: '6px' }} />}
+            prefix={<MailOutlined style={{ color: '#5C6E5F', marginRight: '6px' }} />}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="farmer@example.com"
@@ -163,7 +162,7 @@ export const AuthDrawer = ({ open, onClose }) => {
           <Input.Password
             required
             size="large"
-            prefix={<LockOutlined style={{ color: '#7C8B7E', marginRight: '6px' }} />}
+            prefix={<LockOutlined style={{ color: '#5C6E5F', marginRight: '6px' }} />}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
@@ -205,7 +204,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             height: '44px',
             fontSize: '13.5px',
             fontWeight: 500,
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             borderColor: 'rgba(14, 42, 18, 0.15)',
           }}
         >
@@ -218,7 +217,7 @@ export const AuthDrawer = ({ open, onClose }) => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '13.5px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
           }}
         >

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Drawer, Button, Tag, Tooltip, Spin, ConfigProvider, App as AntdApp } from 'antd';
+import { Drawer, Button, Tag, Spin, ConfigProvider, App as AntdApp } from 'antd';
 import { kisanSathiTheme } from '../design-system/theme.js';
 import { MenuOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
 import {
@@ -67,14 +67,55 @@ const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const urlTab = searchParams.get('tab');
-  const [activeTab, setActiveTab] = useState(urlTab || 'heal');
+  const initialTab = urlTab && tabs.some((t) => t.id === urlTab) ? urlTab : 'heal';
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (urlTab && tabs.some((t) => t.id === urlTab)) {
       setActiveTab(urlTab);
+    } else if (urlTab) {
+      setActiveTab('heal');
     }
   }, [urlTab]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('kisan_token');
+    navigate('/');
+  };
+
+  useEffect(() => {
+    const cur = tabs.find((t) => t.id === activeTab);
+    document.title = cur
+      ? `KisanSathi — ${cur.name} | Agronomy Suite`
+      : 'KisanSathi — Precision Agronomy Dashboard';
+  }, [activeTab]);
+
+  // Accessibility: Ensure all Ant Design slider handles have accessible aria-labels
+  useEffect(() => {
+    const attachSliderAria = () => {
+      document.querySelectorAll('.ant-slider').forEach((slider) => {
+        const label =
+          slider.getAttribute('aria-label') ||
+          slider.closest('div')?.querySelector('span')?.textContent ||
+          'Adjustment Slider';
+        const handles = slider.querySelectorAll('.ant-slider-handle');
+        handles.forEach((handle) => {
+          if (!handle.getAttribute('aria-label')) {
+            handle.setAttribute('aria-label', label.trim());
+          }
+          if (!handle.getAttribute('title')) {
+            handle.setAttribute('title', label.trim());
+          }
+        });
+      });
+    };
+
+    attachSliderAria();
+    const observer = new MutationObserver(attachSliderAria);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+    return () => observer.disconnect();
+  }, [activeTab]);
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
@@ -184,12 +225,12 @@ const Dashboard = () => {
                   lineHeight: 1.1,
                 }}
               >
-                Kisan Sakhi
+                KisanSathi
               </div>
               <div
                 style={{
                   fontSize: '11px',
-                  color: '#7C8B7E',
+                  color: '#5C6E5F',
                   fontWeight: 500,
                 }}
               >
@@ -230,7 +271,7 @@ const Dashboard = () => {
           </button>
 
           <button
-            onClick={() => navigate('/')}
+            onClick={handleLogout}
             className="hide-on-mobile"
             style={{
               padding: '8px 18px',
@@ -262,7 +303,8 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content Area */}
-      <div
+      <main
+        id="main-dashboard-content"
         style={{
           maxWidth: '1200px',
           width: '100%',
@@ -308,7 +350,7 @@ const Dashboard = () => {
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '15px',
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 margin: 0,
                 lineHeight: 1.5,
               }}
@@ -339,7 +381,7 @@ const Dashboard = () => {
               }}
             />
             <div>
-              <div style={{ fontSize: '11px', color: '#7C8B7E', fontWeight: 600, textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '11px', color: '#5C6E5F', fontWeight: 600, textTransform: 'uppercase' }}>
                 System Telemetry
               </div>
               <div style={{ fontSize: '13.5px', color: '#0E2A12', fontWeight: 700 }}>
@@ -359,7 +401,7 @@ const Dashboard = () => {
               marginBottom: '14px',
             }}
           >
-            <h3
+            <h2
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '16px',
@@ -370,8 +412,8 @@ const Dashboard = () => {
               }}
             >
               Agronomy Tools
-            </h3>
-            <span style={{ fontSize: '13px', color: '#7C8B7E' }}>
+            </h2>
+            <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
               Click any card to launch tool
             </span>
           </div>
@@ -456,7 +498,7 @@ const Dashboard = () => {
                         fontSize: '11px',
                         fontWeight: 700,
                         backgroundColor: isActive ? '#2E6B34' : '#F4F5F3',
-                        color: isActive ? '#FFFFFF' : '#7C8B7E',
+                        color: isActive ? '#FFFFFF' : '#5C6E5F',
                         border: 'none',
                         margin: 0,
                         padding: '1px 8px',
@@ -468,7 +510,7 @@ const Dashboard = () => {
 
                   {/* Bottom Info */}
                   <div>
-                    <h4
+                    <h3
                       style={{
                         fontFamily: 'var(--font-sans)',
                         fontSize: '15px',
@@ -479,11 +521,11 @@ const Dashboard = () => {
                       }}
                     >
                       {tab.name}
-                    </h4>
+                    </h3>
                     <p
                       style={{
                         fontSize: '12px',
-                        color: '#7C8B7E',
+                        color: '#5C6E5F',
                         margin: 0,
                         lineHeight: 1.4,
                       }}
@@ -514,7 +556,7 @@ const Dashboard = () => {
         </div>
 
         {/* Active Tool Content */}
-        <main
+        <section
           className="animate-fade-in"
           style={{
             marginTop: '8px',
@@ -537,8 +579,8 @@ const Dashboard = () => {
           >
             {renderTabContent()}
           </Suspense>
-        </main>
-      </div>
+        </section>
+      </main>
 
       {/* Ant Design Menu Drawer */}
       <Drawer
@@ -559,9 +601,9 @@ const Dashboard = () => {
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: '16px', color: '#0E2A12' }}>
-                Kisan Sakhi
+                KisanSathi
               </div>
-              <div style={{ fontSize: '11px', color: '#7C8B7E' }}>Har kisan ka saccha sathi</div>
+              <div style={{ fontSize: '11px', color: '#5C6E5F' }}>Har kisan ka saccha sathi</div>
             </div>
           </div>
         }
@@ -586,7 +628,7 @@ const Dashboard = () => {
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 fontWeight: 700,
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 marginBottom: '10px',
               }}
             >
@@ -623,7 +665,7 @@ const Dashboard = () => {
                       <IconComp size={16} />
                       <span>{tab.name}</span>
                     </div>
-                    <ChevronRight size={14} color="#7C8B7E" />
+                    <ChevronRight size={14} color="#5C6E5F" />
                   </button>
                 );
               })}
@@ -641,7 +683,7 @@ const Dashboard = () => {
             <div style={{ fontWeight: 700, fontSize: '13px', color: '#0E2A12', marginBottom: '6px' }}>
               AI Model Specifications
             </div>
-            <div style={{ fontSize: '12px', color: '#7C8B7E', lineHeight: '1.6' }}>
+            <div style={{ fontSize: '12px', color: '#5C6E5F', lineHeight: '1.6' }}>
               • PyTorch ResNet18 (38 disease classes)<br />
               • Scikit-Learn Multiclass Fertilizer Regressor<br />
               • Copernicus Sentinel-2 Level-2A BOA
@@ -655,7 +697,7 @@ const Dashboard = () => {
             block
             icon={<HomeOutlined />}
             onClick={() => {
-              navigate('/');
+              handleLogout();
               setDrawerOpen(false);
             }}
             style={{

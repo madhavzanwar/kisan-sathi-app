@@ -101,7 +101,7 @@ export const HowItWorks = () => {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       fontSize: '12.5px',
-                      color: '#7C8B7E',
+                      color: '#5C6E5F',
                       paddingLeft: '38px',
                     }}
                   >
@@ -129,6 +129,10 @@ export const HowItWorks = () => {
               alt={activeTab.label}
               loading="lazy"
               decoding="async"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/images/features/heal-crop.jpg';
+              }}
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -201,9 +205,12 @@ export const HowItWorks = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <ShieldCheck size={16} color="#2E6B34" />
-                    <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0E2A12' }}>
-                      {LANDING_CONTENT.howItWorks.sampleDiagnosis.disease}
-                    </span>
+                    <div>
+                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>Sample Output</span>
+                      <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0E2A12' }}>
+                        {LANDING_CONTENT.howItWorks.sampleDiagnosis.disease}
+                      </span>
+                    </div>
                   </div>
                   <span
                     style={{
@@ -247,10 +254,13 @@ export const HowItWorks = () => {
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#0E2A12' }}>
-                    Scientific Fertilizer Balance
-                  </span>
-                  <span style={{ fontSize: '11.5px', color: '#7C8B7E' }}>
+                  <div>
+                    <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>Sample Output</span>
+                    <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#0E2A12' }}>
+                      Scientific Fertilizer Balance
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '11.5px', color: '#5C6E5F' }}>
                     {LANDING_CONTENT.howItWorks.sampleFertilizer.area}
                   </span>
                 </div>
@@ -265,19 +275,19 @@ export const HowItWorks = () => {
                 >
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
                     <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.urea} kg</div>
-                    <div style={{ fontSize: '10px', color: '#7C8B7E' }}>Urea</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>Urea</div>
                   </div>
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
                     <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.dap} kg</div>
-                    <div style={{ fontSize: '10px', color: '#7C8B7E' }}>DAP</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>DAP</div>
                   </div>
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
                     <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.mop} kg</div>
-                    <div style={{ fontSize: '10px', color: '#7C8B7E' }}>MOP</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>MOP</div>
                   </div>
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
                     <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.compost} t</div>
-                    <div style={{ fontSize: '10px', color: '#7C8B7E' }}>Compost</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>Compost</div>
                   </div>
                 </div>
               </div>

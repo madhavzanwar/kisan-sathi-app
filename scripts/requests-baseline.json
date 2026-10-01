@@ -1,0 +1,76 @@
+[
+  {
+    "url": "/api/auth/register",
+    "method": "POST",
+    "contentType": "application/json",
+    "bodyKeys": [
+      "email",
+      "password"
+    ],
+    "multipartFields": [],
+    "responseStatus": 200
+  },
+  {
+    "url": "/api/auth/login",
+    "method": "POST",
+    "contentType": "application/x-www-form-urlencoded",
+    "bodyKeys": [
+      "password",
+      "username"
+    ],
+    "multipartFields": [],
+    "responseStatus": 200
+  },
+  {
+    "url": "/api/predict/disease",
+    "method": "POST",
+    "contentType": "multipart/form-data",
+    "bodyKeys": [],
+    "multipartFields": [
+      "file"
+    ],
+    "responseStatus": 200
+  },
+  {
+    "url": "/api/predict/fertilizer",
+    "method": "POST",
+    "contentType": "application/json",
+    "bodyKeys": [
+      "crop_type",
+      "farm_size",
+      "k",
+      "n",
+      "p",
+      "ph",
+      "soil_type"
+    ],
+    "multipartFields": [],
+    "responseStatus": 200
+  },
+  {
+    "url": "/api/chat",
+    "method": "POST",
+    "contentType": "application/json",
+    "bodyKeys": [
+      "context",
+      "language",
+      "message"
+    ],
+    "multipartFields": [],
+    "contextValue": "heal",
+    "responseStatus": 200
+  },
+  {
+    "url": "/api/chat",
+    "method": "POST",
+    "contentType": "application/json",
+    "bodyKeys": [
+      "context",
+      "language",
+      "message"
+    ],
+    "multipartFields": [],
+    "contextValue": "fertilizer",
+    "responseStatus": 200
+  }
+]

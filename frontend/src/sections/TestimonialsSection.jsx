@@ -169,7 +169,7 @@ export const TestimonialsSection = () => {
                     >
                       {sc.label}
                     </span>
-                    <Quote size={24} color="#7C8B7E" style={{ opacity: 0.4 }} />
+                    <Quote size={24} color="#5C6E5F" style={{ opacity: 0.6 }} />
                   </div>
 
                   {/* Scenario Narrative */}
@@ -213,7 +213,7 @@ export const TestimonialsSection = () => {
                         style={{
                           fontFamily: 'var(--font-sans)',
                           fontSize: '12px',
-                          color: '#7C8B7E',
+                          color: '#5C6E5F',
                         }}
                       >
                         {sc.crop} • {sc.location}

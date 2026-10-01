@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Slider, Tag, Button, Progress, Tooltip } from 'antd';
+import { Select, Slider, Tag, Button, Progress } from 'antd';
 import { 
   MapPin, 
   TrendingUp, 
   Bug, 
   Satellite, 
   Droplets, 
-  Calendar, 
   Sprout, 
   ShieldAlert, 
-  CheckCircle2, 
-  AlertTriangle, 
   RefreshCw 
 } from 'lucide-react';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
@@ -42,6 +39,7 @@ const YieldPestForecaster = () => {
   // Automatically fetch forecast on first mount
   useEffect(() => {
     fetchForecast(location.latitude, location.longitude, crop, farmSize, sowingDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchForecast = async (lat, lon, selectedCrop, size, date) => {
@@ -130,7 +128,7 @@ const YieldPestForecaster = () => {
         primary_threat: "Low Risk / Healthy Canopy",
         risk_level: "Low",
         risk_probability_percent: 24,
-        risk_color: "#10B981",
+        risk_color: "#047857",
         contributing_triggers: [
           "Ambient humidity within balanced range (62%)",
           "Balanced temperature microclimate (26.4°C)",
@@ -147,7 +145,7 @@ const YieldPestForecaster = () => {
         canopy_cover_percent: 78,
         canopy_vigor: "Optimal Vegetative Vigor",
         health_status: "Optimal",
-        indicator_color: "#10B981"
+        indicator_color: "#047857"
       },
       weather_and_soil: {
         current_temp: 27.5,
@@ -230,7 +228,7 @@ const YieldPestForecaster = () => {
             <p
               style={{
                 fontSize: '14px',
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 margin: 0,
                 maxWidth: '680px',
                 lineHeight: 1.5,
@@ -291,6 +289,8 @@ const YieldPestForecaster = () => {
                 Crop Variety
               </label>
               <Select
+                id="crop-variety-select"
+                aria-label="Crop Variety"
                 value={crop}
                 onChange={(val) => setCrop(val)}
                 options={CROPS.map((c) => ({ label: c, value: c }))}
@@ -309,6 +309,7 @@ const YieldPestForecaster = () => {
                 }}
               >
                 <label
+                  htmlFor="farm-size-slider"
                   style={{
                     fontSize: '12px',
                     fontWeight: 600,
@@ -333,11 +334,19 @@ const YieldPestForecaster = () => {
                 </span>
               </div>
               <Slider
+                id="farm-size-slider"
+                aria-label="Farm Size in Acres"
                 min={0.5}
                 max={20}
                 step={0.5}
                 value={farmSize}
                 onChange={(val) => setFarmSize(val)}
+                handleRender={(originNode) =>
+                  React.cloneElement(originNode, {
+                    'aria-label': 'Farm Size in Acres',
+                    title: 'Farm Size in Acres',
+                  })
+                }
                 trackStyle={{ backgroundColor: '#2E6B34' }}
                 handleStyle={{ borderColor: '#2E6B34' }}
                 style={{ margin: '10px 0 0 0' }}
@@ -347,6 +356,7 @@ const YieldPestForecaster = () => {
             {/* Sowing Date */}
             <div>
               <label
+                htmlFor="sowing-date-input"
                 style={{
                   display: 'block',
                   fontSize: '12px',
@@ -360,6 +370,8 @@ const YieldPestForecaster = () => {
                 Sowing Date
               </label>
               <input
+                id="sowing-date-input"
+                aria-label="Sowing Date"
                 type="date"
                 value={sowingDate}
                 onChange={(e) => setSowingDate(e.target.value)}
@@ -436,7 +448,7 @@ const YieldPestForecaster = () => {
 
           {/* Quick Zones Chips */}
           <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E' }}>Quick Zones:</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F' }}>Quick Zones:</span>
             {PRESET_REGIONS.map((reg) => {
               const isSelected = location.name === reg.name;
               return (
@@ -532,7 +544,7 @@ const YieldPestForecaster = () => {
                 <span style={{ fontSize: '2.5rem', fontWeight: 700, color: '#0E2A12', letterSpacing: '-0.03em' }}>
                   {data.yield_prediction.predicted_tons_per_acre}
                 </span>
-                <span style={{ fontSize: '1rem', color: '#7C8B7E', fontWeight: 500 }}>Tons / Acre</span>
+                <span style={{ fontSize: '1rem', color: '#5C6E5F', fontWeight: 500 }}>Tons / Acre</span>
               </div>
 
               <div
@@ -556,15 +568,15 @@ const YieldPestForecaster = () => {
 
             <div style={{ borderTop: '1px solid rgba(14, 42, 18, 0.06)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontSize: '12px', color: '#7C8B7E' }}>Total Farm Harvest</div>
+                <div style={{ fontSize: '12px', color: '#5C6E5F' }}>Total Farm Harvest</div>
                 <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0E2A12' }}>
-                  {data.yield_prediction.total_harvest_tons} <span style={{ fontSize: '13px', fontWeight: 500, color: '#7C8B7E' }}>Tons</span>
+                  {data.yield_prediction.total_harvest_tons} <span style={{ fontSize: '13px', fontWeight: 500, color: '#5C6E5F' }}>Tons</span>
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '12px', color: '#7C8B7E' }}>Estimated Quintals</div>
+                <div style={{ fontSize: '12px', color: '#5C6E5F' }}>Estimated Quintals</div>
                 <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#2E6B34' }}>
-                  {data.yield_prediction.total_harvest_quintals} <span style={{ fontSize: '13px', fontWeight: 500, color: '#7C8B7E' }}>Qtl</span>
+                  {data.yield_prediction.total_harvest_quintals} <span style={{ fontSize: '13px', fontWeight: 500, color: '#5C6E5F' }}>Qtl</span>
                 </div>
               </div>
             </div>
@@ -585,7 +597,7 @@ const YieldPestForecaster = () => {
           >
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0284C7' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0369A1' }}>
                   <Satellite size={18} />
                   <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>SATELLITE CANOPY HEALTH</span>
                 </div>
@@ -593,8 +605,8 @@ const YieldPestForecaster = () => {
                   style={{
                     fontSize: '11px',
                     fontWeight: 600,
-                    backgroundColor: 'rgba(2, 132, 199, 0.08)',
-                    color: '#0284C7',
+                    backgroundColor: 'rgba(3, 105, 161, 0.1)',
+                    color: '#0369A1',
                     border: 'none',
                     borderRadius: '6px',
                     margin: 0,
@@ -608,7 +620,7 @@ const YieldPestForecaster = () => {
                 <span style={{ fontSize: '2.5rem', fontWeight: 700, color: '#0E2A12', letterSpacing: '-0.03em' }}>
                   {data.satellite_telemetry.ndvi}
                 </span>
-                <span style={{ fontSize: '1rem', color: '#7C8B7E', fontWeight: 500 }}>NDVI Index</span>
+                <span style={{ fontSize: '1rem', color: '#5C6E5F', fontWeight: 500 }}>NDVI Index</span>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
@@ -620,11 +632,12 @@ const YieldPestForecaster = () => {
 
               {/* Canopy Cover Bar */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#7C8B7E', marginBottom: '6px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#5C6E5F', marginBottom: '6px' }}>
                   <span>Canopy Cover Density</span>
                   <span style={{ color: '#0E2A12', fontWeight: 700 }}>{data.satellite_telemetry.canopy_cover_percent}%</span>
                 </div>
                 <Progress
+                  aria-label="Canopy Cover Density"
                   percent={data.satellite_telemetry.canopy_cover_percent}
                   showInfo={false}
                   strokeColor={data.satellite_telemetry.indicator_color || '#2E6B34'}
@@ -635,7 +648,7 @@ const YieldPestForecaster = () => {
             </div>
 
             <div style={{ borderTop: '1px solid rgba(14, 42, 18, 0.06)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
-              <span style={{ color: '#7C8B7E' }}>Days After Sowing</span>
+              <span style={{ color: '#5C6E5F' }}>Days After Sowing</span>
               <span style={{ color: '#0E2A12', fontWeight: 600 }}>{data.satellite_telemetry.days_after_sowing} Days (Vegetative)</span>
             </div>
           </div>
@@ -682,7 +695,7 @@ const YieldPestForecaster = () => {
                 <span style={{ fontSize: '2rem', fontWeight: 700, color: data.pest_risk_assessment.risk_color }}>
                   {data.pest_risk_assessment.risk_probability_percent}%
                 </span>
-                <span style={{ fontSize: '12px', color: '#7C8B7E' }}>probability threshold</span>
+                <span style={{ fontSize: '12px', color: '#5C6E5F' }}>probability threshold</span>
               </div>
 
               {/* Environmental Drivers */}
@@ -697,7 +710,7 @@ const YieldPestForecaster = () => {
             </div>
 
             <div style={{ borderTop: '1px solid rgba(14, 42, 18, 0.06)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
-              <span style={{ color: '#7C8B7E' }}>Classifier Accuracy</span>
+              <span style={{ color: '#5C6E5F' }}>Classifier Accuracy</span>
               <span style={{ color: '#0E2A12', fontWeight: 600 }}>95.7% Precision</span>
             </div>
           </div>
@@ -745,7 +758,7 @@ const YieldPestForecaster = () => {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '14.5px', fontWeight: 700, color: '#0E2A12', margin: 0 }}>Smart Irrigation Advisory</h4>
-                  <span style={{ fontSize: '12px', color: '#7C8B7E' }}>
+                  <span style={{ fontSize: '12px', color: '#5C6E5F' }}>
                     Root-Zone Moisture: {data.weather_and_soil.soil_moisture_pct}%
                   </span>
                 </div>
@@ -785,7 +798,7 @@ const YieldPestForecaster = () => {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '14.5px', fontWeight: 700, color: '#0E2A12', margin: 0 }}>Integrated Pest Plan</h4>
-                  <span style={{ fontSize: '12px', color: '#7C8B7E' }}>Biological &amp; Chemical Defense</span>
+                  <span style={{ fontSize: '12px', color: '#5C6E5F' }}>Biological &amp; Chemical Defense</span>
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
@@ -794,7 +807,7 @@ const YieldPestForecaster = () => {
                   <span style={{ color: '#334155' }}>{data.localized_advisories.pest_prevention.bio_action}</span>
                 </div>
                 <div>
-                  <span style={{ color: '#D97706', fontWeight: 700 }}>Chemical Backup: </span>
+                  <span style={{ color: '#92400E', fontWeight: 700 }}>Chemical Backup: </span>
                   <span style={{ color: '#334155' }}>{data.localized_advisories.pest_prevention.chemical_backup}</span>
                 </div>
               </div>
@@ -830,7 +843,7 @@ const YieldPestForecaster = () => {
                 </div>
                 <div>
                   <h4 style={{ fontSize: '14.5px', fontWeight: 700, color: '#0E2A12', margin: 0 }}>Resource Allocation</h4>
-                  <span style={{ fontSize: '12px', color: '#7C8B7E' }}>Soil pH: {data.weather_and_soil.soil_ph} • SOC: {data.weather_and_soil.organic_carbon_pct}%</span>
+                  <span style={{ fontSize: '12px', color: '#5C6E5F' }}>Soil pH: {data.weather_and_soil.soil_ph} • SOC: {data.weather_and_soil.organic_carbon_pct}%</span>
                 </div>
               </div>
               <p style={{ fontSize: '13.5px', color: '#334155', lineHeight: 1.5, margin: 0 }}>
