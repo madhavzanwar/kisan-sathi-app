@@ -265,27 +265,13 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
               WebkitBackdropFilter: 'blur(16px)',
               border: '1px solid rgba(255, 255, 255, 0.28)',
               borderRadius: '999px',
-              padding: '6px 14px',
+              padding: '6px 16px',
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
             }}
           >
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '13px',
-                fontWeight: 600,
-                color: '#FFFFFF',
-              }}
-            >
-              <span style={{ color: '#F59E0B' }}>★</span>
-              <span>{LANDING_CONTENT.hero.stats.rating}</span>
-            </span>
-
             {/* Model & System Avatars */}
             <div style={{ display: 'inline-flex', alignItems: 'center' }}>
               <div
@@ -310,7 +296,7 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
                   width: '22px',
                   height: '22px',
                   borderRadius: '50%',
-                  backgroundColor: '#059669',
+                  backgroundColor: '#047857',
                   fontSize: '10px',
                   fontWeight: 700,
                   color: '#FFFFFF',
@@ -328,7 +314,7 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
                   width: '22px',
                   height: '22px',
                   borderRadius: '50%',
-                  backgroundColor: '#F59E0B',
+                  backgroundColor: '#92400E',
                   fontSize: '10px',
                   fontWeight: 700,
                   color: '#FFFFFF',
@@ -347,10 +333,10 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
               style={{
                 fontSize: '12.5px',
                 color: 'rgba(255, 255, 255, 0.95)',
-                fontWeight: 500,
+                fontWeight: 600,
               }}
             >
-              {LANDING_CONTENT.hero.stats.farmerCountPlaceholder}
+              {LANDING_CONTENT.hero.stats.classesCount} • {LANDING_CONTENT.hero.stats.badge}
             </span>
           </div>
         </div>

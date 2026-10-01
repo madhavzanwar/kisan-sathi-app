@@ -39,6 +39,13 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Accessibility: WCAG AA contrast for waiting Steps titles */
+.ant-steps .ant-steps-item-wait .ant-steps-item-title,
+.ant-steps .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title,
+.ant-steps .ant-steps-item-wait > .ant-steps-item-wrapper > .ant-steps-item-section > .ant-steps-item-header > .ant-steps-item-title {
+  color: #4B5563 !important;
+}
+
 /* ==========================================================================
    Legacy Page Compatibility Scope
    Ensures existing pages with video background keep their white text & styles

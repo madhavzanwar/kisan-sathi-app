@@ -130,7 +130,7 @@ const YieldPestForecaster = () => {
         primary_threat: "Low Risk / Healthy Canopy",
         risk_level: "Low",
         risk_probability_percent: 24,
-        risk_color: "#10B981",
+        risk_color: "#047857",
         contributing_triggers: [
           "Ambient humidity within balanced range (62%)",
           "Balanced temperature microclimate (26.4°C)",
@@ -147,7 +147,7 @@ const YieldPestForecaster = () => {
         canopy_cover_percent: 78,
         canopy_vigor: "Optimal Vegetative Vigor",
         health_status: "Optimal",
-        indicator_color: "#10B981"
+        indicator_color: "#047857"
       },
       weather_and_soil: {
         current_temp: 27.5,
@@ -291,6 +291,8 @@ const YieldPestForecaster = () => {
                 Crop Variety
               </label>
               <Select
+                id="crop-variety-select"
+                aria-label="Crop Variety"
                 value={crop}
                 onChange={(val) => setCrop(val)}
                 options={CROPS.map((c) => ({ label: c, value: c }))}
@@ -309,6 +311,7 @@ const YieldPestForecaster = () => {
                 }}
               >
                 <label
+                  htmlFor="farm-size-slider"
                   style={{
                     fontSize: '12px',
                     fontWeight: 600,
@@ -333,11 +336,19 @@ const YieldPestForecaster = () => {
                 </span>
               </div>
               <Slider
+                id="farm-size-slider"
+                aria-label="Farm Size in Acres"
                 min={0.5}
                 max={20}
                 step={0.5}
                 value={farmSize}
                 onChange={(val) => setFarmSize(val)}
+                handleRender={(originNode) =>
+                  React.cloneElement(originNode, {
+                    'aria-label': 'Farm Size in Acres',
+                    title: 'Farm Size in Acres',
+                  })
+                }
                 trackStyle={{ backgroundColor: '#2E6B34' }}
                 handleStyle={{ borderColor: '#2E6B34' }}
                 style={{ margin: '10px 0 0 0' }}
@@ -347,6 +358,7 @@ const YieldPestForecaster = () => {
             {/* Sowing Date */}
             <div>
               <label
+                htmlFor="sowing-date-input"
                 style={{
                   display: 'block',
                   fontSize: '12px',
@@ -360,6 +372,8 @@ const YieldPestForecaster = () => {
                 Sowing Date
               </label>
               <input
+                id="sowing-date-input"
+                aria-label="Sowing Date"
                 type="date"
                 value={sowingDate}
                 onChange={(e) => setSowingDate(e.target.value)}
@@ -585,7 +599,7 @@ const YieldPestForecaster = () => {
           >
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0284C7' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0369A1' }}>
                   <Satellite size={18} />
                   <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>SATELLITE CANOPY HEALTH</span>
                 </div>
@@ -593,8 +607,8 @@ const YieldPestForecaster = () => {
                   style={{
                     fontSize: '11px',
                     fontWeight: 600,
-                    backgroundColor: 'rgba(2, 132, 199, 0.08)',
-                    color: '#0284C7',
+                    backgroundColor: 'rgba(3, 105, 161, 0.1)',
+                    color: '#0369A1',
                     border: 'none',
                     borderRadius: '6px',
                     margin: 0,
@@ -625,6 +639,7 @@ const YieldPestForecaster = () => {
                   <span style={{ color: '#0E2A12', fontWeight: 700 }}>{data.satellite_telemetry.canopy_cover_percent}%</span>
                 </div>
                 <Progress
+                  aria-label="Canopy Cover Density"
                   percent={data.satellite_telemetry.canopy_cover_percent}
                   showInfo={false}
                   strokeColor={data.satellite_telemetry.indicator_color || '#2E6B34'}
@@ -794,7 +809,7 @@ const YieldPestForecaster = () => {
                   <span style={{ color: '#334155' }}>{data.localized_advisories.pest_prevention.bio_action}</span>
                 </div>
                 <div>
-                  <span style={{ color: '#D97706', fontWeight: 700 }}>Chemical Backup: </span>
+                  <span style={{ color: '#92400E', fontWeight: 700 }}>Chemical Backup: </span>
                   <span style={{ color: '#334155' }}>{data.localized_advisories.pest_prevention.chemical_backup}</span>
                 </div>
               </div>

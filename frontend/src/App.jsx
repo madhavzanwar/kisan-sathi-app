@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { SmoothScroll } from './design-system/components/SmoothScroll.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 
 // Route code-splitting
 const Auth = lazy(() => import('./pages/Auth'));
@@ -45,11 +46,13 @@ function AppRoutes() {
 
 function App() {
   return (
-    <SmoothScroll>
-      <Router>
-        <AppRoutes />
-      </Router>
-    </SmoothScroll>
+    <ErrorBoundary>
+      <SmoothScroll>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </SmoothScroll>
+    </ErrorBoundary>
   );
 }
 

@@ -28,11 +28,8 @@ export const LANDING_CONTENT = {
     primaryCta: 'Explore AI Tools',
     secondaryCta: 'Learn How It Works',
     stats: {
-      rating: '4.9',
-      reviewText: 'AI Precision Score',
-      farmerCountPlaceholder: '38 Disease Classes',
-      isPlaceholder: false,
-      modelsCount: '38 Disease Classes',
+      badge: 'PyTorch ResNet18',
+      classesCount: '38 Disease Classes',
       cropsCount: '6 Guided Crops',
     }
   },
@@ -274,7 +271,7 @@ export const LANDING_CONTENT = {
   finalCta: {
     headingLine1: 'Make farming smarter,',
     headingAccent: 'stronger, and simpler',
-    subtext: 'Join thousands of farmers using AI vision and precision soil science to protect harvests and optimize fertilizer investment.',
+    subtext: 'Deploying PyTorch computer vision and precision soil science to diagnose plant diseases, calculate exact NPK dosage, and optimize agricultural yields.',
     buttonText: 'Open Farmer Dashboard',
     path: '/dashboard',
   },

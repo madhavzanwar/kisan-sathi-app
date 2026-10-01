@@ -81,11 +81,11 @@ export const PoweredByStrip = () => {
                 style={{
                   fontSize: '11px',
                   fontFamily: 'var(--font-sans)',
-                  color: 'var(--color-text-muted, #5C6E5F)',
-                  backgroundColor: 'rgba(46, 107, 52, 0.08)',
+                  color: '#1E4823',
+                  backgroundColor: 'rgba(46, 107, 52, 0.1)',
                   padding: '2px 8px',
                   borderRadius: '999px',
-                  fontWeight: 500,
+                  fontWeight: 600,
                 }}
               >
                 {tech.desc}

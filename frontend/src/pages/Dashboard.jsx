@@ -76,6 +76,39 @@ const Dashboard = () => {
     }
   }, [urlTab]);
 
+  useEffect(() => {
+    const cur = tabs.find((t) => t.id === activeTab);
+    document.title = cur
+      ? `KisanSathi — ${cur.name} | Agronomy Suite`
+      : 'KisanSathi — Precision Agronomy Dashboard';
+  }, [activeTab]);
+
+  // Accessibility: Ensure all Ant Design slider handles have accessible aria-labels
+  useEffect(() => {
+    const attachSliderAria = () => {
+      document.querySelectorAll('.ant-slider').forEach((slider) => {
+        const label =
+          slider.getAttribute('aria-label') ||
+          slider.closest('div')?.querySelector('span')?.textContent ||
+          'Adjustment Slider';
+        const handles = slider.querySelectorAll('.ant-slider-handle');
+        handles.forEach((handle) => {
+          if (!handle.getAttribute('aria-label')) {
+            handle.setAttribute('aria-label', label.trim());
+          }
+          if (!handle.getAttribute('title')) {
+            handle.setAttribute('title', label.trim());
+          }
+        });
+      });
+    };
+
+    attachSliderAria();
+    const observer = new MutationObserver(attachSliderAria);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+    return () => observer.disconnect();
+  }, [activeTab]);
+
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
     setSearchParams({ tab: tabId });
@@ -262,7 +295,8 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content Area */}
-      <div
+      <main
+        id="main-dashboard-content"
         style={{
           maxWidth: '1200px',
           width: '100%',
@@ -359,7 +393,7 @@ const Dashboard = () => {
               marginBottom: '14px',
             }}
           >
-            <h3
+            <h2
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '16px',
@@ -370,7 +404,7 @@ const Dashboard = () => {
               }}
             >
               Agronomy Tools
-            </h3>
+            </h2>
             <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
               Click any card to launch tool
             </span>
@@ -468,7 +502,7 @@ const Dashboard = () => {
 
                   {/* Bottom Info */}
                   <div>
-                    <h4
+                    <h3
                       style={{
                         fontFamily: 'var(--font-sans)',
                         fontSize: '15px',
@@ -479,7 +513,7 @@ const Dashboard = () => {
                       }}
                     >
                       {tab.name}
-                    </h4>
+                    </h3>
                     <p
                       style={{
                         fontSize: '12px',
@@ -514,7 +548,7 @@ const Dashboard = () => {
         </div>
 
         {/* Active Tool Content */}
-        <main
+        <section
           className="animate-fade-in"
           style={{
             marginTop: '8px',
@@ -537,8 +571,8 @@ const Dashboard = () => {
           >
             {renderTabContent()}
           </Suspense>
-        </main>
-      </div>
+        </section>
+      </main>
 
       {/* Ant Design Menu Drawer */}
       <Drawer

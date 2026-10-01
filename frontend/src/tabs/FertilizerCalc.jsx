@@ -149,6 +149,8 @@ const FertilizerCalc = () => {
               Farm Size (Acres)
             </label>
             <InputNumber
+              id="farm-size-input"
+              aria-label="Farm Size in Acres"
               min={0.1}
               step={0.1}
               value={formData.farmSize}
@@ -159,6 +161,7 @@ const FertilizerCalc = () => {
 
           <div>
             <label
+              htmlFor="soil-type-select"
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-sans)',
@@ -171,6 +174,8 @@ const FertilizerCalc = () => {
               Soil Type
             </label>
             <Select
+              id="soil-type-select"
+              aria-label="Soil Type"
               value={formData.soilType}
               onChange={(val) => setFormData({ ...formData, soilType: val })}
               style={{ width: '100%', height: '44px' }}
@@ -186,6 +191,7 @@ const FertilizerCalc = () => {
 
           <div>
             <label
+              htmlFor="crop-stage-select"
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-sans)',
@@ -198,6 +204,8 @@ const FertilizerCalc = () => {
               Crop Growth Stage
             </label>
             <Select
+              id="crop-stage-select"
+              aria-label="Crop Growth Stage"
               value={formData.cropStage}
               onChange={(val) => setFormData({ ...formData, cropStage: val })}
               style={{ width: '100%', height: '44px' }}
@@ -212,6 +220,7 @@ const FertilizerCalc = () => {
 
           <div>
             <label
+              htmlFor="soil-ph-input"
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-sans)',
@@ -224,6 +233,8 @@ const FertilizerCalc = () => {
               Soil pH Level
             </label>
             <InputNumber
+              id="soil-ph-input"
+              aria-label="Soil pH Level"
               min={4.0}
               max={9.0}
               step={0.1}
@@ -257,10 +268,17 @@ const FertilizerCalc = () => {
               </span>
             </div>
             <Slider
+              aria-label="Nitrogen (N) Content in kg per hectare"
               min={0}
               max={100}
               value={formData.n}
               onChange={(val) => setFormData({ ...formData, n: val })}
+              handleRender={(originNode) =>
+                React.cloneElement(originNode, {
+                  'aria-label': 'Nitrogen (N) Content in kg per hectare',
+                  title: 'Nitrogen (N) Content in kg per hectare',
+                })
+              }
               trackStyle={{ backgroundColor: '#2E6B34' }}
               handleStyle={{ borderColor: '#2E6B34' }}
             />
@@ -277,10 +295,17 @@ const FertilizerCalc = () => {
               </span>
             </div>
             <Slider
+              aria-label="Phosphorus (P) Content in kg per hectare"
               min={0}
               max={100}
               value={formData.p}
               onChange={(val) => setFormData({ ...formData, p: val })}
+              handleRender={(originNode) =>
+                React.cloneElement(originNode, {
+                  'aria-label': 'Phosphorus (P) Content in kg per hectare',
+                  title: 'Phosphorus (P) Content in kg per hectare',
+                })
+              }
               trackStyle={{ backgroundColor: '#2E6B34' }}
               handleStyle={{ borderColor: '#2E6B34' }}
             />
@@ -297,10 +322,17 @@ const FertilizerCalc = () => {
               </span>
             </div>
             <Slider
+              aria-label="Potassium (K) Content in kg per hectare"
               min={0}
               max={100}
               value={formData.k}
               onChange={(val) => setFormData({ ...formData, k: val })}
+              handleRender={(originNode) =>
+                React.cloneElement(originNode, {
+                  'aria-label': 'Potassium (K) Content in kg per hectare',
+                  title: 'Potassium (K) Content in kg per hectare',
+                })
+              }
               trackStyle={{ backgroundColor: '#2E6B34' }}
               handleStyle={{ borderColor: '#2E6B34' }}
             />

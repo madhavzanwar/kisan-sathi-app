@@ -30,6 +30,15 @@ const HealCrop = () => {
   const executeUpload = async (file) => {
     if (!file) return;
 
+    // Validate file type before API call
+    if (!file.type || !file.type.startsWith('image/')) {
+      setErrorMessage(
+        'Invalid file type. Please upload a valid crop leaf image (JPG, PNG, or WEBP).'
+      );
+      setStep(1);
+      return;
+    }
+
     if (selectedImage && selectedImage.startsWith('blob:')) {
       URL.revokeObjectURL(selectedImage);
     }
@@ -198,19 +207,23 @@ const HealCrop = () => {
               Supports JPG, PNG, WEBP • Max file size 10MB
             </p>
 
-            <Button
-              type="primary"
-              size="large"
+            <div
               style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 borderRadius: '999px',
                 backgroundColor: 'var(--color-cta-green, #2E6B34)',
+                color: '#FFFFFF',
                 fontWeight: 600,
                 padding: '0 28px',
                 height: '44px',
+                fontSize: '15px',
+                pointerEvents: 'none',
               }}
             >
               Browse Files
-            </Button>
+            </div>
           </Dragger>
 
           {/* Hidden native input for testing flexibility */}
@@ -218,6 +231,7 @@ const HealCrop = () => {
             type="file"
             id="native-leaf-file"
             accept="image/*"
+            aria-label="Upload leaf image"
             style={{ display: 'none' }}
             onChange={handleNativeChange}
           />

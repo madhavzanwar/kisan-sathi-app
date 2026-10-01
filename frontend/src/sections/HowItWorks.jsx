@@ -205,9 +205,12 @@ export const HowItWorks = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <ShieldCheck size={16} color="#2E6B34" />
-                    <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0E2A12' }}>
-                      {LANDING_CONTENT.howItWorks.sampleDiagnosis.disease}
-                    </span>
+                    <div>
+                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>Sample Output</span>
+                      <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0E2A12' }}>
+                        {LANDING_CONTENT.howItWorks.sampleDiagnosis.disease}
+                      </span>
+                    </div>
                   </div>
                   <span
                     style={{
@@ -251,9 +254,12 @@ export const HowItWorks = () => {
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#0E2A12' }}>
-                    Scientific Fertilizer Balance
-                  </span>
+                  <div>
+                    <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>Sample Output</span>
+                    <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#0E2A12' }}>
+                      Scientific Fertilizer Balance
+                    </span>
+                  </div>
                   <span style={{ fontSize: '11.5px', color: '#5C6E5F' }}>
                     {LANDING_CONTENT.howItWorks.sampleFertilizer.area}
                   </span>
