@@ -111,7 +111,7 @@ const HealCrop = () => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '14.5px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
             lineHeight: 1.5,
           }}
@@ -191,7 +191,7 @@ const HealCrop = () => {
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '13px',
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 marginBottom: '20px',
               }}
             >

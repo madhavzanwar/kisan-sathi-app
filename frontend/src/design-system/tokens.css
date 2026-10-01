@@ -7,7 +7,7 @@
   --color-forest-ink: #0E2A12;      /* Deep dark agricultural green for headings */
   --color-forest-ink-rgb: 14, 42, 18;
   --color-text-body: #1E2D20;       /* High-contrast body text */
-  --color-text-muted: #7C8B7E;      /* Muted sage body text */
+  --color-text-muted: #5C6E5F;      /* High-contrast sage body text (5.5:1 WCAG AA compliant) */
   --color-page-bg: #F4F5F3;         /* Soft warm agricultural paper background */
   --color-surface: #FFFFFF;         /* Pure white container / card background */
   --color-surface-subtle: #F9FAF8;  /* Elevated subtle surface */

@@ -1,0 +1,8 @@
+{
+  "totalFrames": 522,
+  "avgDurationMs": 5.34,
+  "framesOver16_7ms": 0,
+  "framesOver50ms": 0,
+  "longTasksCount": 7,
+  "droppedFrames": 164
+}

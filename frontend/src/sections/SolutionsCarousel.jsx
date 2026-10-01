@@ -93,6 +93,10 @@ export const SolutionsCarousel = () => {
                       alt={crop.name}
                       loading="lazy"
                       decoding="async"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/images/features/guides.jpg';
+                      }}
                       style={{
                         position: 'absolute',
                         inset: 0,

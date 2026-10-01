@@ -98,7 +98,7 @@ const WeatherIrrigation = () => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '14.5px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
             lineHeight: 1.5,
           }}
@@ -151,7 +151,7 @@ const WeatherIrrigation = () => {
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '14px',
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 maxWidth: '460px',
                 margin: '0 auto',
                 lineHeight: 1.5,
@@ -299,7 +299,7 @@ const WeatherIrrigation = () => {
               >
                 {weatherData.temperature_c}°C
               </div>
-              <div style={{ fontSize: '13px', color: '#7C8B7E', marginTop: '2px' }}>
+              <div style={{ fontSize: '13px', color: '#5C6E5F', marginTop: '2px' }}>
                 Ambient Temperature
               </div>
             </div>
@@ -341,7 +341,7 @@ const WeatherIrrigation = () => {
               >
                 {weatherData.humidity_percent}%
               </div>
-              <div style={{ fontSize: '13px', color: '#7C8B7E', marginTop: '2px' }}>
+              <div style={{ fontSize: '13px', color: '#5C6E5F', marginTop: '2px' }}>
                 Relative Humidity
               </div>
             </div>
@@ -383,7 +383,7 @@ const WeatherIrrigation = () => {
               >
                 {weatherData.rain_probability_percent}%
               </div>
-              <div style={{ fontSize: '13px', color: '#7C8B7E', marginTop: '2px' }}>
+              <div style={{ fontSize: '13px', color: '#5C6E5F', marginTop: '2px' }}>
                 Precipitation Probability
               </div>
             </div>
@@ -425,7 +425,7 @@ const WeatherIrrigation = () => {
               >
                 {weatherData.wind_speed_kmh} <span style={{ fontSize: '16px', fontWeight: 600 }}>km/h</span>
               </div>
-              <div style={{ fontSize: '13px', color: '#7C8B7E', marginTop: '2px' }}>
+              <div style={{ fontSize: '13px', color: '#5C6E5F', marginTop: '2px' }}>
                 Wind Velocity
               </div>
             </div>

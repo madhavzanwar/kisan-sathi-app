@@ -81,7 +81,7 @@ export const PoweredByStrip = () => {
                 style={{
                   fontSize: '11px',
                   fontFamily: 'var(--font-sans)',
-                  color: 'var(--color-text-muted, #7C8B7E)',
+                  color: 'var(--color-text-muted, #5C6E5F)',
                   backgroundColor: 'rgba(46, 107, 52, 0.08)',
                   padding: '2px 8px',
                   borderRadius: '999px',

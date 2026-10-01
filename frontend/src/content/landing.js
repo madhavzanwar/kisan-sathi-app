@@ -5,8 +5,8 @@
 
 export const LANDING_CONTENT = {
   brand: {
-    name: 'Kisan Sakhi',
-    fullName: 'KisanSathi / Kisan Sakhi',
+    name: 'KisanSathi',
+    fullName: 'KisanSathi',
     tagline: 'Har kisan ka saccha sathi.',
     subtagline: 'AI-Powered Agritech Platform bridging agricultural science and everyday farming.',
   },
@@ -30,8 +30,8 @@ export const LANDING_CONTENT = {
     stats: {
       rating: '4.9',
       reviewText: 'AI Precision Score',
-      farmerCountPlaceholder: '38 Disease Models',
-      isPlaceholder: true,
+      farmerCountPlaceholder: '38 Disease Classes',
+      isPlaceholder: false,
       modelsCount: '38 Disease Classes',
       cropsCount: '6 Guided Crops',
     }
@@ -39,7 +39,7 @@ export const LANDING_CONTENT = {
 
   statement: {
     eyebrow: 'Cultiva Legacy',
-    beforePill: "Kisan Sakhi puts crop science in every farmer's hands by delivering",
+    beforePill: "KisanSathi puts crop science in every farmer's hands by delivering",
     afterPill: 'instant leaf disease diagnosis, precision fertilizer dosage, and agronomic guidance in seconds.',
     videoThumbnail: '/videos/hero-poster.webp',
   },
@@ -57,7 +57,7 @@ export const LANDING_CONTENT = {
         tag: 'Computer Vision',
         path: '/dashboard?tab=heal',
         ctaText: 'Diagnose Leaf',
-        image: 'https://images.unsplash.com/photo-1592417817098-8f3d6ef2351c?auto=format&fit=crop&w=1000&q=80',
+        image: '/images/features/heal-crop.jpg',
       },
       {
         id: 'fertilizer',
@@ -66,7 +66,7 @@ export const LANDING_CONTENT = {
         tag: 'Soil Chemistry',
         path: '/dashboard?tab=fertilizer',
         ctaText: 'Calculate NPK',
-        image: 'https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&w=1000&q=80',
+        image: '/images/features/fertilizer.jpg',
       },
       {
         id: 'yield-pest',
@@ -75,7 +75,7 @@ export const LANDING_CONTENT = {
         tag: 'Satellite & Telemetry',
         path: '/dashboard?tab=yield-pest',
         ctaText: 'Forecast Harvest',
-        image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1000&q=80',
+        image: '/images/features/yield-pest.jpg',
       },
       {
         id: 'guide',
@@ -84,7 +84,7 @@ export const LANDING_CONTENT = {
         tag: 'Agronomy Knowledge',
         path: '/dashboard?tab=guide',
         ctaText: 'Browse Guides',
-        image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1000&q=80',
+        image: '/images/features/guides.jpg',
       }
     ]
   },
@@ -100,7 +100,7 @@ export const LANDING_CONTENT = {
         label: 'Heal Your Crop',
         subtitle: 'Leaf Disease Scan',
         location: '📍 Nashik, Maharashtra',
-        image: 'https://images.unsplash.com/photo-1592417817098-8f3d6ef2351c?auto=format&fit=crop&w=1200&q=80',
+        image: '/images/features/heal-crop.jpg',
         sampleResultType: 'disease',
       },
       {
@@ -108,7 +108,7 @@ export const LANDING_CONTENT = {
         label: 'Fertilizer Calculator',
         subtitle: 'NPK Dosage Optimization',
         location: '📍 Vidarbha, Maharashtra',
-        image: 'https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&w=1200&q=80',
+        image: '/images/features/fertilizer.jpg',
         sampleResultType: 'fertilizer',
       },
       {
@@ -116,7 +116,7 @@ export const LANDING_CONTENT = {
         label: 'Cultivation Guides',
         subtitle: '6-Stage Lifecycles',
         location: '📍 Karnal, Haryana',
-        image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80',
+        image: '/images/features/guides.jpg',
         sampleResultType: 'guide',
       },
       {
@@ -124,7 +124,7 @@ export const LANDING_CONTENT = {
         label: 'AI Assistant',
         subtitle: 'Gemini 1.5 Pro Chat',
         location: '📍 Bellary, Karnataka',
-        image: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=1200&q=80',
+        image: '/images/features/ai-assistant.jpg',
         sampleResultType: 'assistant',
       }
     ],
@@ -158,7 +158,7 @@ export const LANDING_CONTENT = {
         description: 'Early Blight vigilance, staking methods, and blossom end rot calcium management.',
         stages: '6 Growth Stages',
         path: '/dashboard?tab=guide',
-        image: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?auto=format&fit=crop&w=800&q=80',
+        image: '/images/crops/tomato.jpg',
       },
       {
         name: 'Cotton',
@@ -166,7 +166,7 @@ export const LANDING_CONTENT = {
         description: 'Bollworm scouting, square formation nutrition, and defoliation timing.',
         stages: '6 Growth Stages',
         path: '/dashboard?tab=guide',
-        image: 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=800&q=80',
+        image: '/images/crops/cotton.jpg',
       },
       {
         name: 'Wheat',
@@ -174,7 +174,7 @@ export const LANDING_CONTENT = {
         description: 'Crown root initiation irrigation, tillering Nitrogen top-dressing, and rust defense.',
         stages: '6 Growth Stages',
         path: '/dashboard?tab=guide',
-        image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80',
+        image: '/images/crops/wheat.jpg',
       },
       {
         name: 'Rice (Paddy)',
@@ -182,7 +182,7 @@ export const LANDING_CONTENT = {
         description: 'Nursery seedling management, panicle initiation water depth, and blast control.',
         stages: '6 Growth Stages',
         path: '/dashboard?tab=guide',
-        image: 'https://images.unsplash.com/photo-1536657464919-892534f60d6e?auto=format&fit=crop&w=800&q=80',
+        image: '/images/crops/rice.jpg',
       },
       {
         name: 'Sugarcane',
@@ -190,7 +190,7 @@ export const LANDING_CONTENT = {
         description: 'Sett furrow treatment, grand growth earthing up, and borer biological control.',
         stages: '6 Growth Stages',
         path: '/dashboard?tab=guide',
-        image: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=800&q=80',
+        image: '/images/crops/sugarcane.jpg',
       },
       {
         name: 'Maize (Corn)',
@@ -198,7 +198,7 @@ export const LANDING_CONTENT = {
         description: 'Knee-high vegetative fertilization, Fall Armyworm monitoring, and tassel silking.',
         stages: '6 Growth Stages',
         path: '/dashboard?tab=guide',
-        image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=800&q=80',
+        image: '/images/crops/maize.jpg',
       }
     ]
   },
@@ -206,7 +206,7 @@ export const LANDING_CONTENT = {
   testimonials: {
     eyebrow: 'Sample Workflows',
     headingTitle: 'How Farmers Will Use',
-    headingAccent: 'Kisan Sakhi',
+    headingAccent: 'KisanSathi',
     description: 'Realistic farm scenarios demonstrating how instant diagnosis and NPK dosage calculation transform day-to-day agricultural operations.',
     scenarios: [
       {
@@ -216,7 +216,7 @@ export const LANDING_CONTENT = {
         farmer: 'Ramesh Shinde',
         location: 'Nashik, Maharashtra',
         crop: 'Tomato Cultivator',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+        avatar: '/images/avatars/farmer1.jpg',
         featureUsed: 'Heal Your Crop',
       },
       {
@@ -226,7 +226,7 @@ export const LANDING_CONTENT = {
         farmer: 'Suresh Patel',
         location: 'Rajkot, Gujarat',
         crop: 'Cotton Grower',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+        avatar: '/images/avatars/farmer2.jpg',
         featureUsed: 'Smart Fertilizer Calculator',
       },
       {
@@ -236,7 +236,7 @@ export const LANDING_CONTENT = {
         farmer: 'Harpreet Singh',
         location: 'Ludhiana, Punjab',
         crop: 'Wheat Grower',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+        avatar: '/images/avatars/farmer3.jpg',
         featureUsed: 'Cultivation Guides',
       }
     ]
@@ -317,7 +317,7 @@ export const LANDING_CONTENT = {
         ]
       }
     ],
-    copyright: '© 2026 Kisan Sakhi / KisanSathi. Engineered for Indian Agriculture.',
+    copyright: '© 2026 KisanSathi. Engineered for Indian Agriculture.',
   }
 };
 

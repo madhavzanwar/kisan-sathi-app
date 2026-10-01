@@ -64,7 +64,7 @@ export const FAQSection = () => {
                 style={{
                   fontSize: '22px',
                   lineHeight: 1,
-                  color: 'var(--color-text-muted, #7C8B7E)',
+                  color: 'var(--color-text-muted, #5C6E5F)',
                   fontWeight: 300,
                 }}
               >

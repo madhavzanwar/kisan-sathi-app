@@ -505,7 +505,7 @@ const CultivationGuide = () => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '14.5px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
             lineHeight: 1.5,
           }}
@@ -523,7 +523,7 @@ const CultivationGuide = () => {
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
             fontWeight: 700,
-            color: '#7C8B7E',
+            color: '#5C6E5F',
             marginBottom: '10px',
           }}
         >
@@ -601,7 +601,7 @@ const CultivationGuide = () => {
             >
               {selectedCrop} Complete Lifecycle
             </h3>
-            <span style={{ fontSize: '13px', color: '#7C8B7E' }}>
+            <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
               {stages.length} comprehensive agronomic stages from land preparation to harvest
             </span>
           </div>
@@ -703,7 +703,7 @@ const CultivationGuide = () => {
                         style={{
                           borderRadius: '999px',
                           fontSize: '12px',
-                          color: '#7C8B7E',
+                          color: '#5C6E5F',
                           backgroundColor: '#F4F5F3',
                           border: 'none',
                         }}

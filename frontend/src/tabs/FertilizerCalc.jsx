@@ -105,7 +105,7 @@ const FertilizerCalc = () => {
           style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '14.5px',
-            color: 'var(--color-text-muted, #7C8B7E)',
+            color: 'var(--color-text-muted, #5C6E5F)',
             margin: 0,
             lineHeight: 1.5,
           }}
@@ -352,7 +352,7 @@ const FertilizerCalc = () => {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', textTransform: 'uppercase' }}>
                 Formulation Match
               </span>
               <h3
@@ -400,7 +400,7 @@ const FertilizerCalc = () => {
               <div style={{ fontSize: '24px', fontWeight: 700, color: '#0E2A12' }}>
                 {result.urea} <span style={{ fontSize: '14px', fontWeight: 500 }}>kg</span>
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', marginTop: '4px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', marginTop: '4px' }}>
                 Urea (46-0-0)
               </div>
             </div>
@@ -419,7 +419,7 @@ const FertilizerCalc = () => {
               <div style={{ fontSize: '24px', fontWeight: 700, color: '#0E2A12' }}>
                 {result.dap} <span style={{ fontSize: '14px', fontWeight: 500 }}>kg</span>
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', marginTop: '4px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', marginTop: '4px' }}>
                 DAP (18-46-0)
               </div>
             </div>
@@ -438,7 +438,7 @@ const FertilizerCalc = () => {
               <div style={{ fontSize: '24px', fontWeight: 700, color: '#0E2A12' }}>
                 {result.mop} <span style={{ fontSize: '14px', fontWeight: 500 }}>kg</span>
               </div>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: '#7C8B7E', marginTop: '4px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#5C6E5F', marginTop: '4px' }}>
                 MOP / Potash
               </div>
             </div>

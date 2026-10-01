@@ -451,7 +451,7 @@ const FloatingAssistant = ({ activeTab }) => {
                       style={{
                         background: 'none',
                         border: 'none',
-                        color: '#7C8B7E',
+                        color: '#5C6E5F',
                         cursor: 'pointer',
                         padding: '4px 6px',
                         display: 'inline-flex',
@@ -490,7 +490,7 @@ const FloatingAssistant = ({ activeTab }) => {
                       color: '#2E6B34',
                     }}
                   />
-                  <span style={{ fontSize: '13px', color: '#7C8B7E' }}>
+                  <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
                     Consulting agronomy models...
                   </span>
                 </div>

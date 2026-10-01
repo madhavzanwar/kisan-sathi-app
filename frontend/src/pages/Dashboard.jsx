@@ -184,12 +184,12 @@ const Dashboard = () => {
                   lineHeight: 1.1,
                 }}
               >
-                Kisan Sakhi
+                KisanSathi
               </div>
               <div
                 style={{
                   fontSize: '11px',
-                  color: '#7C8B7E',
+                  color: '#5C6E5F',
                   fontWeight: 500,
                 }}
               >
@@ -308,7 +308,7 @@ const Dashboard = () => {
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '15px',
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 margin: 0,
                 lineHeight: 1.5,
               }}
@@ -339,7 +339,7 @@ const Dashboard = () => {
               }}
             />
             <div>
-              <div style={{ fontSize: '11px', color: '#7C8B7E', fontWeight: 600, textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '11px', color: '#5C6E5F', fontWeight: 600, textTransform: 'uppercase' }}>
                 System Telemetry
               </div>
               <div style={{ fontSize: '13.5px', color: '#0E2A12', fontWeight: 700 }}>
@@ -371,7 +371,7 @@ const Dashboard = () => {
             >
               Agronomy Tools
             </h3>
-            <span style={{ fontSize: '13px', color: '#7C8B7E' }}>
+            <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
               Click any card to launch tool
             </span>
           </div>
@@ -456,7 +456,7 @@ const Dashboard = () => {
                         fontSize: '11px',
                         fontWeight: 700,
                         backgroundColor: isActive ? '#2E6B34' : '#F4F5F3',
-                        color: isActive ? '#FFFFFF' : '#7C8B7E',
+                        color: isActive ? '#FFFFFF' : '#5C6E5F',
                         border: 'none',
                         margin: 0,
                         padding: '1px 8px',
@@ -483,7 +483,7 @@ const Dashboard = () => {
                     <p
                       style={{
                         fontSize: '12px',
-                        color: '#7C8B7E',
+                        color: '#5C6E5F',
                         margin: 0,
                         lineHeight: 1.4,
                       }}
@@ -559,9 +559,9 @@ const Dashboard = () => {
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: '16px', color: '#0E2A12' }}>
-                Kisan Sakhi
+                KisanSathi
               </div>
-              <div style={{ fontSize: '11px', color: '#7C8B7E' }}>Har kisan ka saccha sathi</div>
+              <div style={{ fontSize: '11px', color: '#5C6E5F' }}>Har kisan ka saccha sathi</div>
             </div>
           </div>
         }
@@ -586,7 +586,7 @@ const Dashboard = () => {
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 fontWeight: 700,
-                color: '#7C8B7E',
+                color: '#5C6E5F',
                 marginBottom: '10px',
               }}
             >
@@ -623,7 +623,7 @@ const Dashboard = () => {
                       <IconComp size={16} />
                       <span>{tab.name}</span>
                     </div>
-                    <ChevronRight size={14} color="#7C8B7E" />
+                    <ChevronRight size={14} color="#5C6E5F" />
                   </button>
                 );
               })}
@@ -641,7 +641,7 @@ const Dashboard = () => {
             <div style={{ fontWeight: 700, fontSize: '13px', color: '#0E2A12', marginBottom: '6px' }}>
               AI Model Specifications
             </div>
-            <div style={{ fontSize: '12px', color: '#7C8B7E', lineHeight: '1.6' }}>
+            <div style={{ fontSize: '12px', color: '#5C6E5F', lineHeight: '1.6' }}>
               • PyTorch ResNet18 (38 disease classes)<br />
               • Scikit-Learn Multiclass Fertilizer Regressor<br />
               • Copernicus Sentinel-2 Level-2A BOA

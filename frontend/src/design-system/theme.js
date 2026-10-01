@@ -17,8 +17,8 @@ export const kisanSathiTheme = {
     // --- Text Hierarchy ---
     colorTextBase: '#0E2A12',       // Forest ink
     colorText: '#0E2A12',
-    colorTextSecondary: '#7C8B7E',  // Muted sage text
-    colorTextTertiary: '#A0ACA2',
+    colorTextSecondary: '#5C6E5F',  // High-contrast sage text
+    colorTextTertiary: '#8D9B8F',
     colorTextQuaternary: '#CCD4CD',
 
     // --- Surfaces & Layout ---
@@ -82,7 +82,7 @@ export const kisanSathiTheme = {
       colorBorder: 'transparent',
     },
     Tabs: {
-      itemColor: '#7C8B7E',
+      itemColor: '#5C6E5F',
       itemHoverColor: '#0E2A12',
       itemSelectedColor: '#0E2A12',
       inkBarColor: '#2E6B34',
@@ -92,7 +92,7 @@ export const kisanSathiTheme = {
       colorBgLayout: '#ECEEE9',
       itemSelectedBg: '#FFFFFF',
       itemSelectedColor: '#0E2A12',
-      itemColor: '#7C8B7E',
+      itemColor: '#5C6E5F',
       borderRadius: 999,
       borderRadiusSM: 999,
       trackPadding: 4,
@@ -108,7 +108,7 @@ export const kisanSathiTheme = {
       borderRadius: 14,
       colorBorder: 'rgba(14, 42, 18, 0.15)',
       activeBorderColor: '#2E6B34',
-      hoverBorderColor: '#7C8B7E',
+      hoverBorderColor: '#5C6E5F',
       controlHeight: 44,
     },
     Select: {
