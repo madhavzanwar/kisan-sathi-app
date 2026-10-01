@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, Steps, Progress, Tag, Alert, Button } from 'antd';
-import { CameraOutlined, CheckCircleOutlined, SyncOutlined, ExperimentOutlined } from '@ant-design/icons';
+import { CameraOutlined } from '@ant-design/icons';
 import { Leaf, AlertTriangle, ShieldCheck, RefreshCw } from 'lucide-react';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
 
@@ -28,12 +28,21 @@ const HealCrop = () => {
   }, [selectedImage]);
 
   const executeUpload = async (file) => {
-    if (!file) return;
+    if (!file || step === 2) return;
 
     // Validate file type before API call
     if (!file.type || !file.type.startsWith('image/')) {
       setErrorMessage(
         'Invalid file type. Please upload a valid crop leaf image (JPG, PNG, or WEBP).'
+      );
+      setStep(1);
+      return;
+    }
+
+    // Validate file size limit (15 MB)
+    if (file.size > 15 * 1024 * 1024) {
+      setErrorMessage(
+        'File size exceeds the 15 MB limit. Please upload a standard photo.'
       );
       setStep(1);
       return;
