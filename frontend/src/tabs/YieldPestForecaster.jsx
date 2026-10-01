@@ -39,6 +39,7 @@ const YieldPestForecaster = () => {
   // Automatically fetch forecast on first mount
   useEffect(() => {
     fetchForecast(location.latitude, location.longitude, crop, farmSize, sowingDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchForecast = async (lat, lon, selectedCrop, size, date) => {

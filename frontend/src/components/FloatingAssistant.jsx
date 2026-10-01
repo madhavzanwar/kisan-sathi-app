@@ -68,6 +68,7 @@ const FloatingAssistant = ({ activeTab }) => {
     if (messages.length === 0) {
       setMessages([{ sender: 'bot', text: greeting }]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
