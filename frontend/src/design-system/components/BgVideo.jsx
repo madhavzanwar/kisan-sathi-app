@@ -34,23 +34,33 @@ export const BgVideo = ({
   });
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-    const saveData = Boolean(navigator.connection && navigator.connection.saveData);
-    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const evaluatePlayback = () => {
+      if (typeof window === 'undefined') return;
+      const isMobile = window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    setIsMobileScreen(isMobile || forcePoster);
+      setIsMobileScreen(isMobile || forcePoster);
 
-    if (isMobile || saveData || prefersReducedMotion || forcePoster) {
-      setShouldPlayVideo(false);
-      return;
-    }
+      if (isMobile || saveData || prefersReducedMotion || forcePoster) {
+        setShouldPlayVideo(false);
+      } else {
+        setShouldPlayVideo(true);
+      }
+    };
 
-    setShouldPlayVideo(true);
+    evaluatePlayback();
+    window.addEventListener('resize', evaluatePlayback);
+    return () => window.removeEventListener('resize', evaluatePlayback);
+  }, [forcePoster]);
+
+  // Attach IntersectionObserver reliably after the video element mounts into DOM
+  useEffect(() => {
+    if (!shouldPlayVideo) return;
 
     const videoEl = videoRef.current;
     if (!videoEl) return;
 
-    // IntersectionObserver to pause video when off-screen
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -70,7 +80,7 @@ export const BgVideo = ({
     return () => {
       observer.disconnect();
     };
-  }, [forcePoster]);
+  }, [shouldPlayVideo]);
 
   const mp4Url = typeof src === 'string' ? src : src?.mp4;
   const webmUrl = webmSrc || (typeof src === 'object' ? src?.webm : null);
