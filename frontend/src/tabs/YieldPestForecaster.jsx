@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Slider, Tag, Button, Progress, Tooltip } from 'antd';
+import { Select, Slider, Tag, Button, Progress } from 'antd';
 import { 
   MapPin, 
   TrendingUp, 
   Bug, 
   Satellite, 
   Droplets, 
-  Calendar, 
   Sprout, 
   ShieldAlert, 
-  CheckCircle2, 
-  AlertTriangle, 
   RefreshCw 
 } from 'lucide-react';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';

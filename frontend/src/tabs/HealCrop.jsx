@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, Steps, Progress, Tag, Alert, Button } from 'antd';
 import { CameraOutlined } from '@ant-design/icons';
-import { Leaf, AlertTriangle, ShieldCheck, RefreshCw } from 'lucide-react';
+import { Leaf, AlertTriangle, RefreshCw } from 'lucide-react';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
 
 const { Dragger } = Upload;

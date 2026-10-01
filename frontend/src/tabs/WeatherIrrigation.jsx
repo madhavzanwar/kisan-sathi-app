@@ -21,6 +21,7 @@ const WeatherIrrigation = () => {
 
   const handleDetectLocation = () => {
     setLoading(true);
+    setError(null);
     
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -51,12 +52,12 @@ const WeatherIrrigation = () => {
         },
         (err) => {
           console.error('GPS Error:', err);
-          alert('Please enable Location Services to get live weather advisories.');
+          setError('Please enable Location Services to get live weather advisories.');
           setLoading(false);
         }
       );
     } else {
-      alert('Geolocation is not supported by your browser.');
+      setError('Geolocation is not supported by your browser.');
       setLoading(false);
     }
   };
@@ -106,6 +107,17 @@ const WeatherIrrigation = () => {
           Hyper-local meteorological telemetry, precipitation probabilities, and AI-driven soil irrigation schedules.
         </p>
       </div>
+
+      {error && (
+        <Alert
+          type="warning"
+          message={error}
+          showIcon
+          closable
+          onClose={() => setError(null)}
+          style={{ borderRadius: '12px' }}
+        />
+      )}
 
       {!weatherData ? (
         <div

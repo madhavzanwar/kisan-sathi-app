@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tag, Timeline, Button } from 'antd';
-import { CheckCircleOutlined, ClockCircleOutlined, DownOutlined, UpOutlined, CalendarOutlined } from '@ant-design/icons';
-import { ChevronDown, ChevronUp, CheckCircle, Droplet, Bug, Tractor, Sprout, Leaf, Sun, Wheat, Calendar, Layers, Sparkles } from 'lucide-react';
+import { ClockCircleOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
+import { CheckCircle, Bug, Tractor, Sprout, Leaf, Sun, Wheat } from 'lucide-react';
 
 const crops = ['Tomato', 'Cotton', 'Wheat', 'Rice', 'Sugarcane', 'Maize'];
 
