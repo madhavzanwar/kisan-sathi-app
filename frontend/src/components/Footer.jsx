@@ -1,14 +1,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Leaf } from 'lucide-react';
-import { LANDING_CONTENT } from '../content/landing.js';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
+import { useLang } from '../i18n/useLang.js';
+import { getBrandName } from '../i18n/glossary.js';
 
 /**
  * Footer — Editorial dark green footer with frosted glass container
  * and real application route navigation.
  */
 export const Footer = () => {
+  const { t, currentLang } = useLang();
+
+  const footerColumns = [
+    {
+      title: t('common:footer.aiTools', 'AI Tools'),
+      links: [
+        { label: t('common:footer.healLink', 'Heal Your Crop (Disease)'), path: '/dashboard?tab=heal' },
+        { label: t('common:footer.fertilizerLink', 'Smart Fertilizer Calculator'), path: '/dashboard?tab=fertilizer' },
+        { label: t('common:footer.yieldPestLink', 'Yield & Pest Forecaster'), path: '/dashboard?tab=yield-pest' },
+        { label: t('common:footer.weatherLink', 'Live Weather Telemetry'), path: '/dashboard?tab=weather' },
+      ],
+    },
+    {
+      title: t('common:footer.cropGuides', 'Crop Guides'),
+      links: [
+        { label: t('common:footer.tomatoGuide', 'Tomato Cultivation Guide'), path: '/dashboard?tab=guide' },
+        { label: t('common:footer.cottonGuide', 'Cotton Cultivation Guide'), path: '/dashboard?tab=guide' },
+        { label: t('common:footer.wheatGuide', 'Wheat Lifecycle Guide'), path: '/dashboard?tab=guide' },
+        { label: t('common:footer.riceGuide', 'Rice & Sugarcane Guides'), path: '/dashboard?tab=guide' },
+      ],
+    },
+    {
+      title: t('common:footer.platform', 'Platform'),
+      links: [
+        { label: t('common:footer.dashboardLink', 'Farmer Dashboard'), path: '/dashboard' },
+        { label: t('common:footer.assistantLink', 'AI Assistant Context'), path: '/dashboard?tab=assistant' },
+        { label: t('common:footer.apiArchitecture', 'API Architecture'), path: 'https://github.com/madhavzanwar/kisan-sathi-app', external: true },
+        { label: t('common:footer.license', 'MIT Open Source License'), path: 'https://github.com/madhavzanwar/kisan-sathi-app/blob/main/LICENSE', external: true },
+      ],
+    },
+  ];
   return (
     <footer
       style={{
@@ -91,7 +123,7 @@ export const Footer = () => {
                     letterSpacing: '-0.02em',
                   }}
                 >
-                  {LANDING_CONTENT.brand.name}
+                  {getBrandName(currentLang)}
                 </span>
               </div>
 
@@ -104,7 +136,7 @@ export const Footer = () => {
                   margin: '0 0 10px 0',
                 }}
               >
-                {LANDING_CONTENT.brand.tagline}
+                {t('landing:brand.tagline', 'Har kisan ka saccha sathi.')}
               </p>
 
               <p
@@ -116,12 +148,12 @@ export const Footer = () => {
                   margin: 0,
                 }}
               >
-                {LANDING_CONTENT.brand.subtagline}
+                {t('landing:brand.subtagline', 'AI-Powered Agritech Platform bridging agricultural science and everyday farming.')}
               </p>
             </div>
 
             {/* Link Columns */}
-            {LANDING_CONTENT.footer.columns.map((col) => (
+            {footerColumns.map((col) => (
               <div key={col.title}>
                 <h4
                   style={{
@@ -207,7 +239,7 @@ export const Footer = () => {
               color: 'rgba(255, 255, 255, 0.55)',
             }}
           >
-            <span>{LANDING_CONTENT.footer.copyright}</span>
+            <span>{t('common:footer.copyright', '© 2026 KisanSathi. Engineered for Indian Agriculture.')}</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
               <LanguageSwitcher mode="footer" />
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -220,7 +252,7 @@ export const Footer = () => {
                     backgroundColor: '#10B981',
                   }}
                 />
-                <span>FastAPI Backend • PyTorch ResNet18 Online</span>
+                <span>{t('common:footer.backendStatus', 'FastAPI Backend • PyTorch ResNet18 Online')}</span>
               </div>
             </div>
           </div>

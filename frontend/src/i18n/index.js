@@ -10,6 +10,7 @@ import enFertilizer from './locales/en/fertilizer.json';
 import enGuides from './locales/en/guides.json';
 import enChat from './locales/en/chat.json';
 import enErrors from './locales/en/errors.json';
+import { transformObjectToPseudo } from './pseudo.js';
 
 export const SUPPORTED_LANGUAGES = [
   { code: 'en', nativeName: 'English', englishName: 'English', shortLabel: 'EN' },
@@ -29,14 +30,14 @@ export const STORAGE_KEY = 'kisansathi_lang';
 export const detectInitialLanguage = () => {
   if (typeof window === 'undefined') return 'en';
 
-  // 1. ?lang= URL param
+  // 1. ?lang= URL param (supports ?lang=pseudo in dev/testing)
   try {
     const params = new URLSearchParams(window.location.search);
     const urlLang = params.get('lang');
     if (urlLang) {
       const normalized = urlLang.toLowerCase().trim();
-      if (['en', 'hi', 'mr'].includes(normalized)) {
-        return normalized;
+      if (['en', 'hi', 'mr', 'pseudo', 'en-xa'].includes(normalized)) {
+        return normalized === 'en-xa' ? 'pseudo' : normalized;
       }
     }
   } catch (e) {
@@ -101,10 +102,23 @@ const loadedBundles = new Set(['en']);
  * Vite automatically code-splits these into separate async chunks.
  */
 export const loadLanguageResources = async (lang) => {
-  if (!['en', 'hi', 'mr'].includes(lang)) return;
+  if (!['en', 'hi', 'mr', 'pseudo'].includes(lang)) return;
   if (loadedBundles.has(lang)) return;
 
   try {
+    if (lang === 'pseudo') {
+      i18n.addResourceBundle('pseudo', 'common', transformObjectToPseudo(enCommon), true, true);
+      i18n.addResourceBundle('pseudo', 'landing', transformObjectToPseudo(enLanding), true, true);
+      i18n.addResourceBundle('pseudo', 'dashboard', transformObjectToPseudo(enDashboard), true, true);
+      i18n.addResourceBundle('pseudo', 'heal', transformObjectToPseudo(enHeal), true, true);
+      i18n.addResourceBundle('pseudo', 'fertilizer', transformObjectToPseudo(enFertilizer), true, true);
+      i18n.addResourceBundle('pseudo', 'guides', transformObjectToPseudo(enGuides), true, true);
+      i18n.addResourceBundle('pseudo', 'chat', transformObjectToPseudo(enChat), true, true);
+      i18n.addResourceBundle('pseudo', 'errors', transformObjectToPseudo(enErrors), true, true);
+      loadedBundles.add('pseudo');
+      return;
+    }
+
     if (lang === 'hi') {
       const [common, landing, dashboard, heal, fertilizer, guides, chat, errors] =
         await Promise.all([
@@ -163,7 +177,7 @@ export const updateDocumentMetadata = (lang) => {
   if (typeof document === 'undefined') return;
 
   // 1. Set <html lang="..."> and keep dir="ltr"
-  document.documentElement.lang = lang;
+  document.documentElement.lang = lang === 'pseudo' ? 'en-XA' : lang;
   document.documentElement.dir = 'ltr';
 
   // 2. Set document.title & meta description per language
@@ -171,12 +185,14 @@ export const updateDocumentMetadata = (lang) => {
     en: 'KisanSathi — Har kisan ka saccha sathi | AI Smart Farming',
     hi: 'किसान साथी — हर किसान का सच्चा साथी | एआई स्मार्ट फार्मिंग',
     mr: 'किसान साथी — हर किसान का सच्चा साथी | एआय स्मार्ट फार्मिंग',
+    pseudo: '[!! ЌíííšááñŚááŧĥíí — Ĥáář ќíííšááñ ќáá šááččĥáá šááŧĥíí !!]',
   };
 
   const descriptions = {
     en: 'KisanSathi — AI-powered precision agritech platform for instant crop diagnosis, scientific fertilizer balancing, and agronomic guidance.',
     hi: 'किसान साथी — तत्काल फसल रोग निदान, सटीक उर्वरक संतुलन और कृषि मार्गदर्शन के लिए एआई-संचालित कृषि तकनीकी मंच।',
     mr: 'किसान साथी — त्वरित पीक रोग निदान, अचूक खत प्रमाण संतुलन आणि शेती मार्गदर्शनासाठी एआय-सक्षम कृषी तंत्रज्ञान मंच.',
+    pseudo: '[!! ЌíííšááñŚááŧĥíí — ÁÁÍ-þóówééřééđ þřééčííšííóóñ áágřííŧééčĥ þłááŧƒóóřɱ ƒóóř ííñšŧááñŧ čřóóþ đííáágñóóšííš !!]',
   };
 
   // Only update landing title if on landing page or default title
@@ -199,7 +215,7 @@ export const updateDocumentMetadata = (lang) => {
  * Switch language cleanly without page reload or component remount.
  */
 export const setLanguage = async (newLang) => {
-  if (!['en', 'hi', 'mr'].includes(newLang)) return;
+  if (!['en', 'hi', 'mr', 'pseudo'].includes(newLang)) return;
 
   try {
     // 1. Ensure resources for target language are loaded
@@ -236,4 +252,5 @@ if (initialLang !== 'en') {
   updateDocumentMetadata('en');
 }
 
+export { useLang } from './useLang.js';
 export default i18n;

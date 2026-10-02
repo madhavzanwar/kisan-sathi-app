@@ -3,14 +3,34 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { SectionHeading } from '../design-system/components/SectionHeading.jsx';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
+
+const cropConfig = [
+  { id: 'tomato', image: '/images/crops/tomato.jpg', path: '/dashboard?tab=guides&crop=tomato' },
+  { id: 'cotton', image: '/images/crops/cotton.jpg', path: '/dashboard?tab=guides&crop=cotton' },
+  { id: 'wheat', image: '/images/crops/wheat.jpg', path: '/dashboard?tab=guides&crop=wheat' },
+  { id: 'rice', image: '/images/crops/rice.jpg', path: '/dashboard?tab=guides&crop=rice' },
+  { id: 'sugarcane', image: '/images/crops/sugarcane.jpg', path: '/dashboard?tab=guides&crop=sugarcane' },
+  { id: 'maize', image: '/images/crops/maize.jpg', path: '/dashboard?tab=guides&crop=maize' },
+];
 
 /**
  * SolutionsCarousel — Horizontally scrollable portrait crop cards
  * with staggered vertical offsets and smooth CSS scroll-snap.
  */
 export const SolutionsCarousel = () => {
+  const { t, currentLang } = useLang();
   const scrollRef = useRef(null);
+
+  const crops = cropConfig.map((crop) => ({
+    id: crop.id,
+    name: t(`landing:solutions.${crop.id}.name`),
+    scientific: t(`landing:solutions.${crop.id}.scientific`),
+    description: t(`landing:solutions.${crop.id}.description`),
+    stages: t(`landing:solutions.${crop.id}.stages`, { count: 6 }),
+    image: crop.image,
+    path: crop.path,
+  }));
 
   return (
     <section
@@ -30,10 +50,10 @@ export const SolutionsCarousel = () => {
       >
         <BlurIn>
           <SectionHeading
-            eyebrow={LANDING_CONTENT.solutionsCarousel.eyebrow}
-            title={LANDING_CONTENT.solutionsCarousel.headingTitle}
-            accent={LANDING_CONTENT.solutionsCarousel.headingAccent}
-            description={LANDING_CONTENT.solutionsCarousel.description}
+            eyebrow={t('landing:solutions.eyebrow')}
+            title={t('landing:solutions.headingTitle')}
+            accent={t('landing:solutions.headingAccent')}
+            description={t('landing:solutions.description')}
           />
 
           {/* Staggered Scroll-Snap Horizontal Container */}
@@ -51,7 +71,7 @@ export const SolutionsCarousel = () => {
               WebkitOverflowScrolling: 'touch',
             }}
           >
-            {LANDING_CONTENT.solutionsCarousel.crops.map((crop, index) => {
+            {crops.map((crop, index) => {
               const isStaggered = index % 2 === 1;
 
               return (
@@ -176,8 +196,8 @@ export const SolutionsCarousel = () => {
                       <p
                         style={{
                           margin: '0 0 8px 0',
-                          fontFamily: 'var(--font-serif-accent)',
-                          fontStyle: 'italic',
+                          fontFamily: currentLang === 'en' ? 'var(--font-serif-accent)' : 'var(--font-sans)',
+                          fontStyle: currentLang === 'en' ? 'italic' : 'normal',
                           fontSize: '14px',
                           color: 'var(--color-lime-accent, #D5F145)',
                         }}

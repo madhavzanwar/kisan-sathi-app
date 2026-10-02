@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import { Collapse } from 'antd';
 import { SectionHeading } from '../design-system/components/SectionHeading.jsx';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
+
+const faqKeys = ['q1', 'q2', 'q3', 'q4', 'q5'];
 
 /**
  * FAQSection — Centered agricultural FAQ with stacked light-gray rounded cards,
  * dark-green square minus buttons on active rows, and thin plus icons on closed rows.
  */
 export const FAQSection = () => {
+  const { t } = useLang();
   const [activeKey, setActiveKey] = useState('0');
-  const items = LANDING_CONTENT.faq.items;
 
-  const collapseItems = items.map((faq, index) => {
+  const collapseItems = faqKeys.map((k, index) => {
     const isActive = String(index) === String(activeKey);
+    const question = t(`landing:faq.${k}.question`);
+    const answer = t(`landing:faq.${k}.answer`);
 
     return {
       key: String(index),
@@ -36,7 +40,7 @@ export const FAQSection = () => {
               paddingRight: '16px',
             }}
           >
-            {faq.question}
+            {question}
           </span>
 
           <div style={{ flexShrink: 0 }}>
@@ -84,7 +88,7 @@ export const FAQSection = () => {
             color: 'var(--color-text-muted, #5C6E5F)',
           }}
         >
-          {faq.answer}
+          {answer}
         </p>
       ),
       style: {
@@ -115,10 +119,10 @@ export const FAQSection = () => {
         <BlurIn>
           <SectionHeading
             align="center"
-            eyebrow={LANDING_CONTENT.faq.eyebrow}
-            title={LANDING_CONTENT.faq.headingTitle}
-            accent={LANDING_CONTENT.faq.headingAccent}
-            description={LANDING_CONTENT.faq.description}
+            eyebrow={t('landing:faq.eyebrow')}
+            title={t('landing:faq.headingTitle')}
+            accent={t('landing:faq.headingAccent')}
+            description={t('landing:faq.description')}
           />
 
           <Collapse

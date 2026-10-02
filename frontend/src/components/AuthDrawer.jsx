@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Drawer, Button, Input, Alert } from 'antd';
 import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
+import { useLang } from '../i18n/index.js';
 
 export const AuthDrawer = ({ open, onClose }) => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,7 @@ export const AuthDrawer = ({ open, onClose }) => {
         if (!res.ok) throw new Error(data.detail || 'Registration failed');
         
         setIsLogin(true);
-        setError('Account created successfully! Please sign in.');
+        setError(t('landing:auth.accountCreated'));
       }
     } catch (err) {
       setError(err.message || 'Authentication error occurred');
@@ -82,7 +84,7 @@ export const AuthDrawer = ({ open, onClose }) => {
     >
       <div style={{ marginBottom: '28px' }}>
         <span className="eyebrow-tag" style={{ marginBottom: '12px' }}>
-          Farmer Portal
+          {t('landing:auth.eyebrow')}
         </span>
         <h2
           style={{
@@ -94,7 +96,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             letterSpacing: '-0.02em',
           }}
         >
-          {isLogin ? 'Welcome Back' : 'Create Account'}
+          {isLogin ? t('landing:auth.welcomeBack') : t('landing:auth.createAccount')}
         </h2>
         <p
           style={{
@@ -106,8 +108,8 @@ export const AuthDrawer = ({ open, onClose }) => {
           }}
         >
           {isLogin
-            ? 'Enter your credentials to access your agricultural dashboard.'
-            : 'Join KisanSathi to access AI crop diagnosis and fertilizer planning.'}
+            ? t('landing:auth.loginSubtext')
+            : t('landing:auth.registerSubtext')}
         </p>
       </div>
 
@@ -132,7 +134,7 @@ export const AuthDrawer = ({ open, onClose }) => {
               marginBottom: '6px',
             }}
           >
-            Email Address
+            {t('landing:auth.emailLabel')}
           </label>
           <Input
             type="email"
@@ -141,7 +143,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             prefix={<MailOutlined style={{ color: '#5C6E5F', marginRight: '6px' }} />}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="farmer@example.com"
+            placeholder={t('landing:auth.emailPlaceholder')}
             style={{ borderRadius: '12px', height: '46px' }}
           />
         </div>
@@ -157,7 +159,7 @@ export const AuthDrawer = ({ open, onClose }) => {
               marginBottom: '6px',
             }}
           >
-            Password
+            {t('landing:auth.passwordLabel')}
           </label>
           <Input.Password
             required
@@ -165,7 +167,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             prefix={<LockOutlined style={{ color: '#5C6E5F', marginRight: '6px' }} />}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
+            placeholder={t('landing:auth.passwordPlaceholder')}
             style={{ borderRadius: '12px', height: '46px' }}
           />
         </div>
@@ -187,7 +189,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             boxShadow: '0 4px 14px rgba(46, 107, 52, 0.3)',
           }}
         >
-          {loading ? 'Authenticating...' : isLogin ? 'Sign In to Dashboard' : 'Create Free Account'}
+          {loading ? t('landing:auth.authenticating') : isLogin ? t('landing:auth.signInBtn') : t('landing:auth.registerBtn')}
         </Button>
 
         {/* Quick Access bypass for demonstration */}
@@ -208,7 +210,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             borderColor: 'rgba(14, 42, 18, 0.15)',
           }}
         >
-          Continue as Guest &rarr;
+          {t('landing:auth.guestBtn')}
         </Button>
       </form>
 
@@ -221,7 +223,7 @@ export const AuthDrawer = ({ open, onClose }) => {
             margin: 0,
           }}
         >
-          {isLogin ? "Don't have an account yet?" : 'Already have an account?'}
+          {isLogin ? t('landing:auth.noAccount') : t('landing:auth.hasAccount')}
           <button
             type="button"
             onClick={() => {
@@ -238,7 +240,7 @@ export const AuthDrawer = ({ open, onClose }) => {
               fontFamily: 'var(--font-sans)',
             }}
           >
-            {isLogin ? 'Register now' : 'Sign in'}
+            {isLogin ? t('landing:auth.registerNow') : t('landing:auth.signInNow')}
           </button>
         </p>
       </div>

@@ -7,11 +7,42 @@
     "label": "Change language",
     "loading": "Loading language...",
     "announced": "Language changed to {{lang}}",
+    "languageLabel": "Language:",
     "languages": {
       "en": "English",
       "hi": "Hindi",
       "mr": "Marathi"
     }
+  },
+  "nav": {
+    "home": "Home",
+    "heal": "Heal Your Crop",
+    "fertilizer": "Fertilizer Calc",
+    "guide": "Cultivation Guides",
+    "yieldPest": "Yield & Pest",
+    "assistant": "AI Assistant",
+    "tryApp": "Try the App",
+    "openMenu": "Open mobile menu",
+    "openDashboard": "Open Farmer Dashboard"
+  },
+  "footer": {
+    "aiTools": "AI Tools",
+    "cropGuides": "Crop Guides",
+    "platform": "Platform",
+    "healLink": "Heal Your Crop (Disease)",
+    "fertilizerLink": "Smart Fertilizer Calculator",
+    "yieldPestLink": "Yield & Pest Forecaster",
+    "weatherLink": "Live Weather Telemetry",
+    "tomatoGuide": "Tomato Cultivation Guide",
+    "cottonGuide": "Cotton Cultivation Guide",
+    "wheatGuide": "Wheat Lifecycle Guide",
+    "riceGuide": "Rice & Sugarcane Guides",
+    "dashboardLink": "Farmer Dashboard",
+    "assistantLink": "AI Assistant Context",
+    "apiArchitecture": "API Architecture",
+    "license": "MIT Open Source License",
+    "copyright": "© 2026 KisanSathi. Engineered for Indian Agriculture.",
+    "backendStatus": "FastAPI Backend • PyTorch ResNet18 Online"
   },
   "actions": {
     "close": "Close",

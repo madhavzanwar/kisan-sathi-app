@@ -3,14 +3,32 @@ import { Avatar } from 'antd';
 import { ArrowLeft, ArrowRight, Quote } from 'lucide-react';
 import { SectionHeading } from '../design-system/components/SectionHeading.jsx';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
+
+const scenarioConfig = [
+  { id: 'scenario1', avatar: '/images/avatars/farmer1.jpg' },
+  { id: 'scenario2', avatar: '/images/avatars/farmer2.jpg' },
+  { id: 'scenario3', avatar: '/images/avatars/farmer3.jpg' },
+];
 
 /**
  * TestimonialsSection — Real-world agricultural scenario cards
  * with clearly labelled sample workflows and circular nav arrows.
  */
 export const TestimonialsSection = () => {
+  const { t } = useLang();
   const scrollRef = useRef(null);
+
+  const scenarios = scenarioConfig.map((sc) => ({
+    id: sc.id,
+    avatar: sc.avatar,
+    label: t(`landing:testimonials.${sc.id}.label`),
+    quote: t(`landing:testimonials.${sc.id}.quote`),
+    farmer: t(`landing:testimonials.${sc.id}.farmer`),
+    location: t(`landing:testimonials.${sc.id}.location`),
+    crop: t(`landing:testimonials.${sc.id}.crop`),
+    featureUsed: t(`landing:testimonials.${sc.id}.featureUsed`),
+  }));
 
   const handleScroll = (direction) => {
     if (scrollRef.current) {
@@ -50,10 +68,10 @@ export const TestimonialsSection = () => {
           >
             <div style={{ flex: 1, minWidth: '280px' }}>
               <SectionHeading
-                eyebrow={LANDING_CONTENT.testimonials.eyebrow}
-                title={LANDING_CONTENT.testimonials.headingTitle}
-                accent={LANDING_CONTENT.testimonials.headingAccent}
-                description={LANDING_CONTENT.testimonials.description}
+                eyebrow={t('landing:testimonials.eyebrow')}
+                title={t('landing:testimonials.headingTitle')}
+                accent={t('landing:testimonials.headingAccent')}
+                description={t('landing:testimonials.description')}
                 style={{ marginBottom: 0 }}
               />
             </div>
@@ -62,7 +80,7 @@ export const TestimonialsSection = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <button
                 onClick={() => handleScroll('left')}
-                aria-label="Previous scenario"
+                aria-label={t('landing:testimonials.prevScenario')}
                 style={{
                   width: '46px',
                   height: '46px',
@@ -91,7 +109,7 @@ export const TestimonialsSection = () => {
 
               <button
                 onClick={() => handleScroll('right')}
-                aria-label="Next scenario"
+                aria-label={t('landing:testimonials.nextScenario')}
                 style={{
                   width: '46px',
                   height: '46px',
@@ -135,7 +153,7 @@ export const TestimonialsSection = () => {
               WebkitOverflowScrolling: 'touch',
             }}
           >
-            {LANDING_CONTENT.testimonials.scenarios.map((sc) => (
+            {scenarios.map((sc) => (
               <div
                 key={sc.id}
                 style={{

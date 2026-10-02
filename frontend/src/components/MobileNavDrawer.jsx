@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { Drawer, Button } from 'antd';
 import { CloseOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Leaf } from 'lucide-react';
-import { LANDING_CONTENT } from '../content/landing.js';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
+import { useLang } from '../i18n/useLang.js';
+import { getBrandName } from '../i18n/glossary.js';
 
 export const MobileNavDrawer = ({
   open,
@@ -12,6 +13,17 @@ export const MobileNavDrawer = ({
   isLinkActive,
   onActionClick,
 }) => {
+  const { t, currentLang } = useLang();
+
+  const navItems = [
+    { label: t('common:nav.home', 'Home'), path: '/', isHome: true },
+    { label: t('common:nav.heal', 'Heal Your Crop'), path: '/dashboard?tab=heal' },
+    { label: t('common:nav.fertilizer', 'Fertilizer Calc'), path: '/dashboard?tab=fertilizer' },
+    { label: t('common:nav.guide', 'Cultivation Guides'), path: '/dashboard?tab=guide' },
+    { label: t('common:nav.yieldPest', 'Yield & Pest'), path: '/dashboard?tab=yield-pest' },
+    { label: t('common:nav.assistant', 'AI Assistant'), path: '/dashboard?tab=assistant' },
+  ];
+
   return (
     <Drawer
       placement="right"
@@ -33,17 +45,17 @@ export const MobileNavDrawer = ({
           >
             <Leaf size={15} color="#0E2A12" />
           </div>
-          <span style={{ fontWeight: 700, color: '#0E2A12' }}>{LANDING_CONTENT.brand.name}</span>
+          <span style={{ fontWeight: 700, color: '#0E2A12' }}>{getBrandName(currentLang)}</span>
         </div>
       }
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '12px' }}>
         <LanguageSwitcher mode="segmented" />
-        {LANDING_CONTENT.nav.map((item) => {
+        {navItems.map((item) => {
           const active = isLinkActive(item);
           return (
             <Link
-              key={item.label}
+              key={item.path}
               to={item.path}
               onClick={onClose}
               style={{
@@ -81,7 +93,7 @@ export const MobileNavDrawer = ({
               fontWeight: 600,
             }}
           >
-            Open Farmer Dashboard
+            {t('common:nav.openDashboard', 'Open Farmer Dashboard')}
           </Button>
         </div>
       </div>

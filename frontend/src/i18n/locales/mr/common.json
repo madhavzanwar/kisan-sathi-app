@@ -1,17 +1,48 @@
 {
   "brand": {
-    "name": "KisanSathi",
-    "tagline": "हर किसान का सच्चा साथी।"
+    "name": "किसान साथी",
+    "tagline": "प्रत्येक शेतकऱ्याचा खरा सखा."
   },
   "switcher": {
     "label": "भाषा बदला",
     "loading": "भाषा लोड होत आहे...",
     "announced": "भाषा बदलून {{lang}} केली गेली",
+    "languageLabel": "भाषा:",
     "languages": {
       "en": "इंग्रजी",
       "hi": "हिंदी",
       "mr": "मराठी"
     }
+  },
+  "nav": {
+    "home": "मुख्य पान",
+    "heal": "पीक रोग निदान",
+    "fertilizer": "खत गणक",
+    "guide": "पीक मार्गदर्शक",
+    "yieldPest": "उत्पादन व कीड",
+    "assistant": "एआय सहाय्यक",
+    "tryApp": "अ‍ॅप वापरा",
+    "openMenu": "मोबाईल मेनू उघडा",
+    "openDashboard": "शेतकरी डॅशबोर्ड उघडा"
+  },
+  "footer": {
+    "aiTools": "एआय साधने",
+    "cropGuides": "पीक मार्गदर्शक",
+    "platform": "प्लॅटफॉर्म",
+    "healLink": "पीक रोग निदान (उपचार)",
+    "fertilizerLink": "स्मार्ट खत गणक",
+    "yieldPestLink": "उत्पादन व कीड अंदाज",
+    "weatherLink": "हवामान अंदाज",
+    "tomatoGuide": "टोमॅटो लागवड मार्गदर्शक",
+    "cottonGuide": "कापूस लागवड मार्गदर्शक",
+    "wheatGuide": "गहू पीक मार्गदर्शक",
+    "riceGuide": "भात व ऊस मार्गदर्शक",
+    "dashboardLink": "शेतकरी डॅशबोर्ड",
+    "assistantLink": "एआय सहाय्यक संदर्भ",
+    "apiArchitecture": "एपीआय रचना",
+    "license": "एमआयटी मुक्त परवाना",
+    "copyright": "© २०२६ किसान साथी. भारतीय शेतीसाठी समर्पित.",
+    "backendStatus": "फास्टएपीआय बॅकएंड • पायटॉर्च रेसनेट१८ सुरू"
   },
   "actions": {
     "close": "बंद करा",

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { BgVideo } from '../design-system/components/BgVideo.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
 
 /**
  * HeroSection — 100vh Full-Bleed Wheat Video Hero
@@ -11,6 +11,7 @@ import { LANDING_CONTENT } from '../content/landing.js';
  */
 export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
   const navigate = useNavigate();
+  const { t, currentLang } = useLang();
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === 'undefined') return false;
     return window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
@@ -117,25 +118,25 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
           <h1
             style={{
               margin: 0,
-              lineHeight: 1.08,
-              letterSpacing: '-0.03em',
+              lineHeight: currentLang === 'en' ? 1.08 : 1.25,
+              letterSpacing: currentLang === 'en' ? '-0.03em' : 'normal',
               fontWeight: 700,
-              fontSize: 'clamp(42px, 5.5vw, 68px)',
+              fontSize: 'clamp(38px, 5.2vw, 68px)',
               textShadow: '0 4px 20px rgba(0, 0, 0, 0.35)',
             }}
           >
             <span style={{ fontFamily: 'var(--font-sans)', display: 'block' }}>
-              {LANDING_CONTENT.hero.headlineLine1}
+              {t('landing:hero.headlineLine1')}
             </span>
             <span
               style={{
-                fontFamily: 'var(--font-serif-accent)',
-                fontStyle: 'italic',
-                fontWeight: 400,
-                color: '#FFFFFF',
+                fontFamily: currentLang === 'en' ? 'var(--font-serif-accent)' : 'var(--font-sans)',
+                fontStyle: currentLang === 'en' ? 'italic' : 'normal',
+                fontWeight: currentLang === 'en' ? 400 : 700,
+                color: currentLang === 'en' ? '#FFFFFF' : 'var(--color-lime-accent, #D5F145)',
               }}
             >
-              {LANDING_CONTENT.hero.headlineAccent}
+              {t('landing:hero.headlineAccent')}
             </span>
           </h1>
 
@@ -144,14 +145,14 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
             style={{
               fontFamily: 'var(--font-sans)',
               fontSize: 'clamp(14px, 1.15vw, 16px)',
-              lineHeight: 1.6,
+              lineHeight: currentLang === 'en' ? 1.6 : 1.65,
               color: 'rgba(255, 255, 255, 0.9)',
               margin: '18px 0 28px 0',
               maxWidth: '520px',
               textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
             }}
           >
-            {LANDING_CONTENT.hero.subtext}
+            {t('landing:hero.subtext')}
           </p>
 
           {/* CTAs Row */}
@@ -191,7 +192,7 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
                 e.currentTarget.style.boxShadow = '0 8px 24px rgba(213, 241, 69, 0.32)';
               }}
             >
-              <span>{LANDING_CONTENT.hero.primaryCta}</span>
+              <span>{t('landing:hero.primaryCta')}</span>
               <ArrowUpRight size={17} strokeWidth={2.5} />
             </button>
 
@@ -221,7 +222,7 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
               }}
             >
-              {LANDING_CONTENT.hero.secondaryCta}
+              {t('landing:hero.secondaryCta')}
             </button>
           </div>
         </div>
@@ -253,7 +254,7 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
               color: 'rgba(255, 255, 255, 0.85)',
             }}
           >
-            <span>SCROLL</span>
+            <span>{t('landing:hero.scroll')}</span>
             <span style={{ fontSize: '13px' }}>↓</span>
           </div>
 
@@ -336,7 +337,7 @@ export const HeroSection = ({ onPrimaryAction, onSecondaryAction }) => {
                 fontWeight: 600,
               }}
             >
-              {LANDING_CONTENT.hero.stats.classesCount} • {LANDING_CONTENT.hero.stats.badge}
+              {t('landing:hero.classesCount', { count: 38 })} • {t('landing:hero.statsBadge')}
             </span>
           </div>
         </div>

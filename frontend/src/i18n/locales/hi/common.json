@@ -1,17 +1,48 @@
 {
   "brand": {
-    "name": "KisanSathi",
+    "name": "किसान साथी",
     "tagline": "हर किसान का सच्चा साथी।"
   },
   "switcher": {
     "label": "भाषा बदलें",
     "loading": "भाषा लोड हो रही है...",
-    "announced": "भाषा बदलकर {{lang}} कर दी गई",
+    "announced": "भाषा बदलकर {{lang}} कर दी गई है",
+    "languageLabel": "भाषा:",
     "languages": {
-      "en": "अंग्रेज़ी",
+      "en": "अंग्रेजी",
       "hi": "हिन्दी",
       "mr": "मराठी"
     }
+  },
+  "nav": {
+    "home": "मुख्य पृष्ठ",
+    "heal": "फसल उपचार",
+    "fertilizer": "उर्वरक गणक",
+    "guide": "खेती मार्गदर्शिका",
+    "yieldPest": "उपज और कीट",
+    "assistant": "एआई सहायक",
+    "tryApp": "ऐप आज़माएं",
+    "openMenu": "मोबाइल मेन्यू खोलें",
+    "openDashboard": "किसान डैशबोर्ड खोलें"
+  },
+  "footer": {
+    "aiTools": "एआई उपकरण",
+    "cropGuides": "फसल मार्गदर्शिका",
+    "platform": "प्लेटफॉर्म",
+    "healLink": "फसल का उपचार (रोग निदान)",
+    "fertilizerLink": "स्मार्ट उर्वरक कैलकुलेटर",
+    "yieldPestLink": "उपज व कीट पूर्वानुमान",
+    "weatherLink": "मौसम टेलीमेट्री",
+    "tomatoGuide": "टमाटर खेती गाइड",
+    "cottonGuide": "कपास खेती गाइड",
+    "wheatGuide": "गेहूं जीवनचक्र गाइड",
+    "riceGuide": "धान और गन्ना गाइड",
+    "dashboardLink": "किसान डैशबोर्ड",
+    "assistantLink": "एआई सहायक संदर्भ",
+    "apiArchitecture": "एपीआई संरचना",
+    "license": "एमआईटी ओपन सोर्स लाइसेंस",
+    "copyright": "© 2026 किसान साथी। भारतीय कृषि के लिए निर्मित।",
+    "backendStatus": "फास्टएपीआई बैकएंड • पायटॉर्च रेसनेट18 सक्रिय"
   },
   "actions": {
     "close": "बंद करें",

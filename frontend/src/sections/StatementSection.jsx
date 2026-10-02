@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
 import { ScrollRevealText } from '../design-system/components/ScrollRevealText.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
 
 /**
  * StatementSection — Scroll-driven word reveal with embedded looping video pill.
@@ -9,6 +9,7 @@ import { LANDING_CONTENT } from '../content/landing.js';
  * Uses IntersectionObserver so video starts only near viewport and pauses off-screen.
  */
 export const StatementSection = () => {
+  const { t } = useLang();
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export const StatementSection = () => {
         muted
         playsInline
         preload="none"
-        poster={LANDING_CONTENT.statement.videoThumbnail}
+        poster="/videos/hero-poster.webp"
         style={{
           width: '100%',
           height: '100%',
@@ -76,7 +77,10 @@ export const StatementSection = () => {
     </span>
   );
 
-  const fullText = `${LANDING_CONTENT.statement.beforePill} instant diagnosis, exact dosage, and answers in seconds.`;
+  const beforePill = t('landing:statement.beforePill');
+  const afterPill = t('landing:statement.afterPill');
+  const fullText = `${beforePill} ${afterPill}`;
+  const inlineInsertIndex = beforePill.trim().split(/\s+/).length;
 
   return (
     <section
@@ -94,7 +98,7 @@ export const StatementSection = () => {
       >
         <BlurIn>
           <div style={{ marginBottom: '28px' }}>
-            <span className="eyebrow-tag">{LANDING_CONTENT.statement.eyebrow}</span>
+            <span className="eyebrow-tag">{t('landing:statement.eyebrow')}</span>
           </div>
 
           <div
@@ -109,7 +113,7 @@ export const StatementSection = () => {
             <ScrollRevealText
               text={fullText}
               inlineElement={inlinePill}
-              inlineInsertIndex={10}
+              inlineInsertIndex={inlineInsertIndex}
             />
           </div>
         </BlurIn>

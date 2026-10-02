@@ -3,7 +3,7 @@ import { Progress } from 'antd';
 import { ShieldCheck, Activity, Sprout, BookOpen, Bot } from 'lucide-react';
 import { SectionHeading } from '../design-system/components/SectionHeading.jsx';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
 
 const tabIcons = {
   heal: <Activity size={18} color="#2E6B34" />,
@@ -12,13 +12,29 @@ const tabIcons = {
   assistant: <Bot size={18} color="#2E6B34" />,
 };
 
+const tabConfig = [
+  { id: 'heal', image: '/images/features/heal-crop.jpg' },
+  { id: 'fertilizer', image: '/images/features/fertilizer.jpg' },
+  { id: 'guide', image: '/images/features/guides.jpg' },
+  { id: 'assistant', image: '/images/features/yield-pest.jpg' },
+];
+
 /**
  * HowItWorks — 4-card interactive workflow panel with large visual canvas,
  * bottom-left location pill, and floating glass diagnosis & fertilizer cards.
  */
 export const HowItWorks = () => {
-  const tabs = LANDING_CONTENT.howItWorks.tabs;
-  const [activeTabId, setActiveTabId] = useState(tabs[0].id);
+  const { t } = useLang();
+  const [activeTabId, setActiveTabId] = useState('heal');
+
+  const tabs = tabConfig.map((item) => ({
+    id: item.id,
+    label: t(`landing:howItWorks.tabs.${item.id}.label`),
+    subtitle: t(`landing:howItWorks.tabs.${item.id}.subtitle`),
+    location: t(`landing:howItWorks.tabs.${item.id}.location`),
+    image: item.image,
+  }));
+
   const activeTab = tabs.find((t) => t.id === activeTabId) || tabs[0];
 
   return (
@@ -37,10 +53,10 @@ export const HowItWorks = () => {
       >
         <BlurIn>
           <SectionHeading
-            eyebrow={LANDING_CONTENT.howItWorks.eyebrow}
-            title={LANDING_CONTENT.howItWorks.headingTitle}
-            accent={LANDING_CONTENT.howItWorks.headingAccent}
-            description={LANDING_CONTENT.howItWorks.description}
+            eyebrow={t('landing:howItWorks.eyebrow')}
+            title={t('landing:howItWorks.headingTitle')}
+            accent={t('landing:howItWorks.headingAccent')}
+            description={t('landing:howItWorks.description')}
           />
 
           {/* 4 Tab Selector Cards in a Row */}
@@ -206,9 +222,9 @@ export const HowItWorks = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <ShieldCheck size={16} color="#2E6B34" />
                     <div>
-                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>Sample Output</span>
+                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>{t('landing:howItWorks.sampleOutput')}</span>
                       <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0E2A12' }}>
-                        {LANDING_CONTENT.howItWorks.sampleDiagnosis.disease}
+                        {t('landing:howItWorks.sampleDiagnosis.disease')}
                       </span>
                     </div>
                   </div>
@@ -222,17 +238,17 @@ export const HowItWorks = () => {
                       borderRadius: '999px',
                     }}
                   >
-                    {LANDING_CONTENT.howItWorks.sampleDiagnosis.severity}
+                    {t('landing:howItWorks.sampleDiagnosis.severity')}
                   </span>
                 </div>
 
                 <div style={{ marginBottom: '8px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11.5px', color: '#5C6E5F', marginBottom: '3px' }}>
-                    <span>Model Confidence</span>
-                    <span style={{ fontWeight: 600, color: '#0E2A12' }}>{LANDING_CONTENT.howItWorks.sampleDiagnosis.confidence}%</span>
+                    <span>{t('landing:howItWorks.modelConfidence')}</span>
+                    <span style={{ fontWeight: 600, color: '#0E2A12' }}>94%</span>
                   </div>
                   <Progress
-                    percent={LANDING_CONTENT.howItWorks.sampleDiagnosis.confidence}
+                    percent={94}
                     showInfo={false}
                     strokeColor="#2E6B34"
                     size="small"
@@ -240,7 +256,7 @@ export const HowItWorks = () => {
                 </div>
 
                 <p style={{ margin: 0, fontSize: '11.5px', color: '#5C6E5F', lineHeight: 1.4 }}>
-                  <strong>Recommendation:</strong> {LANDING_CONTENT.howItWorks.sampleDiagnosis.treatment}
+                  <strong>{t('landing:howItWorks.recommendation')}</strong> {t('landing:howItWorks.sampleDiagnosis.treatment')}
                 </p>
               </div>
 
@@ -255,13 +271,13 @@ export const HowItWorks = () => {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <div>
-                    <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>Sample Output</span>
+                    <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#2E6B34', fontWeight: 700, display: 'block' }}>{t('landing:howItWorks.sampleOutput')}</span>
                     <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#0E2A12' }}>
-                      Scientific Fertilizer Balance
+                      {t('landing:howItWorks.scientificBalance')}
                     </span>
                   </div>
                   <span style={{ fontSize: '11.5px', color: '#5C6E5F' }}>
-                    {LANDING_CONTENT.howItWorks.sampleFertilizer.area}
+                    {t('landing:howItWorks.sampleFertilizer.area')}
                   </span>
                 </div>
 
@@ -274,20 +290,20 @@ export const HowItWorks = () => {
                   }}
                 >
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
-                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.urea} kg</div>
-                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>Urea</div>
+                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>125 kg</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>{t('landing:howItWorks.ureaLabel')}</div>
                   </div>
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
-                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.dap} kg</div>
-                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>DAP</div>
+                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>60 kg</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>{t('landing:howItWorks.dapLabel')}</div>
                   </div>
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
-                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.mop} kg</div>
-                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>MOP</div>
+                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>35 kg</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>{t('landing:howItWorks.mopLabel')}</div>
                   </div>
                   <div style={{ background: '#FFFFFF', padding: '6px 4px', borderRadius: '10px' }}>
-                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>{LANDING_CONTENT.howItWorks.sampleFertilizer.compost} t</div>
-                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>Compost</div>
+                    <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#2E6B34' }}>2.5 t</div>
+                    <div style={{ fontSize: '10px', color: '#5C6E5F' }}>{t('landing:howItWorks.compostLabel')}</div>
                   </div>
                 </div>
               </div>

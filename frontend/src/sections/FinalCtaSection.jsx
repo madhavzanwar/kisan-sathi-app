@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
 
 /**
  * FinalCtaSection — White fading smoothly into field photography
@@ -10,12 +10,13 @@ import { LANDING_CONTENT } from '../content/landing.js';
  */
 export const FinalCtaSection = ({ onActionClick }) => {
   const navigate = useNavigate();
+  const { t, currentLang } = useLang();
 
   const handleClick = () => {
     if (onActionClick) {
       onActionClick();
     } else {
-      navigate(LANDING_CONTENT.finalCta.path);
+      navigate('/dashboard');
     }
   };
 
@@ -37,7 +38,7 @@ export const FinalCtaSection = ({ onActionClick }) => {
       {/* Background Field Image */}
       <img
         src="/videos/hero-poster.webp"
-        alt="Agricultural crop field"
+        alt={t('landing:finalCta.fieldAlt')}
         loading="lazy"
         decoding="async"
         style={{
@@ -87,23 +88,26 @@ export const FinalCtaSection = ({ onActionClick }) => {
               fontFamily: 'var(--font-sans)',
               fontSize: 'clamp(36px, 4.8vw, 56px)',
               fontWeight: 700,
-              letterSpacing: '-0.03em',
+              letterSpacing: currentLang === 'en' ? '-0.03em' : 'normal',
               color: 'var(--color-forest-ink, #0E2A12)',
               margin: '0 0 16px 0',
               lineHeight: 1.15,
             }}
           >
-            {LANDING_CONTENT.finalCta.headingLine1}
+            {t('landing:finalCta.headingLine1')}
             <br />
             <span
-              className="heading-accent"
+              className={currentLang === 'en' ? 'heading-accent' : ''}
               style={{
+                fontFamily: currentLang === 'en' ? 'var(--font-serif-accent)' : 'var(--font-sans)',
+                fontStyle: currentLang === 'en' ? 'italic' : 'normal',
+                fontWeight: currentLang === 'en' ? 400 : 700,
                 color: 'var(--color-cta-green, #2E6B34)',
                 display: 'inline-block',
                 marginTop: '4px',
               }}
             >
-              {LANDING_CONTENT.finalCta.headingAccent}
+              {t('landing:finalCta.headingAccent')}
             </span>
           </h2>
 
@@ -117,7 +121,7 @@ export const FinalCtaSection = ({ onActionClick }) => {
               margin: '0 auto 36px auto',
             }}
           >
-            {LANDING_CONTENT.finalCta.subtext}
+            {t('landing:finalCta.subtext')}
           </p>
 
           <button
@@ -147,7 +151,7 @@ export const FinalCtaSection = ({ onActionClick }) => {
               e.currentTarget.style.boxShadow = '0 8px 24px rgba(46, 107, 52, 0.35)';
             }}
           >
-            <span>{LANDING_CONTENT.finalCta.buttonText}</span>
+            <span>{t('landing:finalCta.buttonText')}</span>
             <ArrowRight size={18} />
           </button>
         </BlurIn>

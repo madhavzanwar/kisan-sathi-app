@@ -1,11 +1,21 @@
 import React from 'react';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
 
 /**
  * PoweredByStrip — Credibility strip below hero.
  * Showcases real agricultural AI technologies (PyTorch, Gemini, FastAPI, Scikit-Learn).
  */
 export const PoweredByStrip = () => {
+  const { t } = useLang();
+
+  const techItems = [
+    { name: 'PyTorch', desc: t('landing:poweredBy.pytorch') },
+    { name: 'Gemini 1.5 Pro', desc: t('landing:poweredBy.gemini') },
+    { name: 'FastAPI', desc: t('landing:poweredBy.fastapi') },
+    { name: 'Scikit-Learn', desc: t('landing:poweredBy.scikit') },
+    { name: 'Copernicus', desc: t('landing:poweredBy.copernicus') },
+  ];
+
   return (
     <section
       id="powered-by-strip"
@@ -42,7 +52,7 @@ export const PoweredByStrip = () => {
               opacity: 0.8,
             }}
           >
-            Powered by modern agritech:
+            {t('landing:poweredBy.label')}
           </span>
         </div>
 
@@ -55,7 +65,7 @@ export const PoweredByStrip = () => {
             gap: 'clamp(20px, 3vw, 40px)',
           }}
         >
-          {LANDING_CONTENT.poweredBy.map((tech) => (
+          {techItems.map((tech) => (
             <div
               key={tech.name}
               style={{

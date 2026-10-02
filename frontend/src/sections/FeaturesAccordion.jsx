@@ -4,7 +4,7 @@ import { Collapse } from 'antd';
 import { Leaf, FlaskConical, Satellite, BookOpen, ArrowRight } from 'lucide-react';
 import { SectionHeading } from '../design-system/components/SectionHeading.jsx';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
-import { LANDING_CONTENT } from '../content/landing.js';
+import { useLang } from '../i18n/index.js';
 
 const featureIcons = [
   <Leaf size={18} color="#0E2A12" strokeWidth={2.2} key="leaf" />,
@@ -13,13 +13,31 @@ const featureIcons = [
   <BookOpen size={18} color="#0E2A12" strokeWidth={2.2} key="book" />,
 ];
 
+const featureConfig = [
+  { id: 'heal', key: 'heal', image: '/images/features/heal-crop.jpg', path: '/dashboard?tab=heal' },
+  { id: 'fertilizer', key: 'fertilizer', image: '/images/features/fertilizer.jpg', path: '/dashboard?tab=fertilizer' },
+  { id: 'yieldPest', key: 'yieldPest', image: '/images/features/yield-pest.jpg', path: '/dashboard?tab=satellite' },
+  { id: 'guide', key: 'guide', image: '/images/features/guides.jpg', path: '/dashboard?tab=guides' },
+];
+
 /**
  * FeaturesAccordion — 4-row real features accordion with lime active tile,
  * dark-green square minus button, and responsive side image crossfade.
  */
 export const FeaturesAccordion = () => {
+  const { t } = useLang();
   const [activeKey, setActiveKey] = useState('0');
-  const items = LANDING_CONTENT.featuresAccordion.items;
+
+  const items = featureConfig.map((f) => ({
+    id: f.id,
+    title: t(`landing:features.${f.key}.title`),
+    description: t(`landing:features.${f.key}.description`),
+    tag: t(`landing:features.${f.key}.tag`),
+    ctaText: t(`landing:features.${f.key}.ctaText`),
+    image: f.image,
+    path: f.path,
+  }));
+
   const activeIndex = parseInt(activeKey || '0', 10) || 0;
   const activeItem = items[activeIndex] || items[0];
 
@@ -157,10 +175,10 @@ export const FeaturesAccordion = () => {
       >
         <BlurIn>
           <SectionHeading
-            eyebrow={LANDING_CONTENT.featuresAccordion.eyebrow}
-            title={LANDING_CONTENT.featuresAccordion.headingTitle}
-            accent={LANDING_CONTENT.featuresAccordion.headingAccent}
-            description={LANDING_CONTENT.featuresAccordion.description}
+            eyebrow={t('landing:features.eyebrow')}
+            title={t('landing:features.headingTitle')}
+            accent={t('landing:features.headingAccent')}
+            description={t('landing:features.description')}
           />
 
           <div

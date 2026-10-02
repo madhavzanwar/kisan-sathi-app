@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Leaf } from 'lucide-react';
 import { LANDING_CONTENT } from '../content/landing.js';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
+import { useLang } from '../i18n/useLang.js';
+import { getBrandName } from '../i18n/glossary.js';
 
 const MobileNavDrawer = lazy(() => import('./MobileNavDrawer'));
 
@@ -14,6 +16,16 @@ export const Navbar = ({ onOpenAuth }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, currentLang } = useLang();
+
+  const navItems = [
+    { label: t('common:nav.home', 'Home'), path: '/', isHome: true },
+    { label: t('common:nav.heal', 'Heal Your Crop'), path: '/dashboard?tab=heal' },
+    { label: t('common:nav.fertilizer', 'Fertilizer Calc'), path: '/dashboard?tab=fertilizer' },
+    { label: t('common:nav.guide', 'Cultivation Guides'), path: '/dashboard?tab=guide' },
+    { label: t('common:nav.yieldPest', 'Yield & Pest'), path: '/dashboard?tab=yield-pest' },
+    { label: t('common:nav.assistant', 'AI Assistant'), path: '/dashboard?tab=assistant' },
+  ];
 
   const handleActionClick = () => {
     if (onOpenAuth) {
@@ -107,7 +119,7 @@ export const Navbar = ({ onOpenAuth }) => {
               whiteSpace: 'nowrap',
             }}
           >
-            {LANDING_CONTENT.brand.name}
+            {getBrandName(currentLang)}
           </span>
         </Link>
 
@@ -126,11 +138,11 @@ export const Navbar = ({ onOpenAuth }) => {
             boxShadow: '0 8px 30px rgba(14, 42, 18, 0.14)',
           }}
         >
-          {LANDING_CONTENT.nav.map((item) => {
+          {navItems.map((item) => {
             const active = isLinkActive(item);
             return (
               <Link
-                key={item.label}
+                key={item.path}
                 to={item.path}
                 style={{
                   display: 'inline-flex',
@@ -145,6 +157,7 @@ export const Navbar = ({ onOpenAuth }) => {
                   textDecoration: 'none',
                   transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                   boxShadow: active ? '0 2px 8px rgba(46, 107, 52, 0.25)' : 'none',
+                  whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={(e) => {
                   if (!active) {
@@ -180,6 +193,7 @@ export const Navbar = ({ onOpenAuth }) => {
           <LanguageSwitcher variant="onVideo" />
 
           <button
+            className="nav-cta-btn"
             onClick={handleActionClick}
             style={{
               backgroundColor: '#FFFFFF',
@@ -196,6 +210,7 @@ export const Navbar = ({ onOpenAuth }) => {
               gap: '6px',
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.18)',
               transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+              whiteSpace: 'nowrap',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-1px)';
@@ -206,14 +221,14 @@ export const Navbar = ({ onOpenAuth }) => {
               e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.18)';
             }}
           >
-            Try the App
+            {t('common:nav.tryApp', 'Try the App')}
           </button>
 
           {/* Mobile Hamburger Button */}
           <button
             className="mobile-hamburger-btn"
             onClick={() => setMobileOpen(true)}
-            aria-label="Open mobile menu"
+            aria-label={t('common:nav.openMenu', 'Open mobile menu')}
             style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
@@ -262,12 +277,17 @@ export const Navbar = ({ onOpenAuth }) => {
 
       {/* Media query styling for responsive toggling */}
       <style>{`
-        @media (max-width: 960px) {
+        @media (max-width: 1080px) {
           .desktop-nav-pill {
             display: none !important;
           }
           .mobile-hamburger-btn {
             display: flex !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .nav-cta-btn {
+            display: none !important;
           }
         }
       `}</style>
