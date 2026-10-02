@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { Tag, Timeline, Button } from 'antd';
 import { ClockCircleOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import { CheckCircle, Bug, Tractor, Sprout, Leaf, Sun, Wheat } from 'lucide-react';
+import { useLang } from '../i18n';
+import {
+  cropNames,
+  stageTranslations,
+  durationTranslations,
+  localizedCropDetails,
+} from '../i18n/cropGuidesData';
 
 const crops = ['Tomato', 'Cotton', 'Wheat', 'Rice', 'Sugarcane', 'Maize'];
 
@@ -417,6 +424,7 @@ const CROP_GUIDE_DATA = {
 };
 
 const CultivationGuide = () => {
+  const { t, currentLang } = useLang();
   const [selectedCrop, setSelectedCrop] = useState('Tomato');
   const [expandedStages, setExpandedStages] = useState({ 0: true, 1: true });
 
@@ -467,6 +475,7 @@ const CultivationGuide = () => {
   };
 
   const allAreExpanded = stages.every((_, i) => expandedStages[i]);
+  const selectedCropName = cropNames[selectedCrop]?.[currentLang] || selectedCrop;
 
   return (
     <div
@@ -487,7 +496,7 @@ const CultivationGuide = () => {
       {/* Header */}
       <div>
         <span className="eyebrow-tag" style={{ marginBottom: '12px' }}>
-          Agronomic Protocols
+          {t('guides.eyebrow', 'Agronomic Knowledge')}
         </span>
         <h2
           style={{
@@ -499,7 +508,8 @@ const CultivationGuide = () => {
             letterSpacing: '-0.02em',
           }}
         >
-          Cultivation <span className="heading-accent">Guides</span>
+          {t('guides.title', 'Cultivation')}{' '}
+          <span className="heading-accent">{t('guides.titleAccent', 'Guides')}</span>
         </h2>
         <p
           style={{
@@ -510,7 +520,7 @@ const CultivationGuide = () => {
             lineHeight: 1.5,
           }}
         >
-          Standardized crop lifecycle manuals, field operations, irrigation schedules, and integrated pest management recommendations.
+          {t('guides.subtitle', 'Standardized crop lifecycle manuals, field operations, irrigation schedules, and integrated pest management recommendations.')}
         </p>
       </div>
 
@@ -527,7 +537,7 @@ const CultivationGuide = () => {
             marginBottom: '10px',
           }}
         >
-          Select Crop
+          {t('guides.selectCrop', 'Select Crop')}
         </label>
         <div
           style={{
@@ -539,6 +549,7 @@ const CultivationGuide = () => {
         >
           {crops.map((crop) => {
             const isSelected = selectedCrop === crop;
+            const displayName = cropNames[crop]?.[currentLang] || crop;
             return (
               <button
                 key={crop}
@@ -566,7 +577,7 @@ const CultivationGuide = () => {
                 }}
               >
                 <span>{cropEmojis[crop] || '🌱'}</span>
-                <span>{crop}</span>
+                <span>{displayName}</span>
               </button>
             );
           })}
@@ -599,10 +610,13 @@ const CultivationGuide = () => {
                 margin: 0,
               }}
             >
-              {selectedCrop} Complete Lifecycle
+              {selectedCropName} {t('guides.lifecycleTitle', 'Complete Lifecycle')}
             </h3>
             <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
-              {stages.length} comprehensive agronomic stages from land preparation to harvest
+              {t('guides.stagesSubtitle', {
+                count: stages.length,
+                defaultValue: `${stages.length} comprehensive agronomic stages from land preparation to harvest`,
+              })}
             </span>
           </div>
         </div>
@@ -619,7 +633,7 @@ const CultivationGuide = () => {
             borderColor: 'rgba(46, 107, 52, 0.3)',
           }}
         >
-          {allAreExpanded ? 'Collapse All' : 'Expand All'}
+          {allAreExpanded ? t('guides.collapseAll', 'Collapse All') : t('guides.expandAll', 'Expand All')}
         </Button>
       </div>
 
@@ -628,6 +642,11 @@ const CultivationGuide = () => {
         <Timeline
           items={stages.map((item, index) => {
             const isExpanded = !!expandedStages[index];
+            const localizedStageName = stageTranslations[item.stage]?.[currentLang] || item.stage;
+            const localizedDuration = durationTranslations[item.duration]?.[currentLang] || item.duration;
+            const localizedPoints =
+              localizedCropDetails[currentLang]?.[selectedCrop]?.[index] || item.details;
+
             return {
               dot: (
                 <div
@@ -685,7 +704,10 @@ const CultivationGuide = () => {
                           border: 'none',
                         }}
                       >
-                        STAGE {String(index + 1).padStart(2, '0')}
+                        {t('guides.stageBadge', {
+                          stage: String(index + 1).padStart(2, '0'),
+                          defaultValue: `STAGE ${String(index + 1).padStart(2, '0')}`,
+                        })}
                       </Tag>
                       <h4
                         style={{
@@ -696,7 +718,7 @@ const CultivationGuide = () => {
                           margin: 0,
                         }}
                       >
-                        {item.stage}
+                        {localizedStageName}
                       </h4>
                       <Tag
                         icon={<ClockCircleOutlined />}
@@ -708,7 +730,7 @@ const CultivationGuide = () => {
                           border: 'none',
                         }}
                       >
-                        {item.duration}
+                        {localizedDuration}
                       </Tag>
                     </div>
 
@@ -748,7 +770,7 @@ const CultivationGuide = () => {
                           gap: '12px',
                         }}
                       >
-                        {item.details.map((point, ptIndex) => (
+                        {localizedPoints.map((point, ptIndex) => (
                           <li
                             key={ptIndex}
                             style={{

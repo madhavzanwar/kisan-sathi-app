@@ -1,4 +1,21 @@
 {
-  "title": "KisanSathi AI",
-  "subtitle": "Agricultural Assistant"
+  "tooltip": "Ask KisanSathi AI",
+  "title": "KisanSathi AI Assistant",
+  "badge": "Gemini 1.5 Pro",
+  "greeting": "Hello! I am your KisanSathi AI assistant. How can I help you with your crops today?",
+  "placeholder": "Ask about crop diseases, fertilizers, weather...",
+  "listeningPlaceholder": "Listening to your voice...",
+  "listeningActive": "Listening...",
+  "speakPrompt": "Click to speak (voice enabled)",
+  "stopListening": "Stop listening",
+  "listeningToSpeech": "Listening to speech in {{lang}}... Speak now",
+  "listenBtn": "Listen",
+  "clearChat": "Clear conversation",
+  "sendAria": "Send message",
+  "micAria": "Toggle voice input",
+  "closeAria": "Close assistant",
+  "openAria": "Open assistant",
+  "aiThinking": "KisanSathi is analyzing agronomy database...",
+  "networkError": "Network connection error. Please try again.",
+  "chipsHeading": "Suggested questions for this tool:"
 }

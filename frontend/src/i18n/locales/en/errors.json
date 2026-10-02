@@ -1,4 +1,7 @@
 {
-  "general": "Something went wrong",
-  "network": "Failed to connect to the server"
+  "coldStartTitle": "Waking up AI engine...",
+  "coldStartMessage": "Demonstration backend container is starting up on Render. First request takes ~40s, subsequent requests respond in sub-seconds.",
+  "serverOffline": "Unable to reach server. Please check your internet connection.",
+  "unknownError": "An unexpected error occurred. Please refresh the page.",
+  "retryBtn": "Retry Action"
 }

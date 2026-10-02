@@ -1,4 +1,21 @@
 {
-  "title": "Cultivation Guides",
-  "subtitle": "Lifecycle Agronomic Protocols"
+  "eyebrow": "Agronomic Knowledge",
+  "title": "Cultivation",
+  "titleAccent": "Guides",
+  "subtitle": "Standardized crop lifecycle manuals, field operations, irrigation schedules, and integrated pest management recommendations.",
+  "selectCrop": "Select Crop",
+  "lifecycleTitle": "Complete Lifecycle",
+  "stagesSubtitle": "{{count}} comprehensive agronomic stages from land preparation to harvest",
+  "growthStagesCount": "6 Growth Stages",
+  "stageBadge": "STAGE {{stage}}",
+  "stages": {
+    "landPrep": "Land Preparation",
+    "sowing": "Sowing & Germination",
+    "vegetative": "Vegetative Growth",
+    "flowering": "Flowering & Fruiting",
+    "pestMgmt": "Pest & Disease Management",
+    "harvesting": "Harvesting"
+  },
+  "expandAll": "Expand All",
+  "collapseAll": "Collapse All"
 }

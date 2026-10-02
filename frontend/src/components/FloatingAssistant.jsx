@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mic, X, Bot, Loader, Send, Volume2, Trash2 } from 'lucide-react';
 import { Tooltip } from 'antd';
+import { useLang } from '../i18n';
 
 /**
  * FloatingAssistant — AI Agronomist Chatbot.
@@ -8,12 +9,10 @@ import { Tooltip } from 'antd';
  * Preserves speech recognition (Web Speech API) and speech synthesis.
  */
 const FloatingAssistant = ({ activeTab }) => {
+  const { t, currentLang } = useLang();
   const [isOpen, setIsOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
-  const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Namaste! Main KisanSathi AI hoon. Aapki kheti me kya madad kar sakta hoon?' }
-  ]);
   const [inputText, setInputText] = useState('');
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -21,55 +20,116 @@ const FloatingAssistant = ({ activeTab }) => {
   const recognitionRef = useRef(null);
   const latestSendMessageRef = useRef(null);
 
-  // Hardcoded to English
-  const langCode = 'en';
-  const sttLang = 'en-IN';
-  const greeting = 'Hello! I am your KisanSathi AI assistant. How can I help you in your farm today?';
+  const langCode = currentLang === 'mr' ? 'mr' : currentLang === 'hi' ? 'hi' : 'en';
+  const sttLang = currentLang === 'mr' ? 'mr-IN' : currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+  const greeting = t('chat.greeting', 'Hello! I am your KisanSathi AI assistant. How can I help you in your farm today?');
 
-  const getChips = () => {
-    switch (activeTab) {
-      case 'yield-pest':
-        return [
-          'How does satellite NDVI predict yield?',
-          'What triggers Fall Armyworm outbreaks?',
-          'When should I irrigate based on soil moisture?'
-        ];
-      case 'fertilizer':
-        return [
-          'What fertilizer for cotton?',
-          'How much DAP for 2 acres?',
-          'Organic alternatives to urea?'
-        ];
-      case 'weather':
-        return [
-          'Will it rain today?',
-          'Is weather optimal for spraying?',
-          'How to prevent heat stress?'
-        ];
-      case 'guide':
-        return [
-          'Best sowing window for wheat?',
-          'Pest cycle in sugarcane?',
-          'Ideal tomato plant spacing?'
-        ];
-      case 'heal':
-      default:
-        return [
-          'Why are my tomato leaves turning yellow?',
-          'How to treat fungal blight?',
-          'Organic cure for powdery mildew?'
-        ];
+  const [messages, setMessages] = useState([
+    { sender: 'bot', text: greeting }
+  ]);
+
+  const localizedChips = {
+    en: {
+      'yield-pest': [
+        'How does satellite NDVI predict yield?',
+        'What triggers Fall Armyworm outbreaks?',
+        'When should I irrigate based on soil moisture?'
+      ],
+      'fertilizer': [
+        'What fertilizer for cotton?',
+        'How much DAP for 2 acres?',
+        'Organic alternatives to urea?'
+      ],
+      'weather': [
+        'Will it rain today?',
+        'Is weather optimal for spraying?',
+        'How to prevent heat stress?'
+      ],
+      'guide': [
+        'Best sowing window for wheat?',
+        'Pest cycle in sugarcane?',
+        'Ideal tomato plant spacing?'
+      ],
+      'heal': [
+        'Why are my tomato leaves turning yellow?',
+        'How to treat fungal blight?',
+        'Organic cure for powdery mildew?'
+      ]
+    },
+    hi: {
+      'yield-pest': [
+        'उपग्रह NDVI से पैदावार का अनुमान कैसे लगता है?',
+        'फॉल आर्मीवर्म कीट का प्रकोप कब बढ़ता है?',
+        'मिट्टी की नमी के अनुसार सिंचाई कब करें?'
+      ],
+      'fertilizer': [
+        'कपास के लिए कौन सी खाद सबसे अच्छी है?',
+        '2 एकड़ के लिए कितनी डीएपी खाद लगेगी?',
+        'यूरिया के जैविक विकल्प क्या हैं?'
+      ],
+      'weather': [
+        'क्या आज बारिश होने की संभावना है?',
+        'क्या कीटनाशक छिड़काव के लिए मौसम सही है?',
+        'फसलों को तेज गर्मी और लू से कैसे बचाएं?'
+      ],
+      'guide': [
+        'गेहूं की बुआई का सबसे सही समय क्या है?',
+        'गन्ने में कंसुआ कीट का प्रकोप चक्र क्या है?',
+        'टमाटर के पौधों में उचित दूरी कितनी रखें?'
+      ],
+      'heal': [
+        'टमाटर की पत्तियां पीली क्यों पड़ रही हैं?',
+        'फफूंद जनित झुलसा रोग का उपचार कैसे करें?',
+        'पाउडरी मिल्ड्यू रोग का जैविक इलाज क्या है?'
+      ]
+    },
+    mr: {
+      'yield-pest': [
+        'उपग्रह NDVI द्वारे पिकाचे उत्पादन कसे मोजले जाते?',
+        'लष्करी अळीचा प्रादुर्भाव कशामुळे वाढतो?',
+        'जमिनीतील ओलाव्यानुसार पाणी कधी द्यावे?'
+      ],
+      'fertilizer': [
+        'कापसासाठी कोणते खत सर्वात उत्तम आहे?',
+        '2 एकरासाठी किती डीएपी खत लागेल?',
+        'युरियाला सेंद्रिय किंवा जैविक पर्याय काय आहेत?'
+      ],
+      'weather': [
+        'आज पाऊस पडण्याची शक्यता आहे का?',
+        'औषध फवारणीसाठी हवामान अनुकूल आहे का?',
+        'उन्हाच्या ताणापासून पिकांचे रक्षण कसे करावे?'
+      ],
+      'guide': [
+        'गहू पेरणीसाठी सर्वोत्तम कालावधी कोणता?',
+        'उसातील खोडकिडीचे जीवनचक्र काय आहे?',
+        'टोमॅटो लागवडीमध्ये योग्य अंतर किती ठेवावे?'
+      ],
+      'heal': [
+        'टोमॅटोची पाने पिवळी का पडत आहेत?',
+        'बुरशीजन्य करपा रोगाचा बंदोबस्त कसा करावा?',
+        'भुरी रोगावर नैसर्गिक व सेंद्रिय उपाय काय?'
+      ]
     }
   };
 
-  const chips = getChips();
+  const chips = (localizedChips[langCode] && localizedChips[langCode][activeTab]) ||
+    (localizedChips.en[activeTab] || localizedChips.en.heal);
+
+  // Update greeting when language changes if chat hasn't started yet
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length <= 1 && prev[0]?.sender === 'bot') {
+        return [{ sender: 'bot', text: greeting }];
+      }
+      return prev;
+    });
+  }, [greeting]);
 
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([{ sender: 'bot', text: greeting }]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [greeting, messages.length]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -200,10 +260,10 @@ const FloatingAssistant = ({ activeTab }) => {
               animation: 'pulse-ring 2.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite',
             }}
           />
-          <Tooltip title="Ask KisanSathi AI" placement="left">
+          <Tooltip title={t('chat.tooltip', 'Ask KisanSathi AI')} placement="left">
             <button
               onClick={() => setIsOpen(true)}
-              aria-label="Open AI Assistant"
+              aria-label={t('chat.openAria', 'Open AI Assistant')}
               className="animate-fade-in"
               style={{
                 position: 'relative',
@@ -335,7 +395,7 @@ const FloatingAssistant = ({ activeTab }) => {
                     letterSpacing: '-0.01em',
                   }}
                 >
-                  KisanSathi AI
+                  {t('chat.title', 'KisanSathi AI')}
                 </h3>
                 <span
                   style={{
@@ -361,9 +421,10 @@ const FloatingAssistant = ({ activeTab }) => {
             </div>
 
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <Tooltip title="Clear chat history">
+              <Tooltip title={t('chat.clearChat', 'Clear chat history')}>
                 <button
                   onClick={clearHistory}
+                  aria-label={t('chat.clearChat', 'Clear conversation')}
                   style={{
                     background: 'rgba(255, 255, 255, 0.1)',
                     border: 'none',
@@ -392,6 +453,7 @@ const FloatingAssistant = ({ activeTab }) => {
 
               <button
                 onClick={() => setIsOpen(false)}
+                aria-label={t('chat.closeAria', 'Close assistant')}
                 style={{
                   background: 'rgba(255, 255, 255, 0.1)',
                   border: 'none',
@@ -476,7 +538,7 @@ const FloatingAssistant = ({ activeTab }) => {
                       }}
                       title="Read aloud"
                     >
-                      <Volume2 size={12} /> Listen
+                      <Volume2 size={12} /> {t('chat.listenBtn', 'Listen')}
                     </button>
                   )}
                 </div>
@@ -505,7 +567,7 @@ const FloatingAssistant = ({ activeTab }) => {
                     }}
                   />
                   <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
-                    Consulting agronomy models...
+                    {t('chat.aiThinking', 'Consulting agronomy models...')}
                   </span>
                 </div>
                 <style>{`@keyframes assistant-spin { 100% { transform: rotate(360deg); } }`}</style>
@@ -586,7 +648,8 @@ const FloatingAssistant = ({ activeTab }) => {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputText)}
-                placeholder="Ask about fertilizer, disease, sowing..."
+                placeholder={isListening ? t('chat.listeningActive', 'Listening...') : t('chat.placeholder', 'Ask about fertilizer, disease, sowing...')}
+                aria-label={t('chat.placeholder', 'Ask about crop diseases, fertilizers, weather...')}
                 style={{
                   flex: 1,
                   background: 'transparent',
@@ -600,9 +663,10 @@ const FloatingAssistant = ({ activeTab }) => {
               />
 
               {!inputText ? (
-                <Tooltip title={isListening ? 'Stop listening' : 'Speak your question'}>
+                <Tooltip title={isListening ? t('chat.stopListening', 'Stop listening') : t('chat.speakPrompt', 'Speak your question')}>
                   <button
                     onClick={toggleListen}
+                    aria-label={t('chat.micAria', 'Toggle voice input')}
                     style={{
                       background: isListening ? '#DC2626' : '#FFFFFF',
                       border: '1px solid rgba(14, 42, 18, 0.08)',
@@ -626,7 +690,7 @@ const FloatingAssistant = ({ activeTab }) => {
               ) : (
                 <button
                   onClick={() => handleSendMessage(inputText)}
-                  aria-label="Send message"
+                  aria-label={t('chat.sendAria', 'Send message')}
                   style={{
                     background: '#2E6B34',
                     border: 'none',
@@ -676,7 +740,7 @@ const FloatingAssistant = ({ activeTab }) => {
                     animation: 'pulse-mic 1s infinite',
                   }}
                 />
-                Listening to speech in en-IN... Speak now
+                {t('chat.listeningToSpeech', { lang: sttLang, defaultValue: `Listening to speech in ${sttLang}... Speak now` })}
                 <style>{`
                   @keyframes pulse-mic {
                     0% { transform: scale(0.9); opacity: 1; }
