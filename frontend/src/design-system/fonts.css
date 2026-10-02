@@ -1,11 +1,59 @@
-/* Self-hosted fonts with font-display: swap and Latin-only subsets for optimal mobile web vitals */
+/* Self-hosted fonts with font-display: swap and Latin/Devanagari subsets */
 @import '@fontsource/inter/latin-400.css';
 @import '@fontsource/inter/latin-600.css';
 @import '@fontsource/inter/latin-700.css';
 @import '@fontsource/instrument-serif/latin-400-italic.css';
 
+/* Noto Sans Devanagari (weights 400, 600, 700) for Hindi and Marathi */
+@import '@fontsource/noto-sans-devanagari/devanagari-400.css';
+@import '@fontsource/noto-sans-devanagari/devanagari-600.css';
+@import '@fontsource/noto-sans-devanagari/devanagari-700.css';
+@import '@fontsource/noto-sans-devanagari/latin-400.css';
+@import '@fontsource/noto-sans-devanagari/latin-600.css';
+@import '@fontsource/noto-sans-devanagari/latin-700.css';
+
 :root {
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif-accent: 'Instrument Serif', Georgia, serif;
   --font-display-serif: 'Instrument Serif', Georgia, serif;
+}
+
+/* Devanagari Typography for Hindi & Marathi:
+   Applies Noto Sans Devanagari, line-height 1.55 to avoid clipping matras,
+   and disables the italic serif styling of .heading-accent since Devanagari lacks italics. */
+html[lang="hi"],
+html[lang="mr"] {
+  --font-sans: 'Noto Sans Devanagari', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif-accent: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
+  --font-display-serif: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
+  line-height: 1.55;
+}
+
+html[lang="hi"] body,
+html[lang="mr"] body,
+html[lang="hi"] .ant-app,
+html[lang="mr"] .ant-app {
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+
+/* Disable italic serif .heading-accent for Devanagari: use sans with color/weight accent */
+html[lang="hi"] .heading-accent,
+html[lang="mr"] .heading-accent {
+  font-family: var(--font-sans) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  color: var(--color-cta-green, #2E6B34);
+  line-height: 1.55;
+}
+
+/* Ensure headings with white text over hero video remain bright white */
+html[lang="hi"] .hero-heading-accent,
+html[lang="mr"] .hero-heading-accent {
+  font-family: var(--font-sans) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  line-height: 1.55;
 }

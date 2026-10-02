@@ -1,0 +1,23 @@
+{
+  "brand": {
+    "name": "KisanSathi",
+    "tagline": "Har kisan ka saccha sathi."
+  },
+  "switcher": {
+    "label": "Change language",
+    "loading": "Loading language...",
+    "announced": "Language changed to {{lang}}",
+    "languages": {
+      "en": "English",
+      "hi": "Hindi",
+      "mr": "Marathi"
+    }
+  },
+  "actions": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "retry": "Retry"
+  }
+}

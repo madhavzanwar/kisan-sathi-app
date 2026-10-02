@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Drawer, Button, Tag, Spin, ConfigProvider, App as AntdApp } from 'antd';
-import { kisanSathiTheme } from '../design-system/theme.js';
+import { Drawer, Button, Tag, Spin } from 'antd';
 import { MenuOutlined, HomeOutlined, LogoutOutlined } from '@ant-design/icons';
 import {
   Camera,
@@ -19,6 +18,7 @@ const YieldPestForecaster = lazy(() => import('../tabs/YieldPestForecaster'));
 const CultivationGuide = lazy(() => import('../tabs/CultivationGuide'));
 const WeatherIrrigation = lazy(() => import('../tabs/WeatherIrrigation'));
 import FloatingAssistant from '../components/FloatingAssistant';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const tabs = [
   {
@@ -141,9 +141,7 @@ const Dashboard = () => {
   };
 
   return (
-    <ConfigProvider theme={kisanSathiTheme}>
-      <AntdApp className="ant-app">
-        <div
+    <div
       style={{
         minHeight: '100vh',
         backgroundColor: '#F4F5F3',
@@ -242,6 +240,8 @@ const Dashboard = () => {
 
         {/* Right Nav CTAs */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <LanguageSwitcher variant="onLight" />
+
           <button
             onClick={() => navigate('/')}
             style={{
@@ -632,6 +632,22 @@ const Dashboard = () => {
                 marginBottom: '10px',
               }}
             >
+              Language / भाषा
+            </div>
+            <LanguageSwitcher mode="segmented" />
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: '11px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                fontWeight: 700,
+                color: '#5C6E5F',
+                marginBottom: '10px',
+              }}
+            >
               Quick Tools
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -715,8 +731,6 @@ const Dashboard = () => {
       {/* Floating AI Assistant */}
       <FloatingAssistant activeTab={activeTab} />
     </div>
-      </AntdApp>
-    </ConfigProvider>
   );
 };
 

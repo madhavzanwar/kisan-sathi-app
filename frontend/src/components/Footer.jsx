@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Leaf } from 'lucide-react';
 import { LANDING_CONTENT } from '../content/landing.js';
+import LanguageSwitcher from './LanguageSwitcher.jsx';
 
 /**
  * Footer — Editorial dark green footer with frosted glass container
@@ -201,23 +202,26 @@ export const Footer = () => {
               alignItems: 'center',
               justifyContent: 'space-between',
               flexWrap: 'wrap',
-              gap: '12px',
+              gap: '16px',
               fontSize: '12.5px',
               color: 'rgba(255, 255, 255, 0.55)',
             }}
           >
             <span>{LANDING_CONTENT.footer.copyright}</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  backgroundColor: '#10B981',
-                }}
-              />
-              <span>FastAPI Backend • PyTorch ResNet18 Online</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+              <LanguageSwitcher mode="footer" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: '#10B981',
+                  }}
+                />
+                <span>FastAPI Backend • PyTorch ResNet18 Online</span>
+              </div>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { Drawer, Button } from 'antd';
 import { CloseOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Leaf } from 'lucide-react';
 import { LANDING_CONTENT } from '../content/landing.js';
+import LanguageSwitcher from './LanguageSwitcher.jsx';
 
 export const MobileNavDrawer = ({
   open,
@@ -37,6 +38,7 @@ export const MobileNavDrawer = ({
       }
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '12px' }}>
+        <LanguageSwitcher mode="segmented" />
         {LANDING_CONTENT.nav.map((item) => {
           const active = isLinkActive(item);
           return (

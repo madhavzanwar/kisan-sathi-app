@@ -2,6 +2,7 @@ import React, { useState, Suspense, lazy } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Leaf } from 'lucide-react';
 import { LANDING_CONTENT } from '../content/landing.js';
+import LanguageSwitcher from './LanguageSwitcher.jsx';
 
 const MobileNavDrawer = lazy(() => import('./MobileNavDrawer'));
 
@@ -174,8 +175,10 @@ export const Navbar = ({ onOpenAuth }) => {
           })}
         </div>
 
-        {/* Right: Action CTA & Mobile Trigger */}
+        {/* Right: Action CTA, Language Switcher & Mobile Trigger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <LanguageSwitcher variant="onVideo" />
+
           <button
             onClick={handleActionClick}
             style={{
