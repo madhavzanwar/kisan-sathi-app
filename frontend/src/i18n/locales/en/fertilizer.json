@@ -1,4 +1,60 @@
 {
+  "eyebrow": "Soil Chemistry & Nutrition",
   "title": "Smart Fertilizer Calculator",
-  "subtitle": "NPK Soil & Dosage Balancing"
+  "titleAccent": "Calculator",
+  "description": "Calculate balanced N-P-K nutrient requirements and organic compost based on soil tests, crop growth stage, and plot acreage.",
+  "form": {
+    "farmSize": "Farm Size (Acres)",
+    "farmSizeAria": "Farm Size in Acres",
+    "soilType": "Soil Type",
+    "soilTypeAria": "Soil Type",
+    "cropStage": "Crop Growth Stage",
+    "cropStageAria": "Crop Growth Stage",
+    "phLevel": "Soil pH Level",
+    "phLevelAria": "Soil pH Level",
+    "nitrogen": "Nitrogen (N) Content",
+    "nitrogenAria": "Nitrogen (N) Content in kg per hectare",
+    "phosphorus": "Phosphorus (P) Content",
+    "phosphorusAria": "Phosphorus (P) Content in kg per hectare",
+    "potassium": "Potassium (K) Content",
+    "potassiumAria": "Potassium (K) Content in kg per hectare",
+    "calculateBtn": "Calculate Fertilizer Dosage",
+    "calculatingBtn": "Computing Chemistry Model...",
+    "kgHaUnit": "kg/ha"
+  },
+  "soil": {
+    "black": "Black Soil (Regur)",
+    "red": "Red Soil",
+    "alluvial": "Alluvial Soil",
+    "clayey": "Clayey Soil",
+    "sandy": "Sandy Soil"
+  },
+  "stage": {
+    "vegetative": "Vegetative Growth",
+    "sowing": "Sowing / Basal",
+    "flowering": "Flowering / Tillering",
+    "maturity": "Ripening / Maturity"
+  },
+  "loading": {
+    "message": "Computing precision NPK formulation...",
+    "subtext": "Mapping soil chemistry, crop requirements, and plot acreage"
+  },
+  "results": {
+    "formulationMatch": "Formulation Match",
+    "recommended": "Recommended:",
+    "balancedRatio": "Balanced NPK Ratio",
+    "forAcreage": "For {{count}} Acres",
+    "ureaLabel": "Urea (46-0-0)",
+    "dapLabel": "DAP (18-46-0)",
+    "mopLabel": "MOP / Potash",
+    "compostLabel": "Organic Manure",
+    "kgUnit": "kg",
+    "tonsUnit": "tons"
+  },
+  "errors": {
+    "invalidFarmSize": "Please enter a valid farm size greater than 0 acres.",
+    "invalidPh": "Please enter a valid soil pH level between 3.0 and 10.0.",
+    "invalidNpk": "Please ensure Nitrogen, Phosphorus, and Potassium values are non-negative numbers.",
+    "apiError": "Failed to connect to the fertilizer calculator service. If the server is sleeping on Render free tier, please wait 30 seconds and retry."
+  }
 }
