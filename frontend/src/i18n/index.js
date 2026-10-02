@@ -231,7 +231,20 @@ export const setLanguage = async (newLang) => {
       // Ignore storage errors
     }
 
-    // 4. Update document metadata
+    // 4. Update ?lang= search parameter in URL if currently present
+    if (typeof window !== 'undefined' && window.location) {
+      try {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has('lang')) {
+          url.searchParams.set('lang', newLang);
+          window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+        }
+      } catch (e) {
+        // Ignore URL state update errors
+      }
+    }
+
+    // 5. Update document metadata
     updateDocumentMetadata(newLang);
 
     return true;
@@ -251,6 +264,21 @@ if (initialLang !== 'en') {
 } else {
   updateDocumentMetadata('en');
 }
+
+// Wrap i18n.t to seamlessly handle namespace prefixes separated by dots or colons
+const origI18nT = i18n.t.bind(i18n);
+i18n.t = (key, ...rest) => {
+  if (typeof key === 'string' && !key.includes(':')) {
+    const namespaces = ['landing', 'dashboard', 'heal', 'fertilizer', 'guides', 'chat', 'errors', 'common'];
+    for (const ns of namespaces) {
+      if (key.startsWith(`${ns}.`)) {
+        const transformedKey = `${ns}:${key.slice(ns.length + 1)}`;
+        return origI18nT(transformedKey, ...rest);
+      }
+    }
+  }
+  return origI18nT(key, ...rest);
+};
 
 export { useLang } from './useLang.js';
 export default i18n;

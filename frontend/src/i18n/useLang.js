@@ -46,6 +46,22 @@ export const useLang = () => {
     [currentLang, loading]
   );
 
+  const customT = useCallback(
+    (key, ...rest) => {
+      if (typeof key === 'string' && !key.includes(':')) {
+        const namespaces = ['landing', 'dashboard', 'heal', 'fertilizer', 'guides', 'chat', 'errors', 'common'];
+        for (const ns of namespaces) {
+          if (key.startsWith(`${ns}.`)) {
+            const transformedKey = `${ns}:${key.slice(ns.length + 1)}`;
+            return t(transformedKey, ...rest);
+          }
+        }
+      }
+      return t(key, ...rest);
+    },
+    [t]
+  );
+
   return {
     lang: currentLang,
     currentLang,
@@ -55,7 +71,7 @@ export const useLang = () => {
     isDevanagari: currentLang === 'hi' || currentLang === 'mr',
     isRTL: false,
     languages: SUPPORTED_LANGUAGES,
-    t,
+    t: customT,
   };
 };
 

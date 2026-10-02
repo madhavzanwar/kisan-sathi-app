@@ -65,7 +65,7 @@ const tabs = [
 ];
 
 const Dashboard = () => {
-  const { t } = useLang();
+  const { t, currentLang } = useLang();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const urlTab = searchParams.get('tab');
@@ -91,7 +91,7 @@ const Dashboard = () => {
     const tabKey = cur?.id === 'yield-pest' ? 'yieldPest' : cur?.id;
     const tabName = cur ? t(`dashboard.tabs.${tabKey}.name`, cur.name) : 'Agronomy Suite';
     document.title = `KisanSathi — ${tabName} | Agronomy Suite`;
-  }, [activeTab, t]);
+  }, [activeTab, t, currentLang]);
 
   // Accessibility: Ensure all Ant Design slider handles have accessible aria-labels
   useEffect(() => {
