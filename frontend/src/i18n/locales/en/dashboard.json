@@ -1,6 +1,52 @@
 {
   "header": {
+    "eyebrow": "Precision Agronomy Suite",
     "title": "Smart Farming Dashboard",
+    "titleAccent": "Dashboard",
     "subtitle": "Select a specialized agronomic tool below to diagnose crop diseases, calculate exact fertilizer requirements, or access real-time microclimate intelligence."
+  },
+  "telemetry": {
+    "title": "System Telemetry",
+    "status": "PyTorch & Scikit-Learn Active"
+  },
+  "toolsHeading": "Agronomy Tools",
+  "toolsSubtitle": "Click any card to launch tool",
+  "home": "Home",
+  "exitDashboard": "Exit Dashboard",
+  "returnToLanding": "Return to Landing Page",
+  "quickTools": "Quick Tools",
+  "language": "Language / भाषा",
+  "specs": {
+    "title": "AI Model Specifications",
+    "item1": "• PyTorch ResNet18 (38 disease classes)",
+    "item2": "• Scikit-Learn Multiclass Fertilizer Regressor",
+    "item3": "• Copernicus Sentinel-2 Level-2A BOA"
+  },
+  "tabs": {
+    "heal": {
+      "name": "Heal Your Crop",
+      "subtitle": "Leaf Pathology & Diagnosis",
+      "badge": "PyTorch AI"
+    },
+    "fertilizer": {
+      "name": "Fertilizer Calculator",
+      "subtitle": "NPK Soil & Dosage Balancing",
+      "badge": "Exact kg"
+    },
+    "yieldPest": {
+      "name": "Yield & Pest Forecast",
+      "subtitle": "Sentinel-2 Satellite Telemetry",
+      "badge": "NDVI Vision"
+    },
+    "guide": {
+      "name": "Cultivation Guides",
+      "subtitle": "Lifecycle Agronomic Protocols",
+      "badge": "6 Crops"
+    },
+    "weather": {
+      "name": "Live Weather",
+      "subtitle": "Hyper-local Microclimate",
+      "badge": "GPS Telemetry"
+    }
   }
 }

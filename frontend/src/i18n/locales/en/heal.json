@@ -1,4 +1,55 @@
 {
+  "eyebrow": "AI Leaf Pathology",
   "title": "Heal Your Crop",
-  "subtitle": "Leaf Pathology & Diagnosis"
+  "titleAccent": "Crop",
+  "description": "Upload a clear, well-lit photo of the affected crop leaf to detect disease pathogens and generate scientific treatment plans.",
+  "steps": {
+    "step1": "Upload Leaf Photo",
+    "step2": "Neural Analysis",
+    "step3": "Treatment Plan"
+  },
+  "dropzone": {
+    "title": "Click or drag a leaf photograph here",
+    "subtitle": "Supports JPG, PNG, WEBP • Max file size 15MB",
+    "browse": "Browse Files",
+    "ariaLabel": "Upload leaf image"
+  },
+  "scanning": {
+    "message": "PyTorch ResNet18 is analyzing leaf pathology...",
+    "subtext": "Evaluating 38 disease categories and nutritional deficiencies"
+  },
+  "results": {
+    "severityLabel": "Severity: {{severity}}",
+    "severityNone": "None",
+    "severityModerate": "Moderate",
+    "severityHigh": "High",
+    "diagnosticMatch": "Diagnostic Match",
+    "chemicalTitle": "Chemical Treatment",
+    "organicTitle": "Organic / Bio Alternative",
+    "scanAnother": "Scan Another Leaf"
+  },
+  "errors": {
+    "invalidType": "Invalid file type. Please upload a valid crop leaf image (JPG, PNG, or WEBP).",
+    "exceedsSize": "File size exceeds the 15 MB limit. Please upload a standard photo.",
+    "apiError": "Failed to connect to backend diagnosis service. If the server is sleeping on Render free tier, please wait 30 seconds and retry."
+  },
+  "diseases": {
+    "tomatoEarlyBlight": "Tomato Early Blight",
+    "cottonAphids": "Cotton Aphids",
+    "wheatRust": "Wheat Rust",
+    "healthyCrop": "Healthy Crop",
+    "defaultDisease": "Crop Disease"
+  },
+  "treatments": {
+    "chemicalDefault": "Consult local agricultural extension for optimal chemical dosage.",
+    "organicDefault": "Ensure proper spacing and use neem-based bio-pesticides if necessary.",
+    "earlyBlightChemical": "Spray Mancozeb 75% WP @ 2g/L or Chlorothalonil @ 2g/L of water at 10-day intervals.",
+    "earlyBlightOrganic": "Apply 5% neem seed kernel extract (NSKE) or Trichoderma viride spray @ 5g/L.",
+    "cottonAphidsChemical": "Spray Imidacloprid 17.8% SL @ 0.3ml/L or Acetamiprid 20% SP @ 0.2g/L.",
+    "cottonAphidsOrganic": "Spray 5% neem oil emulsion with soap solution or release Chrysoperla predators.",
+    "wheatRustChemical": "Spray Propiconazole 25% EC (Tilt) @ 1ml/L of water immediately upon detection.",
+    "wheatRustOrganic": "Dust sulfur powder @ 25 kg/ha or spray cow urine extract mixed with neem leaves.",
+    "healthyCropChemical": "No chemical fungicide or bactericide required. Continue balanced nutrition.",
+    "healthyCropOrganic": "Maintain routine soil organic matter application and preventive biological teas."
+  }
 }

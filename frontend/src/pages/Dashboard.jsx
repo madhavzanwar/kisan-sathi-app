@@ -19,6 +19,7 @@ const CultivationGuide = lazy(() => import('../tabs/CultivationGuide'));
 const WeatherIrrigation = lazy(() => import('../tabs/WeatherIrrigation'));
 import FloatingAssistant from '../components/FloatingAssistant';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useLang } from '../i18n';
 
 const tabs = [
   {
@@ -64,6 +65,7 @@ const tabs = [
 ];
 
 const Dashboard = () => {
+  const { t } = useLang();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const urlTab = searchParams.get('tab');
@@ -86,10 +88,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     const cur = tabs.find((t) => t.id === activeTab);
-    document.title = cur
-      ? `KisanSathi — ${cur.name} | Agronomy Suite`
-      : 'KisanSathi — Precision Agronomy Dashboard';
-  }, [activeTab]);
+    const tabKey = cur?.id === 'yield-pest' ? 'yieldPest' : cur?.id;
+    const tabName = cur ? t(`dashboard.tabs.${tabKey}.name`, cur.name) : 'Agronomy Suite';
+    document.title = `KisanSathi — ${tabName} | Agronomy Suite`;
+  }, [activeTab, t]);
 
   // Accessibility: Ensure all Ant Design slider handles have accessible aria-labels
   useEffect(() => {
@@ -267,7 +269,7 @@ const Dashboard = () => {
             }}
           >
             <HomeOutlined />
-            <span>Home</span>
+            <span>{t('dashboard.home', 'Home')}</span>
           </button>
 
           <button
@@ -296,7 +298,7 @@ const Dashboard = () => {
               e.currentTarget.style.backgroundColor = '#2E6B34';
             }}
           >
-            <span>Exit Dashboard</span>
+            <span>{t('dashboard.exitDashboard', 'Exit Dashboard')}</span>
             <LogoutOutlined style={{ fontSize: '12px' }} />
           </button>
         </div>
@@ -332,7 +334,7 @@ const Dashboard = () => {
         >
           <div style={{ maxWidth: '640px' }}>
             <span className="eyebrow-tag" style={{ marginBottom: '10px' }}>
-              Precision Agronomy Suite
+              {t('dashboard.header.eyebrow', 'Precision Agronomy Suite')}
             </span>
             <h1
               style={{
@@ -344,7 +346,8 @@ const Dashboard = () => {
                 letterSpacing: '-0.03em',
               }}
             >
-              Smart Farming <span className="heading-accent">Dashboard</span>
+              {t('dashboard.header.title', 'Smart Farming')}{' '}
+              <span className="heading-accent">{t('dashboard.header.titleAccent', 'Dashboard')}</span>
             </h1>
             <p
               style={{
@@ -355,7 +358,7 @@ const Dashboard = () => {
                 lineHeight: 1.5,
               }}
             >
-              Select a specialized agronomic tool below to diagnose crop diseases, calculate exact fertilizer requirements, or access real-time microclimate intelligence.
+              {t('dashboard.header.subtitle', 'Select a specialized agronomic tool below to diagnose crop diseases, calculate exact fertilizer requirements, or access real-time microclimate intelligence.')}
             </p>
           </div>
 
@@ -382,10 +385,10 @@ const Dashboard = () => {
             />
             <div>
               <div style={{ fontSize: '11px', color: '#5C6E5F', fontWeight: 600, textTransform: 'uppercase' }}>
-                System Telemetry
+                {t('dashboard.telemetry.title', 'System Telemetry')}
               </div>
               <div style={{ fontSize: '13.5px', color: '#0E2A12', fontWeight: 700 }}>
-                PyTorch & Scikit-Learn Active
+                {t('dashboard.telemetry.status', 'PyTorch & Scikit-Learn Active')}
               </div>
             </div>
           </div>
@@ -411,10 +414,10 @@ const Dashboard = () => {
                 letterSpacing: '-0.01em',
               }}
             >
-              Agronomy Tools
+              {t('dashboard.toolsHeading', 'Agronomy Tools')}
             </h2>
             <span style={{ fontSize: '13px', color: '#5C6E5F' }}>
-              Click any card to launch tool
+              {t('dashboard.toolsSubtitle', 'Click any card to launch tool')}
             </span>
           </div>
 
@@ -428,6 +431,10 @@ const Dashboard = () => {
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               const IconComp = tab.icon;
+              const tabKey = tab.id === 'yield-pest' ? 'yieldPest' : tab.id;
+              const tabName = t(`dashboard.tabs.${tabKey}.name`, tab.name);
+              const tabSubtitle = t(`dashboard.tabs.${tabKey}.subtitle`, tab.subtitle);
+              const tabBadge = t(`dashboard.tabs.${tabKey}.badge`, tab.badge);
 
               return (
                 <div
@@ -504,7 +511,7 @@ const Dashboard = () => {
                         padding: '1px 8px',
                       }}
                     >
-                      {tab.badge}
+                      {tabBadge}
                     </Tag>
                   </div>
 
@@ -520,7 +527,7 @@ const Dashboard = () => {
                         letterSpacing: '-0.01em',
                       }}
                     >
-                      {tab.name}
+                      {tabName}
                     </h3>
                     <p
                       style={{
@@ -530,7 +537,7 @@ const Dashboard = () => {
                         lineHeight: 1.4,
                       }}
                     >
-                      {tab.subtitle}
+                      {tabSubtitle}
                     </p>
                   </div>
 
@@ -603,7 +610,7 @@ const Dashboard = () => {
               <div style={{ fontWeight: 700, fontSize: '16px', color: '#0E2A12' }}>
                 KisanSathi
               </div>
-              <div style={{ fontSize: '11px', color: '#5C6E5F' }}>Har kisan ka saccha sathi</div>
+              <div style={{ fontSize: '11px', color: '#5C6E5F' }}>{t('common.brandTagline', 'Har kisan ka saccha sathi')}</div>
             </div>
           </div>
         }
@@ -632,7 +639,7 @@ const Dashboard = () => {
                 marginBottom: '10px',
               }}
             >
-              Language / भाषा
+              {t('dashboard.language', 'Language / भाषा')}
             </div>
             <LanguageSwitcher mode="segmented" />
           </div>
@@ -648,12 +655,14 @@ const Dashboard = () => {
                 marginBottom: '10px',
               }}
             >
-              Quick Tools
+              {t('dashboard.quickTools', 'Quick Tools')}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {tabs.map((tab) => {
                 const isCurrent = activeTab === tab.id;
                 const IconComp = tab.icon;
+                const tabKey = tab.id === 'yield-pest' ? 'yieldPest' : tab.id;
+                const tabName = t(`dashboard.tabs.${tabKey}.name`, tab.name);
                 return (
                   <button
                     key={tab.id}
@@ -679,7 +688,7 @@ const Dashboard = () => {
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <IconComp size={16} />
-                      <span>{tab.name}</span>
+                      <span>{tabName}</span>
                     </div>
                     <ChevronRight size={14} color="#5C6E5F" />
                   </button>
@@ -697,12 +706,12 @@ const Dashboard = () => {
             }}
           >
             <div style={{ fontWeight: 700, fontSize: '13px', color: '#0E2A12', marginBottom: '6px' }}>
-              AI Model Specifications
+              {t('dashboard.specs.title', 'AI Model Specifications')}
             </div>
             <div style={{ fontSize: '12px', color: '#5C6E5F', lineHeight: '1.6' }}>
-              • PyTorch ResNet18 (38 disease classes)<br />
-              • Scikit-Learn Multiclass Fertilizer Regressor<br />
-              • Copernicus Sentinel-2 Level-2A BOA
+              {t('dashboard.specs.item1', '• PyTorch ResNet18 (38 disease classes)')}<br />
+              {t('dashboard.specs.item2', '• Scikit-Learn Multiclass Fertilizer Regressor')}<br />
+              {t('dashboard.specs.item3', '• Copernicus Sentinel-2 Level-2A BOA')}
             </div>
           </div>
         </div>
@@ -723,7 +732,7 @@ const Dashboard = () => {
               fontWeight: 600,
             }}
           >
-            Return to Landing Page
+            {t('dashboard.returnToLanding', 'Return to Landing Page')}
           </Button>
         </div>
       </Drawer>

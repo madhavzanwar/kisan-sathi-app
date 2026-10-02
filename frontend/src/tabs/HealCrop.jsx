@@ -3,6 +3,7 @@ import { Upload, Steps, Progress, Tag, Alert, Button } from 'antd';
 import { CameraOutlined } from '@ant-design/icons';
 import { Leaf, AlertTriangle, RefreshCw } from 'lucide-react';
 import { AiLoadingState } from '../design-system/components/AiLoadingState.jsx';
+import { useLang } from '../i18n';
 
 const { Dragger } = Upload;
 
@@ -12,6 +13,7 @@ const { Dragger } = Upload;
  * Payload: Multipart FormData with key 'file'.
  */
 const HealCrop = () => {
+  const { t } = useLang();
   const [step, setStep] = useState(1); // 1: Upload, 2: Scanning, 3: Result
   const [selectedImage, setSelectedImage] = useState(null);
   const [diagnosis, setDiagnosis] = useState(null);
@@ -27,13 +29,51 @@ const HealCrop = () => {
     };
   }, [selectedImage]);
 
+  const translateDisease = (name) => {
+    if (!name) return '';
+    const norm = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (norm.includes('earlyblight')) return t('heal.diseases.tomatoEarlyBlight', name);
+    if (norm.includes('aphid')) return t('heal.diseases.cottonAphids', name);
+    if (norm.includes('rust')) return t('heal.diseases.wheatRust', name);
+    if (norm.includes('healthy')) return t('heal.diseases.healthyCrop', name);
+    if (norm.startsWith('cropdisease')) {
+      const num = name.replace(/[^0-9]/g, '');
+      return `${t('heal.diseases.defaultDisease', 'Crop Disease')} ${num}`.trim();
+    }
+    return name;
+  };
+
+  const translateTreatment = (type, originalText) => {
+    if (type === 'chemical') {
+      if (originalText?.includes('Consult local agricultural extension')) {
+        return t('heal.treatments.chemicalDefault', originalText);
+      }
+      return originalText;
+    }
+    if (type === 'organic') {
+      if (originalText?.includes('Ensure proper spacing')) {
+        return t('heal.treatments.organicDefault', originalText);
+      }
+      return originalText;
+    }
+    return originalText;
+  };
+
+  const getSeverityLabel = (severity) => {
+    let localizedSeverity = severity;
+    if (severity === 'High') localizedSeverity = t('heal.results.severityHigh', 'High');
+    else if (severity === 'Moderate') localizedSeverity = t('heal.results.severityModerate', 'Moderate');
+    else if (severity === 'None') localizedSeverity = t('heal.results.severityNone', 'None');
+    return t('heal.results.severityLabel', { severity: localizedSeverity, defaultValue: `Severity: ${localizedSeverity}` });
+  };
+
   const executeUpload = async (file) => {
     if (!file || step === 2) return;
 
     // Validate file type before API call
     if (!file.type || !file.type.startsWith('image/')) {
       setErrorMessage(
-        'Invalid file type. Please upload a valid crop leaf image (JPG, PNG, or WEBP).'
+        t('heal.errors.invalidType', 'Invalid file type. Please upload a valid crop leaf image (JPG, PNG, or WEBP).')
       );
       setStep(1);
       return;
@@ -42,7 +82,7 @@ const HealCrop = () => {
     // Validate file size limit (15 MB)
     if (file.size > 15 * 1024 * 1024) {
       setErrorMessage(
-        'File size exceeds the 15 MB limit. Please upload a standard photo.'
+        t('heal.errors.exceedsSize', 'File size exceeds the 15 MB limit. Please upload a standard photo.')
       );
       setStep(1);
       return;
@@ -75,7 +115,7 @@ const HealCrop = () => {
     } catch (error) {
       console.error('API Error:', error);
       setErrorMessage(
-        'Failed to connect to backend diagnosis service. If the server is sleeping on Render free tier, please wait 30 seconds and retry.'
+        t('heal.errors.apiError', 'Failed to connect to backend diagnosis service. If the server is sleeping on Render free tier, please wait 30 seconds and retry.')
       );
       setStep(1);
     }
@@ -111,7 +151,7 @@ const HealCrop = () => {
       {/* Header */}
       <div>
         <span className="eyebrow-tag" style={{ marginBottom: '12px' }}>
-          AI Leaf Pathology
+          {t('heal.eyebrow', 'AI Leaf Pathology')}
         </span>
         <h2
           style={{
@@ -123,7 +163,8 @@ const HealCrop = () => {
             letterSpacing: '-0.02em',
           }}
         >
-          Heal Your <span className="heading-accent">Crop</span>
+          {t('heal.title', 'Heal Your')}{' '}
+          <span className="heading-accent">{t('heal.titleAccent', 'Crop')}</span>
         </h2>
         <p
           style={{
@@ -134,7 +175,7 @@ const HealCrop = () => {
             lineHeight: 1.5,
           }}
         >
-          Upload a clear, well-lit photo of the affected crop leaf to detect disease pathogens and generate scientific treatment plans.
+          {t('heal.description', 'Upload a clear, well-lit photo of the affected crop leaf to detect disease pathogens and generate scientific treatment plans.')}
         </p>
       </div>
 
@@ -142,9 +183,9 @@ const HealCrop = () => {
       <Steps
         current={step - 1}
         items={[
-          { title: 'Upload Leaf Photo' },
-          { title: 'Neural Analysis' },
-          { title: 'Treatment Plan' },
+          { title: t('heal.steps.step1', 'Upload Leaf Photo') },
+          { title: t('heal.steps.step2', 'Neural Analysis') },
+          { title: t('heal.steps.step3', 'Treatment Plan') },
         ]}
         style={{ marginBottom: '8px' }}
       />
@@ -203,7 +244,7 @@ const HealCrop = () => {
                 marginBottom: '6px',
               }}
             >
-              Click or drag a leaf photograph here
+              {t('heal.dropzone.title', 'Click or drag a leaf photograph here')}
             </p>
             <p
               style={{
@@ -213,7 +254,7 @@ const HealCrop = () => {
                 marginBottom: '20px',
               }}
             >
-              Supports JPG, PNG, WEBP • Max file size 10MB
+              {t('heal.dropzone.subtitle', 'Supports JPG, PNG, WEBP • Max file size 15MB')}
             </p>
 
             <div
@@ -231,7 +272,7 @@ const HealCrop = () => {
                 pointerEvents: 'none',
               }}
             >
-              Browse Files
+              {t('heal.dropzone.browse', 'Browse Files')}
             </div>
           </Dragger>
 
@@ -240,7 +281,7 @@ const HealCrop = () => {
             type="file"
             id="native-leaf-file"
             accept="image/*"
-            aria-label="Upload leaf image"
+            aria-label={t('heal.dropzone.ariaLabel', 'Upload leaf image')}
             style={{ display: 'none' }}
             onChange={handleNativeChange}
           />
@@ -264,7 +305,7 @@ const HealCrop = () => {
             >
               <img
                 src={selectedImage}
-                alt="Uploaded crop leaf"
+                alt={t('heal.dropzone.ariaLabel', 'Uploaded crop leaf')}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
               <div
@@ -283,8 +324,8 @@ const HealCrop = () => {
           )}
 
           <AiLoadingState
-            message="PyTorch ResNet18 is analyzing leaf pathology..."
-            subtext="Evaluating 38 disease categories and nutritional deficiencies"
+            message={t('heal.scanning.message', 'PyTorch ResNet18 is analyzing leaf pathology...')}
+            subtext={t('heal.scanning.subtext', 'Evaluating 38 disease categories and nutritional deficiencies')}
           />
 
           <style>{`
@@ -338,7 +379,7 @@ const HealCrop = () => {
                     margin: 0,
                   }}
                 >
-                  {diagnosis.disease_name}
+                  {translateDisease(diagnosis.disease_name)}
                 </h3>
                 <Tag
                   color={
@@ -350,13 +391,13 @@ const HealCrop = () => {
                   }
                   style={{ borderRadius: '999px', fontWeight: 600 }}
                 >
-                  Severity: {diagnosis.severity}
+                  {getSeverityLabel(diagnosis.severity)}
                 </Tag>
               </div>
 
               <div style={{ maxWidth: '320px', marginTop: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#5C6E5F', marginBottom: '2px' }}>
-                  <span>Diagnostic Match</span>
+                  <span>{t('heal.results.diagnosticMatch', 'Diagnostic Match')}</span>
                   <span style={{ fontWeight: 600, color: '#0E2A12' }}>{diagnosis.confidence}%</span>
                 </div>
                 <Progress
@@ -389,11 +430,11 @@ const HealCrop = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#D97706', marginBottom: '10px' }}>
                 <AlertTriangle size={18} />
                 <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#B45309' }}>
-                  Chemical Treatment
+                  {t('heal.results.chemicalTitle', 'Chemical Treatment')}
                 </h4>
               </div>
               <p style={{ margin: 0, fontSize: '13.5px', lineHeight: 1.6, color: '#78350F' }}>
-                {diagnosis.chemical_treatment}
+                {translateTreatment('chemical', diagnosis.chemical_treatment)}
               </p>
             </div>
 
@@ -409,11 +450,11 @@ const HealCrop = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#16A34A', marginBottom: '10px' }}>
                 <Leaf size={18} />
                 <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#15803D' }}>
-                  Organic / Bio Alternative
+                  {t('heal.results.organicTitle', 'Organic / Bio Alternative')}
                 </h4>
               </div>
               <p style={{ margin: 0, fontSize: '13.5px', lineHeight: 1.6, color: '#14532D' }}>
-                {diagnosis.organic_treatment}
+                {translateTreatment('organic', diagnosis.organic_treatment)}
               </p>
             </div>
           </div>
@@ -434,7 +475,7 @@ const HealCrop = () => {
                 height: '44px',
               }}
             >
-              Scan Another Leaf
+              {t('heal.results.scanAnother', 'Scan Another Leaf')}
             </Button>
           </div>
         </div>
