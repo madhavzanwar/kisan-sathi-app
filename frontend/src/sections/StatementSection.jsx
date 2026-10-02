@@ -1,86 +1,18 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { BlurIn } from '../design-system/components/BlurIn.jsx';
 import { ScrollRevealText } from '../design-system/components/ScrollRevealText.jsx';
 import { useLang } from '../i18n/index.js';
 
 /**
- * StatementSection — Scroll-driven word reveal with embedded looping video pill.
+ * StatementSection — Scroll-driven word reveal text.
  * Transitions words from muted sage to dark forest ink on scroll.
- * Uses IntersectionObserver so video starts only near viewport and pauses off-screen.
  */
 export const StatementSection = () => {
   const { t } = useLang();
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Respect reduced motion
-    const prefersReducedMotion =
-      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {});
-          }
-        } else {
-          video.pause();
-        }
-      },
-      { rootMargin: '100px 0px 100px 0px', threshold: 0.1 }
-    );
-
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
-
-  const inlinePill = (
-    <span
-      style={{
-        display: 'inline-block',
-        verticalAlign: 'middle',
-        width: '92px',
-        height: '42px',
-        borderRadius: '999px',
-        overflow: 'hidden',
-        margin: '0 8px 4px',
-        border: '1.5px solid rgba(14, 42, 18, 0.18)',
-        boxShadow: '0 6px 16px rgba(14, 42, 18, 0.12)',
-        position: 'relative',
-        backgroundColor: '#0E2A12',
-      }}
-    >
-      <video
-        ref={videoRef}
-        loop
-        muted
-        playsInline
-        preload="none"
-        poster="/videos/hero-poster.webp"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          display: 'block',
-        }}
-      >
-        <source src="/videos/hero.webm" type="video/webm" />
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
-    </span>
-  );
 
   const beforePill = t('landing:statement.beforePill');
   const afterPill = t('landing:statement.afterPill');
   const fullText = `${beforePill} ${afterPill}`;
-  const inlineInsertIndex = beforePill.trim().split(/\s+/).length;
 
   return (
     <section
@@ -110,11 +42,7 @@ export const StatementSection = () => {
               letterSpacing: '-0.025em',
             }}
           >
-            <ScrollRevealText
-              text={fullText}
-              inlineElement={inlinePill}
-              inlineInsertIndex={inlineInsertIndex}
-            />
+            <ScrollRevealText text={fullText} />
           </div>
         </BlurIn>
       </div>
