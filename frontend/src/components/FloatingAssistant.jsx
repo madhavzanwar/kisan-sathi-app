@@ -365,15 +365,45 @@ const FloatingAssistant = ({ activeTab }) => {
     setVoiceNotice(null);
 
     try {
-      const res = await fetch(`${API_URL}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: trimmed,
-          language: messageLang,
-          context: activeTab || 'general',
-        }),
-      });
+      let res;
+      try {
+        res = await fetch(`${API_URL}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: trimmed,
+            language: messageLang,
+            context: activeTab || 'general',
+          }),
+        });
+      } catch (networkErr) {
+        // If localhost failed (e.g. IPv6 ::1 resolution on Windows), retry with 127.0.0.1 or /api/chat
+        if (API_URL.includes('localhost:8000')) {
+          try {
+            res = await fetch('http://127.0.0.1:8000/api/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                message: trimmed,
+                language: messageLang,
+                context: activeTab || 'general',
+              }),
+            });
+          } catch (retryErr) {
+            res = await fetch('/api/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                message: trimmed,
+                language: messageLang,
+                context: activeTab || 'general',
+              }),
+            });
+          }
+        } else {
+          throw networkErr;
+        }
+      }
 
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
