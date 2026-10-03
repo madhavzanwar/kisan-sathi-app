@@ -13,9 +13,17 @@
   "clearChat": "Clear conversation",
   "sendAria": "Send message",
   "micAria": "Toggle voice input",
-  "closeAria": "Close assistant",
-  "openAria": "Open assistant",
+  "closeAria": "Close AI Assistant",
+  "openAria": "Open AI Assistant",
   "aiThinking": "KisanSathi is analyzing agronomy database...",
   "networkError": "Network connection error. Please try again.",
-  "chipsHeading": "Suggested questions for this tool:"
+  "chipsHeading": "Suggested questions for this tool:",
+  "langSwitched": "Language changed to {{lang}}",
+  "mrVoiceFallbackHi": "Marathi voice is unavailable on this device. Reading aloud in Hindi voice.",
+  "voiceUnavailable": "Voice playback is unavailable on this device.",
+  "serverError": "Unable to reach the assistant server. If Render is waking up, please retry in a few seconds.",
+  "retryBtn": "Retry",
+  "onlineStatus": "Online",
+  "activeModeGeneral": "General agronomy",
+  "activeModeSuffix": "mode"
 }

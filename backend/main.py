@@ -239,28 +239,57 @@ def predict_yield_and_pest(req: YieldPestRequest):
 # --- 4. Voice Assistant LLM Endpoint ---
 class ChatRequest(BaseModel):
     message: str
-    language: str
-    context: str
+    language: str = "en"
+    context: str = "general"
 
 @app.post("/api/chat")
 async def chat_assistant(req: ChatRequest):
     global current_key_idx
+    
+    # Read language and default to 'en' if missing or unknown
+    lang = req.language.lower().strip() if req.language and isinstance(req.language, str) else "en"
+    if lang not in ["en", "hi", "mr"]:
+        lang = "en"
+
     if not API_KEYS:
         # Fallback if no API key is provided
         fallback_msg = f"API Key not found. I understood: '{req.message}'. Please configure GEMINI_API_KEY_1 in the backend .env file."
-        if req.language == 'mr':
+        if lang == 'mr':
             fallback_msg = f"API Key सापडली नाही. मला समजले: '{req.message}'. कृपया backend च्या .env फाईल मध्ये GEMINI_API_KEY_1 सेट करा."
-        elif req.language == 'hi':
+        elif lang == 'hi':
             fallback_msg = f"API Key नहीं मिली। मुझे समझ आया: '{req.message}'। कृपया backend की .env फ़ाइल में GEMINI_API_KEY_1 सेट करें।"
         return {"response": fallback_msg}
 
+    # Build agronomist instructions per language
+    if lang == 'mr':
+        lang_instruction = (
+            "You MUST respond ONLY in Marathi in Devanagari script (मराठी). "
+            "Use simple, spoken Marathi words suitable for Indian farmers (सोपी बोलीभाषा). "
+            "Keep crop names, fertilizer names, units (kg, acres, litres, etc.) and numbers readable. "
+            "Keep safety guidance (such as pesticide handling and chemical dosage) completely accurate."
+        )
+    elif lang == 'hi':
+        lang_instruction = (
+            "You MUST respond ONLY in Hindi in Devanagari script (हिंदी). "
+            "Use simple, spoken Hindi words suitable for Indian farmers (सरल बोलचाल की भाषा). "
+            "Keep crop names, fertilizer names, units (kg, acres, litres, etc.) and numbers readable. "
+            "Keep safety guidance (such as pesticide handling and chemical dosage) completely accurate."
+        )
+    else:
+        lang_instruction = (
+            "You MUST respond ONLY in English. "
+            "Use simple, spoken words suitable for farmers. "
+            "Keep crop names, fertilizer names, units (kg, acres, litres, etc.) and numbers readable. "
+            "Keep safety guidance (such as pesticide handling and chemical dosage) completely accurate."
+        )
+
     system_prompt = f"""
-    You are KisanSathi (किसान साथी), an empathetic, deeply knowledgeable, and localized agricultural expert assistant.
+    You are KisanSathi (किसान साथी), an empathetic, deeply knowledgeable, and localized agricultural expert assistant for Indian farmers.
     The user is currently looking at the '{req.context}' tab on the application.
-    You MUST respond strictly in the following language code: '{req.language}'. 
-    If the code is 'en', reply in English. If 'mr', reply in fluent Marathi. If 'hi', reply in fluent Hindi.
-    Keep your responses very concise (under 3 sentences) because they will be read aloud via Text-to-Speech to the farmer. Do not use markdown formatting like asterisks.
-    Answer their farming queries directly and simply.
+    {lang_instruction}
+    Keep your responses very concise (under 3 sentences) because they will be read aloud via Text-to-Speech to the farmer.
+    Do not use markdown formatting like asterisks or bullet hashes that interfere with speech synthesis.
+    Answer their farming queries directly, practically, and simply.
     """
     full_prompt = f"{system_prompt}\nUser: {req.message}"
 
@@ -282,10 +311,20 @@ async def chat_assistant(req: ChatRequest):
                     return {"response": response.text.replace('*', '').strip()}
                 except Exception as retry_err:
                     print(f"Fallback Key Error: {retry_err}")
-                    return {"response": "Both API keys are exhausted or facing issues. Please try again later."}
+                    err_msg = "Both API keys are exhausted or facing issues. Please try again later."
+                    if lang == 'mr':
+                        err_msg = "दोन्ही API की संपल्या आहेत किंवा अडचण येत आहे. कृपया थोड्या वेळाने प्रयत्न करा."
+                    elif lang == 'hi':
+                        err_msg = "दोनों API की समाप्त हो गई हैं या समस्या आ रही है। कृपया कुछ समय बाद पुनः प्रयास करें।"
+                    return {"response": err_msg}
                     
         print(f"Gemini API Error: {e}")
-        return {"response": "Sorry, I am facing a temporary server issue. Please try again later."}
+        err_msg = "Sorry, I am facing a temporary server issue. Please try again later."
+        if lang == 'mr':
+            err_msg = "माफ करा, तांत्रिक अडचणीमुळे सर्व्हरशी संपर्क होऊ शकला नाही. कृपया थोड्या वेळाने प्रयत्न करा."
+        elif lang == 'hi':
+            err_msg = "क्षमा करें, तकनीकी समस्या के कारण सर्वर से संपर्क नहीं हो सका। कृपया कुछ समय बाद पुनः प्रयास करें।"
+        return {"response": err_msg}
 
 # --- 5. Authentication Endpoints ---
 @app.post("/api/auth/register", response_model=schemas.UserOut)

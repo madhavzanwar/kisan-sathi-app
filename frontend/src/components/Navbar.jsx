@@ -190,7 +190,7 @@ export const Navbar = ({ onOpenAuth }) => {
 
         {/* Right: Action CTA, Language Switcher & Mobile Trigger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <LanguageSwitcher variant="onVideo" />
+          <LanguageSwitcher variant="onLight" />
 
           <button
             className="nav-cta-btn"

@@ -206,47 +206,33 @@ export const LanguageSwitcher = ({
           fontSize: '13.5px',
           fontWeight: 600,
           transition: 'all 0.15s ease',
-          backgroundColor: isOnVideo
-            ? 'rgba(255, 255, 255, 0.16)'
-            : '#FFFFFF',
-          backdropFilter: isOnVideo ? 'blur(16px)' : 'none',
-          WebkitBackdropFilter: isOnVideo ? 'blur(16px)' : 'none',
-          border: isOnVideo
-            ? '1px solid rgba(255, 255, 255, 0.35)'
-            : '1px solid rgba(14, 42, 18, 0.12)',
-          color: isOnVideo ? '#FFFFFF' : '#0E2A12',
-          boxShadow: isOnVideo
-            ? '0 4px 14px rgba(0, 0, 0, 0.2)'
-            : '0 2px 8px rgba(14, 42, 18, 0.06)',
+          backgroundColor: '#FFFFFF',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(14, 42, 18, 0.14)',
+          color: '#0E2A12',
+          boxShadow: '0 2px 8px rgba(14, 42, 18, 0.08)',
           ...style,
         }}
         onMouseEnter={(e) => {
-          if (isOnVideo) {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.28)';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.55)';
-          } else {
-            e.currentTarget.style.backgroundColor = '#F4F5F3';
-            e.currentTarget.style.borderColor = 'rgba(14, 42, 18, 0.22)';
-          }
+          e.currentTarget.style.backgroundColor = '#F4F5F3';
+          e.currentTarget.style.borderColor = 'rgba(14, 42, 18, 0.25)';
+          e.currentTarget.style.transform = 'translateY(-1px)';
         }}
         onMouseLeave={(e) => {
-          if (isOnVideo) {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.16)';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
-          } else {
-            e.currentTarget.style.backgroundColor = '#FFFFFF';
-            e.currentTarget.style.borderColor = 'rgba(14, 42, 18, 0.12)';
-          }
+          e.currentTarget.style.backgroundColor = '#FFFFFF';
+          e.currentTarget.style.borderColor = 'rgba(14, 42, 18, 0.14)';
+          e.currentTarget.style.transform = 'translateY(0)';
         }}
       >
         {isLoading ? (
           <LoadingOutlined
             spin
-            style={{ fontSize: '15px', color: isOnVideo ? '#FFFFFF' : '#2E6B34' }}
+            style={{ fontSize: '15px', color: '#2E6B34' }}
           />
         ) : (
           <GlobalOutlined
-            style={{ fontSize: '15px', color: isOnVideo ? '#FFFFFF' : '#2E6B34' }}
+            style={{ fontSize: '15px', color: '#2E6B34' }}
           />
         )}
         <span
@@ -259,6 +245,8 @@ export const LanguageSwitcher = ({
             display: 'inline-block',
             width: '26px',
             textAlign: 'center',
+            color: '#0E2A12',
+            fontWeight: 700,
           }}
         >
           {currentMeta.shortLabel}
